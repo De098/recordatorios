@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Sin permiso de internet: todo se queda en el móvil -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- avisos programados en el móvil: alarmas exactas y volver a ponerlas al encender -->
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <application
+        android:label="@string/nombre"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:theme="@style/Tema"
+        android:enableOnBackInvokedCallback="true"
+        android:allowBackup="false">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|uiMode|density|smallestScreenSize"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Avisos: los dispara una alarma de la propia app; el botón «✔ Hecho» marca la tarea -->
+        <receiver android:name=".AvisoReceiver" android:exported="false" />
+        <receiver android:name=".HechoReceiver" android:exported="false" />
+
+        <!-- widgets: Próximos, Mes y Apuntar/Nota -->
+        <receiver
+            android:name=".WProximos"
+            android:label="@string/w_nombre_proximos"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/w_proximos_info" />
+        </receiver>
+
+        <receiver
+            android:name=".WMes"
+            android:label="@string/w_nombre_mes"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/w_mes_info" />
+        </receiver>
+
+        <receiver
+            android:name=".WBotones"
+            android:label="@string/w_nombre_botones"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/w_botones_info" />
+        </receiver>
+
+        <!-- pulsaciones de los widgets (✔ Hecho, actualizar, abrir un día): sin pantalla -->
+        <activity
+            android:name=".AccionWidget"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.NoDisplay" />
+
+        <service
+            android:name=".ProgramadorJob"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false" />
+
+        <receiver android:name=".ArranqueReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

@@ -1,0 +1,19 @@
+Recordatorios es un calendario con tareas, citas, avisos y notas privadas que funciona entero en tu móvil: sin cuenta, sin servidor y sin permiso de internet. Tus datos no salen del teléfono.
+
+<b>Calendario</b>
+• Tareas que te avisan una y otra vez hasta que las marcas como «Hecho».
+• Citas con avisos previos (a la hora, 1 hora antes, el día antes…).
+• Repeticiones: cada día, semana, mes o año, y días salteados (3 sí, 2 no).
+• Colores, notas y cumpleaños con su edad. Lo importante, escrito en MAYÚSCULAS, avisa con más antelación.
+• Buscador.
+
+<b>Avisos</b>
+Alarmas exactas en el propio móvil, con botón «Hecho» en la notificación. Se vuelven a programar solas al encender el teléfono.
+
+<b>Notas con candado</b>
+Notas de texto con colores y fijadas. Las que llevan candado se cifran en el móvil con tu contraseña (PBKDF2 + NaCl secretbox); si la olvidas no se pueden recuperar.
+
+<b>Widgets</b>
+Próximos (con «Hecho»), Mes con puntos de colores, y botones de Apuntar y Nota nueva.
+
+Tema claro y oscuro. Software libre (GPL-3.0).

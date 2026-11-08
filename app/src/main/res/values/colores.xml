@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- como la web (cal.html) y el icono -->
+    <color name="fondo">#F6F5F4</color>
+    <color name="tarjeta">#FFFFFF</color>
+    <color name="texto">#241F31</color>
+    <color name="suave">#6F6A78</color>
+    <color name="borde">#78858F</color>
+    <color name="acento">#29B6F6</color>
+    <color name="icono_fondo">#F2F5F8</color>
+</resources>

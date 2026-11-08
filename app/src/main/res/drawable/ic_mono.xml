@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- icono 2e «Día marcado» (8-nov-2026), generado; fuente ~/Documentos/app-propia/iconos -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+  <group android:pivotX="54" android:pivotY="52" android:scaleX="0.72" android:scaleY="0.72" android:translateY="2">
+    <path android:pathData="M31,28 H71 A6,6 0 0 1 77,34 V76 A6,6 0 0 1 71,82 H31 A6,6 0 0 1 25,76 V34 A6,6 0 0 1 31,28 Z" android:strokeColor="#000000" android:strokeWidth="3.5" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+    <path android:pathData="M53.0,56.5 H58.0 A1.5,1.5 0 0 1 59.5,58.0 V62.0 A1.5,1.5 0 0 1 58.0,63.5 H53.0 A1.5,1.5 0 0 1 51.5,62.0 V58.0 A1.5,1.5 0 0 1 53.0,56.5 Z" android:fillColor="#000000"/>
+    <path android:pathData="M40,50 V74 M50,50 V74 M60,50 V74 M31,55 H71 M31,64 H71 M31,73 H71" android:strokeColor="#000000" android:strokeWidth="3.2" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+    <path android:pathData="M33,40 H69" android:strokeColor="#000000" android:strokeWidth="4.2" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+    <path android:pathData="M36,31 V22 A4.5,4.5 0 1 1 45,22 V25 M56,31 V22 A4.5,4.5 0 1 1 65,22 V25" android:strokeColor="#000000" android:strokeWidth="3.5" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+  </group>
+</vector>

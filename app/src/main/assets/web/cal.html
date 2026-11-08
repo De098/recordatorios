@@ -1,0 +1,760 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Recordatorios</title>
+<meta name="theme-color" content="#f6f5f4">
+<script src="/cal/local.js"></script>
+<script src="/cal/menu.js"></script>   <!-- menú del logo y tema claro/oscuro -->
+<link rel="preload" href="/cal/nunito.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* fuente Nunito (SIL Open Font License 1.1, ver web/nunito-LICENCIA.txt), guardada aquí: sin internet ni Google */
+@font-face { font-family: "Nunito"; src: url("/cal/nunito.woff2") format("woff2"); font-weight: 200 1000; font-display: swap; }
+:root {
+  --fondo: #f6f5f4; --tarjeta: #ffffff; --texto: #241f31; --suave: #6f6a78; --linea: #e3e1e6;
+  --acento: #3584e4; --hoy-texto: #ffffff; --rojo: #c01c28; --verde: #26a269; --sel: #e6effb;
+  --borde: #78858f;   /* color del contorno del icono de la app */
+}
+:root[data-tema="oscuro"] {   /* lo elige menu.js (sistema o a mano) */
+  color-scheme: dark;
+  --fondo: #1e1e22; --tarjeta: #2a2a30; --texto: #f0eff3; --suave: #a6a2ad; --linea: #3a3a42;
+  --acento: #62a0ea; --hoy-texto: #10131a; --rojo: #f66151; --verde: #57e389; --sel: #2f3a4a;
+  --borde: #90a4ae;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; background: var(--fondo); color: var(--texto);
+  font: 16px/1.4 "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+main { max-width: 560px; margin: 0 auto; padding: 12px 16px calc(24px + env(safe-area-inset-bottom)); }
+header { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 14px 0 10px; position: relative; }
+/* mes y año en medio, con ancho fijo para que las flechas no bailen al cambiar de mes */
+header h1 { flex: none; min-width: 205px; text-align: center; font-size: 1.3rem; margin: 0; text-transform: capitalize; }
+header #cargando { position: absolute; right: 0; }
+button { font: inherit; color: inherit; border: 0; background: var(--tarjeta); border-radius: 10px;
+  min-height: 40px; padding: 0 12px; cursor: pointer; }
+header button { min-width: 44px; font-size: 1.2rem; }
+/* flechas de mes redondas con el contorno del icono */
+/* las flechas llevan encima la anilla del logo, como el calendario del icono */
+#ant, #sig { position: relative; width: 44px; height: 42px; min-width: 44px; padding: 0; border-radius: 10px;
+  border: 2px solid var(--borde); line-height: 1; overflow: visible; }
+#ant::before, #sig::before { content: ""; position: absolute; left: 50%; top: -13px; width: 14px; height: 19px;
+  transform: translateX(-35%); background: var(--borde); pointer-events: none;
+  -webkit-mask: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 19'><path d='M2.5,17.5 V7 a4.5,4.5 0 1 1 9,0 V10' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round'/></svg>") center / contain no-repeat;
+  mask: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 19'><path d='M2.5,17.5 V7 a4.5,4.5 0 1 1 9,0 V10' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round'/></svg>") center / contain no-repeat; }
+.tarjeta { background: var(--tarjeta); border: 2px solid var(--borde); border-radius: 14px; padding: 10px; margin-bottom: 12px; }
+.semana { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center;
+  color: var(--suave); font-size: .8rem; padding-bottom: 4px; }
+.mes { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.dia { background: none; border-radius: 10px; min-height: 52px; padding: 4px 0 2px;
+  display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.dia.fuera { opacity: .35; }
+.dia .n { width: 30px; height: 30px; line-height: 30px; border-radius: 50%; font-size: .95rem; }
+.dia.hoy .n { background: var(--acento); color: var(--hoy-texto); font-weight: 700; }
+/* seleccionado: círculo detrás del número (el recuadro de toda la casilla quedaba descentrado con los rayos) */
+.dia.sel .n { background: var(--sel); }
+.dia.sel.hoy .n { background: var(--acento); box-shadow: 0 0 0 3px var(--sel); }
+.puntos { display: flex; gap: 3px; height: 9px; align-items: center; }
+/* día con algo IMPORTANTE: número subrayado en rojo (antes punto rojo grande) */
+/* día de CUMPLEAÑOS: rayos de sol amarillos alrededor del número */
+.dia.cumple .n { position: relative; }
+.dia.cumple .n::before { content: ""; position: absolute; inset: -7px; pointer-events: none;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'><g stroke='%23e5a50a' stroke-width='2.4' stroke-linecap='round'><line x1='22.0' y1='6.5' x2='22.0' y2='1.5'/><line x1='33.0' y1='11.0' x2='36.5' y2='7.5'/><line x1='38.5' y1='22.0' x2='43.5' y2='22.0'/><line x1='33.0' y1='33.0' x2='36.5' y2='36.5'/><line x1='11.0' y1='33.0' x2='7.5' y2='36.5'/><line x1='5.5' y1='22.0' x2='0.5' y2='22.0'/><line x1='11.0' y1='11.0' x2='7.5' y2='7.5'/></g></svg>") center / contain no-repeat; }
+/* cumple solo (sin puntos ni subrayado): también el rayo de abajo */
+.dia.cumple.solo .n::before { background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'><g stroke='%23e5a50a' stroke-width='2.4' stroke-linecap='round'><line x1='22.0' y1='6.5' x2='22.0' y2='1.5'/><line x1='33.0' y1='11.0' x2='36.5' y2='7.5'/><line x1='38.5' y1='22.0' x2='43.5' y2='22.0'/><line x1='33.0' y1='33.0' x2='36.5' y2='36.5'/><line x1='22.0' y1='37.5' x2='22.0' y2='42.5'/><line x1='11.0' y1='33.0' x2='7.5' y2='36.5'/><line x1='5.5' y1='22.0' x2='0.5' y2='22.0'/><line x1='11.0' y1='11.0' x2='7.5' y2='7.5'/></g></svg>"); }
+.dia.imp .n { text-decoration: underline 3px var(--rojo); text-underline-offset: 4px; text-decoration-skip-ink: none; }
+.fila.imp { background: color-mix(in srgb, var(--rojo) 10%, transparent); border-radius: 8px; }
+.fila.imp .t { font-weight: 800; }
+.fila.imp .barra { width: 8px; }
+.puntos i { width: 7px; height: 7px; border-radius: 50%; display: block; }
+.puntos i.hecho { opacity: .35; }
+h2 { font-size: 1rem; margin: 4px 4px 8px; }
+h2.aviso { color: var(--rojo); }
+.fila { display: flex; align-items: center; gap: 10px; padding: 8px 4px; border-top: 1px solid var(--linea); }
+.fila:first-of-type { border-top: 0; }
+.barra { width: 5px; align-self: stretch; border-radius: 3px; flex: none; }
+.info { flex: 1; min-width: 0; }
+.info .t { overflow-wrap: anywhere; }
+.info .s { color: var(--suave); font-size: .85rem; }
+.fila.hecha .t { text-decoration: line-through; color: var(--suave); }
+.ok { background: var(--verde); color: #fff; font-weight: 600; flex: none; }
+:root[data-tema="oscuro"] .ok { color: #10131a; }
+.estado { color: var(--verde); font-size: .85rem; flex: none; }
+.vacio { color: var(--suave); padding: 6px 4px; }
+form { display: flex; gap: 8px; }
+input { flex: 1; min-width: 0; font: inherit; color: var(--texto); background: var(--fondo);
+  border: 1px solid var(--linea); border-radius: 10px; padding: 0 12px; min-height: 44px; }
+form button { background: var(--acento); color: var(--hoy-texto); font-weight: 600; }
+#msj { color: var(--suave); font-size: .9rem; margin: 8px 4px 0; min-height: 1.2em; }
+#error { color: var(--rojo); text-align: center; display: none; }
+.info { cursor: pointer; }
+#editar { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: flex; align-items: flex-end;
+  justify-content: center; z-index: 10; }
+#editar[hidden] { display: none; }
+#editar .caja { background: var(--tarjeta); width: 100%; max-width: 560px; border-radius: 16px 16px 0 0;
+  padding: 16px 16px calc(16px + env(safe-area-inset-bottom)); display: grid; gap: 10px; }
+#editar h2 { margin: 0 0 2px; }
+#editar label { display: grid; gap: 4px; color: var(--suave); font-size: .85rem; }
+#editar input, #editar select { flex: none; width: 100%; font: inherit; color: var(--texto); background: var(--fondo);
+  border: 1px solid var(--linea); border-radius: 10px; padding: 0 12px; min-height: 44px; }
+#editar .dos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+#editar .nota { color: var(--suave); font-size: .85rem; margin: 0; }
+#editar .botones { display: flex; gap: 8px; }
+#editar .botones button { flex: 1; min-height: 46px; }
+#eguardar { background: var(--acento); color: var(--hoy-texto); font-weight: 600; }
+#eborrar { color: var(--rojo); }
+#editar .caja > * { min-width: 0; }
+#editar [hidden] { display: none !important; }
+#editar .caja { max-height: 92vh; overflow-y: auto; }
+/* selector de mes y año al pulsar el título */
+header h1 { cursor: pointer; }
+header h1::after { content: " ▾"; color: var(--suave); font-size: .8em; }
+#selmes { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: flex; align-items: flex-end; justify-content: center; z-index: 11; }
+#selmes[hidden] { display: none; }
+/* buscador */
+#buscar[hidden] { display: none; }
+#buscar input { width: 100%; box-sizing: border-box; font: inherit; color: var(--texto); background: var(--fondo);
+  border: 1px solid var(--linea); border-radius: 10px; padding: 0 12px; min-height: 44px; }
+#bresultados { margin-top: 8px; }
+#bresultados .vacio { color: var(--suave); margin: 8px 4px 0; }
+header h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+/* «cargando»: circulito que gira junto al mes mientras carga */
+#cargando { width: 18px; height: 18px; flex: none; border-radius: 50%; border: 2.5px solid var(--linea);
+  border-top-color: var(--acento); animation: girar .8s linear infinite; visibility: hidden; }
+#cargando.si { visibility: visible; }
+/* menú de vistas: Calendario / Agenda de la semana / Agenda del mes */
+.vistas { position: relative; display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin: 0 0 6px; }
+/* logo de la app arriba a la izquierda y «Hoy» junto al menú de vistas */
+.vistas .logo { width: 44px; height: 50px; margin-right: auto; }
+.vistas button.hoy { border: 2px solid var(--borde); }
+/* lupa pequeña junto a «Hoy» */
+.vistas > #blupa { border: 2px solid var(--borde); padding: 0 8px; }
+.vistas > #blupa .ico { width: 1.35em; height: 1.35em; }
+.vistas > #blupa.abierta { border-color: var(--acento); background: var(--sel); }
+.vistas > #bvista { border: 2px solid var(--borde); }
+.vistas > button { min-height: 34px; font-size: .9rem; padding: 0 12px; }
+#menuv { position: absolute; top: 38px; right: 0; z-index: 9; background: var(--tarjeta); border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(0,0,0,.25); padding: 6px; display: grid; gap: 2px; min-width: 210px; }
+#menuv[hidden] { display: none; }
+#menuv button { text-align: left; background: none; min-height: 42px; justify-content: flex-start; gap: 10px; }
+#menuv .ico { width: 1.8em; height: 1.8em; }
+.ico.ico-cita { width: 1.25em; height: 1.25em; vertical-align: -.25em; margin-right: 3px; }
+#bvista .ico { width: 1.5em; height: 1.5em; }
+#menuv button.este { font-weight: 700; color: var(--acento); }
+#agenda[hidden], #scal[hidden], #lista[hidden] { display: none; }
+#agenda h3 { font-size: .95rem; margin: 14px 4px 6px; color: var(--suave); text-transform: capitalize; }
+#agenda h3:first-of-type { margin-top: 4px; }
+#agenda h3.hoy { color: var(--acento); }
+#agenda .vacio { margin: 0 4px 4px; }
+#agenda .pasado { opacity: .55; }
+@keyframes girar { to { transform: rotate(360deg); } }
+/* deslizar para cambiar de mes */
+#mes { touch-action: pan-y; transition: transform .15s ease, opacity .15s ease; }
+#selmes .caja { background: var(--tarjeta); width: 100%; max-width: 560px; border-radius: 16px 16px 0 0;
+  padding: 16px 16px calc(16px + env(safe-area-inset-bottom)); display: grid; gap: 12px; }
+#selmes .anio { display: grid; grid-template-columns: auto auto 1fr auto auto; gap: 6px; align-items: center; }
+#selmes .anio input { font: inherit; font-size: 1.3rem; font-weight: 700; text-align: center; color: var(--texto); background: var(--fondo);
+  border: 1px solid var(--linea); border-radius: 10px; min-height: 44px; width: 100%; }
+#selmes .anio button { min-width: 44px; font-size: 1.1rem; }
+#selmes .meses { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+#selmes .meses button { min-height: 48px; text-transform: capitalize; background: var(--fondo); }
+#selmes .meses button.este { background: var(--acento); color: var(--hoy-texto); font-weight: 700; }
+#selmes .meses button.ahora { font-weight: 700; box-shadow: inset 0 0 0 2px var(--acento); }
+/* selector de SEMANA (agenda de la semana): el mes dibujado, cada fila es una semana */
+#selsem { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: flex; align-items: flex-end; justify-content: center; z-index: 11; }
+#selsem[hidden] { display: none; }
+#selsem .caja { background: var(--tarjeta); width: 100%; max-width: 560px; border-radius: 16px 16px 0 0;
+  padding: 16px 16px calc(16px + env(safe-area-inset-bottom)); display: grid; gap: 10px; }
+#selsem .cab { display: grid; grid-template-columns: auto auto 1fr auto auto; gap: 6px; align-items: center; }
+#selsem .cab b { text-align: center; font-size: 1.15rem; text-transform: capitalize; }
+#selsem .cab button { min-width: 44px; font-size: 1.1rem; }
+#selsem .dias { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; color: var(--suave); font-size: .8rem; }
+#selsem .sem { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; width: 100%; min-height: 44px;
+  background: none; border-radius: 12px; padding: 0; align-items: center; }
+#selsem .sem:active, #selsem .sem:hover { background: var(--fondo); }
+#selsem .sem.esta { background: var(--acento); color: var(--hoy-texto); font-weight: 700; }
+#selsem .sem span.fuera { opacity: .4; }
+#selsem .botones, #selmes .botones { display: flex; gap: 8px; }
+#selsem .botones button, #selmes .botones button { flex: 1; min-height: 46px; background: var(--fondo); }
+#selsem .cab button, #selmes .anio button { background: var(--fondo); }
+#selsem .sem span.hoy { font-weight: 800; text-decoration: underline 2px; text-underline-offset: 3px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips label { display: flex !important; align-items: center; gap: 6px; background: var(--fondo); color: var(--texto) !important;
+  border: 1px solid var(--linea); border-radius: 18px; padding: 6px 10px; font-size: .9rem !important; }
+.chips input { flex: none !important; width: auto !important; min-height: 0 !important; margin: 0; accent-color: var(--acento); }
+.chips label:has(input:checked) { border-color: var(--acento); background: var(--sel); }
+#bnuevo { width: 100%; min-height: 48px; background: var(--acento); color: var(--hoy-texto); font-weight: 600; }
+.dia { user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; touch-action: manipulation; }
+.pista { color: var(--suave); font-size: .8rem; text-align: center; margin: 6px 0 0; }
+</style>
+</head>
+<body>
+<main>
+  <div class="vistas">
+    <img class="logo" src="/cal/logo.svg" alt="">
+    <button id="blupa" aria-label="Buscar" title="Buscar"></button>
+    <button class="hoy" id="bhoy">Hoy</button>
+    <button id="bvista">☰ Calendario ▾</button>
+    <div id="menuv" hidden>
+      <button data-v="cal">Calendario</button>
+      <button data-v="semana">🗓️ Agenda de la semana</button>
+      <button data-v="mes">📋 Agenda del mes</button>
+    </div>
+  </div>
+  <section class="tarjeta" id="buscar" hidden>   <!-- se abre con la lupa de arriba -->
+    <input id="bq" type="search" placeholder="Buscar en lo apuntado (p. ej. fisio, Ana)" autocomplete="off" enterkeyhint="search">
+    <div id="bresultados"></div>
+  </section>
+  <header>
+    <button id="ant" aria-label="Mes anterior">‹</button>
+    <h1 id="titulo">…</h1>
+    <span id="cargando" aria-label="Cargando"></span>
+    <button id="sig" aria-label="Mes siguiente">›</button>
+  </header>
+  <p id="error">No se han podido leer los datos.</p>
+  <section class="tarjeta" id="pend" hidden></section>
+  <section class="tarjeta" id="scal">
+    <div class="semana"><span>L</span><span>M</span><span>X</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
+    <div class="mes" id="mes"></div>
+  </section>
+  <section class="tarjeta" id="lista"></section>
+  <section class="tarjeta" id="agenda" hidden></section>
+  <section class="tarjeta">
+    <button id="bnuevo">+ Añadir</button>
+    <p class="pista">o mantén pulsado un día del calendario</p>
+    <p id="msj"></p>
+  </section>
+  <!-- sin botones Cancelar/Cerrar en las ventanitas (se cierran con el gesto de atrás o tocando fuera; los botones siguen ocultos con «hidden») -->
+</main>
+<div id="selsem" hidden>
+  <div class="caja">
+    <div class="cab">
+      <button id="ss-a" aria-label="Año anterior">«</button><button id="ss-m" aria-label="Mes anterior">‹</button>
+      <b id="ssmes"></b>
+      <button id="ss+m" aria-label="Mes siguiente">›</button><button id="ss+a" aria-label="Año siguiente">»</button>
+    </div>
+    <div class="dias"><span>L</span><span>M</span><span>X</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
+    <div id="sssemanas"></div>
+    <div class="botones"><button id="sshoy">Esta semana</button><button id="sscerrar" hidden>Cerrar</button></div>
+  </div>
+</div>
+<div id="selmes" hidden>
+  <div class="caja">
+    <div class="anio">
+      <button id="sm-10" aria-label="10 años antes">«</button><button id="sm-1" aria-label="Año anterior">‹</button>
+      <input id="smanio" type="number" inputmode="numeric" min="1" max="9999">
+      <button id="sm+1" aria-label="Año siguiente">›</button><button id="sm+10" aria-label="10 años después">»</button>
+    </div>
+    <div class="meses" id="smmeses"></div>
+    <div class="botones"><button id="smhoy">Hoy</button><button id="smcerrar" hidden>Cerrar</button></div>
+  </div>
+</div>
+<div id="editar" hidden>
+  <div class="caja">
+    <h2 id="etitulo">Cambiar</h2>
+    <label>Qué<input id="etexto" autocomplete="off" placeholder="¿Qué quieres apuntar? (p. ej. Fisio)"></label>
+    <label id="enotas-et">Notas (opcional)<input id="enotas" autocomplete="off" placeholder="📝 p. ej. llevar el DNI"></label>
+    <div class="dos">
+      <label>Día<input id="efecha" type="date"></label>
+      <label id="ehora-et">Hora<input id="ehora" type="time"></label>
+      <label id="enacido-et" hidden>Año en que nació (opcional)<input id="enacido" type="number" min="1900" max="2100" inputmode="numeric" placeholder="p. ej. 1990"></label>
+    </div>
+    <div class="dos">
+      <label>Tipo<select id="etipo"><option value="tarea">Tarea</option><option value="cita">Cita</option><option value="cumple">Cumpleaños 🎂</option></select></label>
+      <label id="erepetir-et">Repetir<select id="erepetir"></select></label>
+    </div>
+    <div class="dos" id="eciclo">
+      <label>Días que sí<input id="esi" type="number" min="1" max="30" value="1" inputmode="numeric"></label>
+      <label>Días que no<input id="eno" type="number" min="1" max="30" value="1" inputmode="numeric"></label>
+    </div>
+    <label id="eavisos-et">Avisar (puedes marcar varios; ninguno = sin aviso)<div class="chips" id="eavisos"></div></label>
+    <div class="dos">
+      <label id="ecada-et">Recordar cada (hasta «Hecho»)<select id="ecada"></select></label>
+      <label>Color (en el calendario)<select id="ecolor"></select></label>
+    </div>
+    <p class="nota" id="enota"></p>
+    <div class="botones">
+      <button id="eborrar">Borrar</button>
+      <button id="ecancelar" hidden>Cancelar</button>
+      <button id="eguardar">Guardar</button>
+    </div>
+  </div>
+</div>
+<script>
+const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+const DIAS = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
+let vista, sel, datos = {cosas: [], pendientes: []};
+const conK = u => u;   // las peticiones las contesta la propia app (local.js)
+const $ = id => document.getElementById(id);
+const iso = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+const deIso = s => { const [a,m,d] = s.split("-").map(Number); return new Date(a, m-1, d); };
+function el(tag, cls, txt) { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+
+// vistas: "cal" = calendario, "semana" = agenda de la semana (lunes a domingo), "mes" = agenda del mes
+const NOMBRES_V = {cal: "Calendario", semana: "Agenda de la semana", mes: "Agenda del mes"};
+// iconos propios (menu.js, ICO) en vez de emojis en el menú de vistas
+// importante: icono rojo dibujado (menu.js) delante del texto, en vez de ❗
+// y las citas con el calendario pequeño dibujado en vez de 📅
+const conImp = (e, imp, cita) => {
+  if (!window.ICO) return e;
+  if (cita) e.insertAdjacentHTML("afterbegin", ICO.cal().replace('class="ico"', 'class="ico ico-cita"'));
+  if (imp) e.insertAdjacentHTML("afterbegin", ICO.imp());
+  return e;
+};
+const iconoV = v => (window.ICO ? ICO[v]() : "") + "<span>" + NOMBRES_V[v] + "</span>";
+for (const b of document.querySelectorAll("#menuv button")) b.innerHTML = iconoV(b.dataset.v);
+let modo = "cal";
+try { modo = localStorage.getItem("vista") || "cal"; } catch (e) {}
+{ const pv = new URLSearchParams(location.search).get("vista"); if (NOMBRES_V[pv]) modo = pv; }   // enlace directo: ?vista=semana
+if (!NOMBRES_V[modo]) modo = "cal";
+function lunesDe(d) { const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate() - (x.getDay() + 6) % 7); return x; }
+let lunesRef = lunesDe(new Date());
+function rango() {
+  if (modo === "semana") { const fin = new Date(lunesRef); fin.setDate(fin.getDate() + 7); return [new Date(lunesRef), fin]; }
+  if (modo === "mes") return [new Date(vista.getFullYear(), vista.getMonth(), 1), new Date(vista.getFullYear(), vista.getMonth() + 1, 1)];
+  const ini = new Date(vista.getFullYear(), vista.getMonth(), 1);
+  ini.setDate(ini.getDate() - (ini.getDay() + 6) % 7);          // lunes de la 1.ª semana
+  const fin = new Date(ini); fin.setDate(fin.getDate() + 42);
+  return [ini, fin];
+}
+
+let pidiendo = 0;
+async function cargar() {
+  const [ini, fin] = rango();
+  pidiendo++; $("cargando").classList.add("si");
+  try {
+    const r = await fetch(conK(`/cal/datos?desde=${iso(ini)}&hasta=${iso(fin)}`), {cache: "no-store"});
+    if (!r.ok) throw r.status;
+    datos = await r.json();
+    $("error").style.display = "none";
+  } catch (e) { $("error").style.display = "block"; }
+  if (--pidiendo <= 0) { pidiendo = 0; $("cargando").classList.remove("si"); }
+  if (!sel) sel = datos.hoy || iso(new Date());
+  pintar();
+}
+
+function pintarAgenda(porDia) {
+  const ag = $("agenda"); ag.replaceChildren();
+  const [ini, fin] = rango();
+  let alguno = false;
+  for (const d = new Date(ini); d < fin; d.setDate(d.getDate() + 1)) {
+    const k = iso(d), cosas = porDia[k] || [];
+    if (modo === "mes" && !cosas.length) continue;   // en el mes, solo los días con algo
+    alguno = alguno || cosas.length > 0;
+    const h = el("h3", k === datos.hoy ? "hoy" : "", `${DIAS[d.getDay()]} ${d.getDate()}${modo === "mes" ? "" : " " + MESES[d.getMonth()].slice(0, 3)}${k === datos.hoy ? " · hoy" : ""}`);
+    ag.append(h);
+    if (!cosas.length) ag.append(el("div", "vacio", "—"));
+    for (const c of cosas) { const f = fila(c, null); if (k < datos.hoy) f.classList.add("pasado"); ag.append(f); }
+  }
+  if (!alguno && modo === "mes") ag.append(el("div", "vacio", "Nada apuntado este mes"));
+}
+
+function pintar() {
+  const porDia = {};
+  for (const c of datos.cosas) (porDia[c.d] ||= []).push(c);
+  $("bvista").innerHTML = iconoV(modo) + "<span>▾</span>";
+  const agenda = modo !== "cal";
+  $("scal").hidden = agenda; $("lista").hidden = agenda; $("agenda").hidden = !agenda;
+  if (modo === "semana") {
+    const dom = new Date(lunesRef); dom.setDate(dom.getDate() + 6);
+    $("titulo").textContent = lunesRef.getMonth() === dom.getMonth()
+      ? `${lunesRef.getDate()} – ${dom.getDate()} ${MESES[dom.getMonth()].slice(0, 3)}`
+      : `${lunesRef.getDate()} ${MESES[lunesRef.getMonth()].slice(0, 3)} – ${dom.getDate()} ${MESES[dom.getMonth()].slice(0, 3)}`;
+  } else $("titulo").textContent = `${MESES[vista.getMonth()]} ${vista.getFullYear()}`;
+  if (agenda) { pintarPendientes(); pintarAgenda(porDia); return; }
+  const [ini] = rango(), mes = $("mes"); mes.replaceChildren();
+  for (let i = 0; i < 42; i++) {
+    const d = new Date(ini); d.setDate(d.getDate() + i);
+    const k = iso(d), b = el("button", "dia");
+    if (d.getMonth() !== vista.getMonth()) b.classList.add("fuera");
+    if (k === datos.hoy) b.classList.add("hoy");
+    if (k === sel) b.classList.add("sel");
+    b.append(el("span", "n", d.getDate()));
+    const p = el("span", "puntos");
+    if ((porDia[k] || []).some(c => c.imp)) b.classList.add("imp");   // algo IMPORTANTE ese día → número subrayado en rojo
+    if ((porDia[k] || []).some(c => c.cumple)) b.classList.add("cumple");   // cumpleaños → rayos de sol
+    if (b.classList.contains("cumple") && (porDia[k] || []).every(c => c.cumple && !c.imp)) b.classList.add("solo");   // sin nada más: sol completo
+    for (const c of (porDia[k] || []).filter(c => !c.cumple).slice(0, 4)) {   // el cumple solo lleva rayos, sin punto
+      const i2 = el("i", c.hecho ? "hecho" : ""); i2.style.background = c.c; p.append(i2);
+    }
+    b.append(p);
+    b.onclick = () => { if (largo) { largo = false; return; } sel = k; pintar(); };
+    pulsarLargo(b, () => { sel = k; pintar(); abrirNuevo(k); });
+    mes.append(b);
+  }
+  pintarPendientes();
+  pintarDia(porDia);
+}
+
+function pintarPendientes() {
+  // pendientes (tareas sin hacer que ya tocaban)
+  const pend = $("pend"); pend.replaceChildren();
+  pend.hidden = !datos.pendientes.length;
+  if (datos.pendientes.length) {
+    pend.append(el("h2", "aviso", "⏰ Sin hacer"));
+    for (const c of datos.pendientes) pend.append(fila(c, c.cuando));
+  }
+}
+
+function pintarDia(porDia) {
+  // lista del día elegido
+  const lista = $("lista"); lista.replaceChildren();
+  const ds = deIso(sel);
+  const fecha = `${DIAS[ds.getDay()]} ${ds.getDate()} de ${MESES[ds.getMonth()]}`;
+  lista.append(el("h2", "", sel === datos.hoy ? `Hoy, ${fecha}` : fecha[0].toUpperCase() + fecha.slice(1)));
+  const del = porDia[sel] || [];
+  if (!del.length) lista.append(el("div", "vacio", "Nada este día"));
+  for (const c of del) lista.append(fila(c, null));
+}
+
+function fila(c, cuando) {
+  const f = el("div", "fila" + (c.hecho ? " hecha" : "") + (c.imp ? " imp" : ""));
+  const barra = el("span", "barra"); barra.style.background = c.c; f.append(barra);
+  const info = el("div", "info");
+  info.append(conImp(el("div", "t", c.tt || c.t), c.imp, !c.cumple && c.tipo === "cita"));
+  if (c.notas) info.append(el("div", "s", "📝 " + c.notas));
+  info.append(el("div", "s", [cuando || c.h, c.rep].filter(Boolean).join(" · ")));
+  f.append(info);
+  info.onclick = () => abrirEditar(c);
+  if (c.tipo === "tarea") {
+    if (c.hecho) f.append(el("span", "estado", "✔ Hecho"));
+    else if (cuando || c.pasada) {
+      const b = el("button", "ok", "✔ Hecho");
+      b.onclick = () => hecho(c.k, b);
+      f.append(b);
+    }
+  }
+  return f;
+}
+
+async function hecho(k, b) {
+  b.disabled = true; b.textContent = "…";
+  try {
+    const r = await fetch(conK("/cal/hecho"), {method: "POST", body: k});
+    $("msj").textContent = await r.text();
+  } catch (e) { $("msj").textContent = "No se ha podido marcar"; }
+  cargar();
+}
+
+// mantener pulsado un día (medio segundo) → «Añadir» con ese día
+let largo = false;
+function pulsarLargo(b, hacer) {
+  let t = null, x0 = 0, y0 = 0;
+  const parar = () => { clearTimeout(t); t = null; };
+  b.addEventListener("pointerdown", ev => {
+    x0 = ev.clientX; y0 = ev.clientY; largo = false;
+    t = setTimeout(() => { t = null; largo = true; try { navigator.vibrate(25); } catch (e) {} hacer(); }, 500);
+  });
+  b.addEventListener("pointermove", ev => { if (t && Math.hypot(ev.clientX - x0, ev.clientY - y0) > 10) parar(); });
+  for (const n of ["pointerup", "pointercancel", "pointerleave"]) b.addEventListener(n, parar);
+  b.addEventListener("contextmenu", ev => ev.preventDefault());
+}
+
+// formulario de añadir / cambiar: tarea, cita o cumpleaños
+let editando = null, nuevo = false;
+const OP = {repetir: [["no","Una vez"],["diario","Cada día"],["semanal","Cada semana"],["mensual","Cada mes"],["ciclo","Días salteados (x sí, y no)"]],
+  avisos: [[0,"A la hora"],[30,"30 min antes"],[60,"1 hora antes"],[120,"2 horas antes"],[180,"3 horas antes"],[360,"6 horas antes"],
+           ["dia","Al empezar el día (desde las 7:00)"],[1440,"1 día antes"],[2880,"2 días antes"],[10080,"1 semana antes"]],
+  cada: [[15,"15 minutos"],[30,"30 minutos"],[60,"1 hora"],[120,"2 horas"],[180,"3 horas"],[360,"6 horas"],[720,"12 horas"],[1440,"1 día"]],
+  cada_def: 360,
+  colores: [["","⚪ Normal"],["rojo","🔴 Rojo"],["naranja","🟠 Naranja"],["amarillo","🟡 Amarillo"],["verde","🟢 Verde"],
+            ["azul","🔵 Azul"],["morado","🟣 Morado"],["marron","🟤 Marrón"],["negro","⚫ Negro"]]};
+let opPuestas = "";
+function ponerOpciones() {
+  const o = datos.opciones || OP, firma = JSON.stringify(o);
+  if (firma === opPuestas) return;
+  opPuestas = firma;
+  const lista = (sel, pares) => $(sel).replaceChildren(...pares.map(([v, n]) => { const x = el("option", "", n); x.value = v; return x; }));
+  lista("erepetir", o.repetir.map(([v, n]) => [v, n.replace(/ \(.*\)$/, "")]));   // «Días salteados» sin el paréntesis
+  lista("ecada", o.cada); lista("ecolor", o.colores);
+  $("eavisos").replaceChildren(...o.avisos.map(([v, n]) => {
+    const l = el("label"), c = el("input"); c.type = "checkbox"; c.value = JSON.stringify(v);
+    l.append(c, n); return l;
+  }));
+}
+let tipoPrevio = "";
+function verCampos() {
+  const t = $("etipo").value, cumple = t === "cumple", cita = t === "cita" || cumple;
+  $("eavisos-et").hidden = !cita;
+  $("ecada-et").hidden = cita;
+  $("ehora-et").hidden = cumple; $("erepetir-et").hidden = cumple; $("enacido-et").hidden = !cumple;
+  $("enotas-et").hidden = cumple;   // cumples sin notas
+  $("eciclo").hidden = cumple || $("erepetir").value !== "ciclo";
+  $("etexto").placeholder = cumple ? "¿De quién es el cumple? (p. ej. Ana)" : "¿Qué quieres apuntar? (p. ej. Fisio)";
+  if (cumple && nuevo && tipoPrevio !== "cumple") ponerAvisos([1440, "dia"]);   // cumple nuevo: el día antes y el mismo día
+  tipoPrevio = t;
+}
+$("etipo").onchange = verCampos;
+$("erepetir").onchange = verCampos;
+function ponerAvisos(lista) {
+  const v = lista.map(a => JSON.stringify(a));
+  for (const c of $("eavisos").querySelectorAll("input")) c.checked = v.includes(c.value);
+}
+function cadaCercano(m) {
+  const ops = [...$("ecada").options].map(o => +o.value);
+  return ops.reduce((a, b) => Math.abs(b - m) < Math.abs(a - m) ? b : a, ops[0]);
+}
+function abrirNuevo(dia) {
+  ponerOpciones();
+  editando = null; nuevo = true;
+  const ahora = new Date(), conDia = !!dia;
+  $("etitulo").textContent = "Añadir";
+  $("etexto").value = ""; $("enotas").value = "";
+  $("efecha").value = dia || iso(ahora);
+  if (conDia) $("ehora").value = "10:00";
+  else { const h = new Date(ahora.getTime() + 3600e3); $("ehora").value = `${String(h.getHours()).padStart(2,"0")}:00`; }
+  $("etipo").value = conDia ? "cita" : "tarea"; tipoPrevio = $("etipo").value; $("enacido").value = "";
+  $("erepetir").value = "no"; $("esi").value = 1; $("eno").value = 1;
+  ponerAvisos([1440]);
+  $("ecada").value = String((datos.opciones || OP).cada_def);
+  $("ecolor").value = "";
+  $("enota").textContent = "";
+  $("eborrar").hidden = true;
+  $("eguardar").textContent = "Añadir";
+  verCampos();
+  $("editar").hidden = false;
+  setTimeout(() => $("etexto").focus(), 50);
+}
+function abrirEditar(c) {
+  ponerOpciones();
+  editando = c; nuevo = false;
+  $("etitulo").textContent = "Cambiar";
+  $("etexto").value = c.t; $("enotas").value = c.notas || "";
+  $("efecha").value = c.ini.slice(0, 10);
+  $("ehora").value = c.ini.slice(11, 16);
+  $("etipo").value = c.cumple ? "cumple" : c.tipo; tipoPrevio = $("etipo").value;
+  $("enacido").value = c.nac || "";
+  $("erepetir").value = c.r || "no";
+  $("esi").value = (c.ciclo || [1, 1])[0]; $("eno").value = Math.max(1, (c.ciclo || [1, 1])[1]);
+  ponerAvisos(c.avisos || []);
+  $("ecada").value = String(cadaCercano(c.cada || 360));
+  $("ecolor").value = c.col || "";
+  $("enota").textContent = c.rep ? `Se repite: ${c.rep}. Cambiar día u hora mueve toda la serie (el día es el de inicio).` : "";
+  $("eborrar").hidden = false; $("eborrar").textContent = "Borrar";
+  $("eguardar").textContent = "Guardar";
+  verCampos();
+  $("editar").hidden = false;
+}
+function cerrarEditar() { $("editar").hidden = true; editando = null; nuevo = false; }
+async function mandar(ruta, cuerpo) {
+  try {
+    const r = await fetch(conK(ruta), {method: "POST", body: cuerpo});
+    $("msj").textContent = r.ok ? await r.text() : "No se ha podido (" + r.status + ")";
+  } catch (e) { $("msj").textContent = "No se ha podido guardar"; }
+  cerrarEditar(); cargar();
+  $("msj").scrollIntoView({block: "nearest"});
+}
+$("ecancelar").onclick = cerrarEditar;
+$("editar").onclick = ev => { if (ev.target === $("editar")) cerrarEditar(); };
+$("eguardar").onclick = () => {
+  if (!editando && !nuevo) return;
+  if (!$("etexto").value.trim()) { $("etexto").focus(); return; }
+  if (!$("efecha").value || (!$("ehora").value && $("etipo").value !== "cumple")) return;
+  const avisos = [...$("eavisos").querySelectorAll("input:checked")].map(c => JSON.parse(c.value));
+  const d = {texto: $("etexto").value.trim(), fecha: $("efecha").value, hora: $("ehora").value,
+    tipo: $("etipo").value, color: $("ecolor").value, repetir: $("erepetir").value,
+    ciclo: [+$("esi").value || 1, +$("eno").value || 1], cada: +$("ecada").value, notas: $("enotas").value.trim()};
+  if (d.tipo === "cita" || d.tipo === "cumple") d.avisos = avisos;
+  if (d.tipo === "cumple") { d.hora = "09:00"; d.nacido = +$("enacido").value || null; delete d.notas; }
+  if (nuevo) mandar("/cal/anadir", JSON.stringify(d));
+  else mandar("/cal/editar", JSON.stringify({id: editando.id, ...d}));
+};
+$("eborrar").onclick = () => {
+  if (!editando) return;
+  const b = $("eborrar");
+  if (b.textContent !== "¿Seguro?") { b.textContent = "¿Seguro?"; return; }   // segundo toque para borrar
+  mandar("/cal/borrar", editando.id);
+};
+// con otro día marcado en el calendario, «Añadir» abre ese día (como mantenerlo pulsado)
+$("bnuevo").onclick = () => abrirNuevo(modo === "cal" && sel && sel !== datos.hoy ? sel : null);
+
+function mover(paso) {
+  if (modo === "semana") lunesRef.setDate(lunesRef.getDate() + 7 * paso);
+  else vista.setMonth(vista.getMonth() + paso);
+  pintar();   // el mes/semana nuevo al momento (los puntos llegan al cargar)
+  cargar();
+}
+$("ant").onclick = () => mover(-1);
+$("sig").onclick = () => mover(1);
+$("bhoy").onclick = () => { vista = new Date(); vista.setDate(1); lunesRef = lunesDe(new Date()); sel = datos.hoy; cargar(); };
+// menú de vistas
+$("bvista").onclick = ev => {
+  ev.stopPropagation();
+  for (const b of $("menuv").querySelectorAll("button")) b.classList.toggle("este", b.dataset.v === modo);
+  $("menuv").hidden = !$("menuv").hidden;
+};
+for (const b of document.querySelectorAll("#menuv button")) b.onclick = () => {
+  $("menuv").hidden = true;
+  if (b.dataset.v === modo) return;
+  modo = b.dataset.v;
+  history.pushState({modo}, "");   // el gesto de atrás vuelve a la vista anterior
+  try { localStorage.setItem("vista", modo); } catch (e) {}
+  if (modo === "semana") lunesRef = lunesDe(vista.getMonth() === new Date().getMonth() && vista.getFullYear() === new Date().getFullYear() ? new Date() : vista);
+  cargar();
+};
+document.addEventListener("click", ev => { if (!$("menuv").hidden && !ev.target.closest(".vistas")) $("menuv").hidden = true; });
+// GESTO / BOTÓN DE ATRÁS: primero cierra lo abierto (añadir/editar, selector de mes o de semana);
+// si no hay nada abierto, vuelve a la vista anterior; solo al final sale de la web.
+const CAPAS = ["editar", "selmes", "selsem", "buscar"];   // «buscar»: el gesto de atrás también lo cierra
+const capaAbierta = () => CAPAS.find(id => !$(id).hidden);
+let ignorar = 0;
+history.replaceState({modo}, "");
+const vigiaCapas = new MutationObserver(() => {
+  if (ignorar) { ignorar--; return; }
+  const a = capaAbierta();
+  if (a && history.state?.capa !== a) history.pushState({capa: a, modo}, "");
+  else if (!a && history.state?.capa) history.back();   // cerrada con su botón: quitar su paso del historial
+});
+CAPAS.forEach(id => vigiaCapas.observe($(id), {attributes: true, attributeFilter: ["hidden"]}));
+window.addEventListener("popstate", ev => {
+  $("menuv").hidden = true;
+  const a = capaAbierta();
+  if (a) {
+    ignorar++;
+    if (a === "editar") cerrarEditar(); else $(a).hidden = true;
+    return;
+  }
+  const m = ev.state?.modo || "cal";
+  if (m !== modo && NOMBRES_V[m]) {
+    modo = m;
+    try { localStorage.setItem("vista", modo); } catch (e) {}
+    cargar();
+  }
+});
+// buscador: en TODO lo apuntado ; pulsar un resultado lleva a ese día
+let bTimer = null, bUltima = "";
+async function buscar() {
+  const q = $("bq").value.trim(); bUltima = q;
+  if (q.length < 2) { $("bresultados").replaceChildren(); return; }
+  let lista = [];
+  $("cargando").classList.add("si");
+  try { const r = await fetch(conK(`/cal/buscar?q=${encodeURIComponent(q)}`), {cache: "no-store"}); lista = await r.json(); }
+  catch (e) { $("bresultados").replaceChildren(el("p", "vacio", "No se ha podido buscar")); return; }
+  finally { if (!pidiendo) $("cargando").classList.remove("si"); }
+  if (q !== bUltima) return;   // ya han escrito otra cosa
+  if (!lista.length) { $("bresultados").replaceChildren(el("p", "vacio", "Nada con «" + q + "»")); return; }
+  $("bresultados").replaceChildren(...lista.map(c => {
+    const f = el("div", "fila" + (c.imp ? " imp" : "") + (c.pasada ? " hecha" : ""));
+    const barra = el("span", "barra"); barra.style.background = c.c; f.append(barra);
+    const info = el("div", "info");
+    info.append(conImp(el("div", "t", c.t), c.imp, !c.cumple && c.tipo === "cita"));
+    if (c.notas) info.append(el("div", "s", "📝 " + c.notas));
+    info.append(el("div", "s", [c.cuando, c.rep].filter(Boolean).join(" · ")));
+    f.append(info);
+    info.onclick = () => {
+      const [a, m] = c.d.split("-").map(Number);
+      vista = new Date(a, m - 1, 1); sel = c.d;
+      $("bq").value = ""; $("bq").blur(); $("bresultados").replaceChildren(); $("buscar").hidden = true;
+      cargar(); window.scrollTo({top: 0, behavior: "smooth"});
+    };
+    return f;
+  }));
+}
+$("bq").oninput = () => { clearTimeout(bTimer); bTimer = setTimeout(buscar, 250); };
+// lupa de arriba: abre/cierra el buscador
+$("blupa").innerHTML = window.ICO ? ICO.lupa() : "Buscar";
+new MutationObserver(() => $("blupa").classList.toggle("abierta", !$("buscar").hidden)).observe($("buscar"), {attributes: true, attributeFilter: ["hidden"]});
+$("blupa").onclick = () => {
+  if ($("buscar").hidden) { $("buscar").hidden = false; $("bq").focus(); }
+  else { $("buscar").hidden = true; $("bq").value = ""; $("bq").blur(); $("bresultados").replaceChildren(); }
+};
+// deslizar el dedo: calendario y agendas (mes/semana siguiente o anterior). Ver deslizar() más abajo.
+deslizar($("mes"), [$("mes")], paso => mover(paso));
+deslizar($("agenda"), [$("agenda")], paso => mover(paso));
+// selector de mes y año (pulsar el título)
+let smAnio = 0;
+function smPintar() {
+  $("smanio").value = smAnio;
+  const hoy = new Date();
+  $("smmeses").replaceChildren(...MESES.map((nombre, m) => {
+    const b = el("button", (smAnio === vista.getFullYear() && m === vista.getMonth() ? "este" : "")
+      + (smAnio === hoy.getFullYear() && m === hoy.getMonth() ? " ahora" : ""), nombre.slice(0, 3));
+    b.onclick = () => { vista = new Date(smAnio, m, 1); lunesRef = lunesDe(vista); $("selmes").hidden = true; cargar(); };
+    return b;
+  }));
+}
+function smMover(n) { smAnio = Math.min(9999, Math.max(1, smAnio + n)); smPintar(); }
+$("titulo").onclick = () => {
+  if (modo === "semana") { ssMes = new Date(lunesRef.getFullYear(), lunesRef.getMonth(), 1); ssPintar(); $("selsem").hidden = false; return; }
+  smAnio = vista.getFullYear(); smPintar(); $("selmes").hidden = false;
+};
+// selector de semana: el mes dibujado; pulsar una fila = ir a esa semana
+let ssMes = new Date();
+function ssPintar() {
+  $("ssmes").textContent = `${MESES[ssMes.getMonth()]} ${ssMes.getFullYear()}`;
+  const hoy = iso(new Date()), elegido = iso(lunesRef), filas = [];
+  for (let l = lunesDe(ssMes); l.getMonth() === ssMes.getMonth() || l < ssMes; l.setDate(l.getDate() + 7)) {
+    const lunes = new Date(l), b = el("button", "sem" + (iso(lunes) === elegido ? " esta" : ""));
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(lunes); d.setDate(d.getDate() + i);
+      b.append(el("span", (d.getMonth() !== ssMes.getMonth() ? "fuera" : "") + (iso(d) === hoy ? " hoy" : ""), d.getDate()));
+    }
+    b.onclick = () => { lunesRef = lunes; vista = new Date(lunes.getFullYear(), lunes.getMonth(), 1); $("selsem").hidden = true; cargar(); };
+    filas.push(b);
+  }
+  $("sssemanas").replaceChildren(...filas);
+}
+$("ss-m").onclick = () => { ssMes.setMonth(ssMes.getMonth() - 1); ssPintar(); };
+$("ss+m").onclick = () => { ssMes.setMonth(ssMes.getMonth() + 1); ssPintar(); };
+$("ss-a").onclick = () => { ssMes.setFullYear(ssMes.getFullYear() - 1); ssPintar(); };
+$("ss+a").onclick = () => { ssMes.setFullYear(ssMes.getFullYear() + 1); ssPintar(); };
+$("sshoy").onclick = () => { lunesRef = lunesDe(new Date()); vista = new Date(); vista.setDate(1); $("selsem").hidden = true; cargar(); };
+$("sscerrar").onclick = () => { $("selsem").hidden = true; };
+// DESLIZAR CON SENSACIÓN («que se note que se mueve»): el contenido sigue al dedo, al soltar sale hacia un lado,
+// entra el nuevo por el otro y el móvil vibra un pelín; si no llega a 50 px vuelve a su sitio. Selector de meses: AÑO; de semanas: MES.
+function deslizar(zona, mueve, hacer) {
+  let x = null, y = null, arrastra = false, dx = 0;
+  const poner = (t, o, trans) => mueve.forEach(e => { e.style.transition = trans; e.style.transform = t; e.style.opacity = o; });
+  zona.style.touchAction = "pan-y";
+  zona.addEventListener("touchstart", ev => {
+    if (ev.touches.length !== 1) { x = null; return; }
+    x = ev.touches[0].clientX; y = ev.touches[0].clientY; arrastra = false; dx = 0;
+  }, {passive: true});
+  zona.addEventListener("touchmove", ev => {
+    if (x === null) return;
+    dx = ev.touches[0].clientX - x; const dy = ev.touches[0].clientY - y;
+    if (!arrastra) {
+      if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy) * 1.3) arrastra = true;
+      else { if (Math.abs(dy) > 12) x = null; return; }
+    }
+    poner(`translateX(${dx * 0.8}px)`, String(Math.max(0.3, 1 - Math.abs(dx) / 450)), "none");
+  }, {passive: true});
+  zona.addEventListener("touchend", () => {
+    if (x === null) return;
+    x = null;
+    if (!arrastra) return;
+    zona.dataset.deslizado = "1"; setTimeout(() => { delete zona.dataset.deslizado; }, 450);
+    if (Math.abs(dx) < 50) { poner("", "", "transform .2s ease, opacity .2s ease"); return; }   // poco: vuelve a su sitio
+    const paso = dx < 0 ? 1 : -1, ancho = zona.clientWidth || 320;
+    try { if (navigator.vibrate) navigator.vibrate(12); } catch (e) {}
+    poner(`translateX(${-paso * ancho * 0.6}px)`, "0", "transform .13s ease-in, opacity .13s ease-in");
+    setTimeout(() => {
+      hacer(paso);
+      poner(`translateX(${paso * ancho * 0.45}px)`, "0", "none");
+      requestAnimationFrame(() => requestAnimationFrame(() => poner("", "", "transform .22s ease-out, opacity .22s ease-out")));
+    }, 130);
+  }, {passive: true});
+  zona.addEventListener("touchcancel", () => { if (x !== null) { x = null; poner("", "", "transform .2s ease"); } }, {passive: true});
+  // que el dedo al soltar no pulse un día, un mes o una semana sin querer
+  zona.addEventListener("click", ev => { if (zona.dataset.deslizado) { ev.stopPropagation(); ev.preventDefault(); } }, true);
+}
+deslizar(document.querySelector("#selmes .caja"), [$("smmeses"), $("smanio")], paso => smMover(paso));
+deslizar(document.querySelector("#selsem .caja"), [$("sssemanas"), $("ssmes")], paso => { ssMes.setMonth(ssMes.getMonth() + paso); ssPintar(); });
+$("selsem").onclick = ev => { if (ev.target === $("selsem")) $("selsem").hidden = true; };
+$("sm-10").onclick = () => smMover(-10); $("sm-1").onclick = () => smMover(-1);
+$("sm+1").onclick = () => smMover(1); $("sm+10").onclick = () => smMover(10);
+$("smanio").oninput = () => { const a = parseInt($("smanio").value, 10); if (a >= 1 && a <= 9999) { smAnio = a; smPintar(); } };
+$("smhoy").onclick = () => { vista = new Date(); vista.setDate(1); lunesRef = lunesDe(new Date()); sel = datos.hoy; $("selmes").hidden = true; cargar(); };
+$("smcerrar").onclick = () => { $("selmes").hidden = true; };
+$("selmes").onclick = ev => { if (ev.target === $("selmes")) $("selmes").hidden = true; };
+document.addEventListener("visibilitychange", () => { if (!document.hidden) cargar(); });
+
+// abrir un día concreto, con el enlace ?dia=AAAA-MM-DD o irADia("AAAA-MM-DD") desde la app (al pulsar un aviso)
+window.irADia = d => {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(d || "")) return false;
+  const f = deIso(d); vista = new Date(f.getFullYear(), f.getMonth(), 1); lunesRef = lunesDe(f); sel = d; cargar(); return true;
+};
+vista = new Date(); vista.setDate(1);
+if (!irADia(new URLSearchParams(location.search).get("dia"))) cargar();
+</script>
+</body>
+</html>

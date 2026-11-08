@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/raiz" android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="horizontal" android:padding="4dp" android:background="@drawable/w_fondo_claro">
+    <LinearLayout android:id="@+id/bapuntar" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
+        android:orientation="vertical" android:gravity="center" android:padding="3dp">
+        <ImageView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:maxHeight="56dp"
+            android:adjustViewBounds="true" android:scaleType="fitCenter" android:src="@drawable/w_logo_cal" android:contentDescription="@null"/>
+        <TextView android:id="@+id/bapuntar_t" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="1dp" android:maxLines="1"
+            android:text="Apuntar" android:textSize="12.5sp" android:textStyle="bold" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+    </LinearLayout>
+    <ImageView android:id="@+id/raya" android:layout_width="2dp" android:layout_height="match_parent" android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp" android:src="@drawable/w_barra" android:scaleType="fitXY" android:contentDescription="@null"/>
+    <LinearLayout android:id="@+id/bnota" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
+        android:orientation="vertical" android:gravity="center" android:padding="3dp">
+        <ImageView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:maxHeight="56dp"
+            android:adjustViewBounds="true" android:scaleType="fitCenter" android:src="@drawable/w_nota_lapiz" android:contentDescription="@null"/>
+        <TextView android:id="@+id/bnota_t" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="1dp" android:maxLines="1"
+            android:text="Nota nueva" android:textSize="12.5sp" android:textStyle="bold" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+    </LinearLayout>
+</LinearLayout>

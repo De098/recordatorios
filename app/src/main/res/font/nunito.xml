@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Nunito (SIL Open Font License 1.1), la misma de la web; en los widgets -->
+<font-family xmlns:android="http://schemas.android.com/apk/res/android">
+    <font android:font="@font/nunito_normal" android:fontStyle="normal" android:fontWeight="400" />
+    <font android:font="@font/nunito_negrita" android:fontStyle="normal" android:fontWeight="700" />
+</font-family>

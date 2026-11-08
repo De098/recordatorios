@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nombre">Recordatorios</string>
+    <string name="w_desc_proximos">Próximos: lo atrasado y lo que viene, con ✔ Hecho</string>
+    <string name="w_desc_mes">Mes con los puntos de colores</string>
+    <string name="w_desc_botones">Añadir y Nota nueva</string>
+    <string name="w_nombre_proximos">Próximos</string>
+    <string name="w_nombre_mes">Mes</string>
+    <string name="w_nombre_botones">Apuntar / Nota</string>
+</resources>

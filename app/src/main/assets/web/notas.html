@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Notas</title>
+<meta name="theme-color" content="#f6f5f4">
+<script src="/notas/local.js"></script>
+<script src="/notas/menu.js"></script>   <!-- menú del logo y tema claro/oscuro -->
+<!-- Notas privadas.
+     Candado: se cifra AQUÍ (TweetNaCl secretbox; clave = PBKDF2-HMAC-SHA512 de la contraseña); el servidor solo guarda lo cifrado. -->
+<link rel="preload" href="/notas/nunito.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* fuente Nunito (SIL Open Font License 1.1, ver web/nunito-LICENCIA.txt), guardada aquí: sin internet ni Google */
+@font-face { font-family: "Nunito"; src: url("/notas/nunito.woff2") format("woff2"); font-weight: 200 1000; font-display: swap; }
+/* MISMO DISEÑO QUE EL CALENDARIO (cal.html): colores, contorno del icono
+   (--borde) en tarjetas y botones, logo arriba a la izquierda que abre el menú (menu.js). */
+:root {
+  --fondo: #f6f5f4; --tarjeta: #ffffff; --texto: #241f31; --suave: #6f6a78; --linea: #e3e1e6;
+  --acento: #3584e4; --hoy-texto: #ffffff; --rojo: #c01c28; --verde: #26a269; --sel: #e6effb;
+  --borde: #78858f;
+}
+:root[data-tema="oscuro"] {
+  color-scheme: dark;
+  --fondo: #1e1e22; --tarjeta: #2a2a30; --texto: #f0eff3; --suave: #a6a2ad; --linea: #3a3a42;
+  --acento: #62a0ea; --hoy-texto: #10131a; --rojo: #f66151; --verde: #57e389; --sel: #2f3a4a;
+  --borde: #90a4ae;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; background: var(--fondo); color: var(--texto);
+  font: 16px/1.4 "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+main { max-width: 560px; margin: 0 auto; padding: 12px 16px calc(24px + env(safe-area-inset-bottom)); }
+@media (min-width: 900px) { main { max-width: 980px; } }   /* en pantallas anchas caben varias columnas de notas */
+button { font: inherit; color: inherit; border: 0; background: var(--tarjeta); border-radius: 10px;
+  min-height: 40px; padding: 0 12px; cursor: pointer; }
+button.principal { background: var(--acento); color: var(--hoy-texto); font-weight: 600; }
+input, textarea, select { font: inherit; color: var(--texto); background: var(--fondo); border: 1px solid var(--linea);
+  border-radius: 10px; padding: 0 12px; min-height: 44px; min-width: 0; }
+textarea { padding: 12px; }
+/* barra de arriba, como la del calendario: logo a la izquierda, botones a la derecha */
+.vistas { position: relative; display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin: 0 0 6px; }
+.vistas .logo { width: 44px; height: 50px; margin-right: auto; }
+.vistas > button { min-height: 34px; font-size: .9rem; padding: 0 12px; border: 2px solid var(--borde); }
+.vistas > button.principal { border-color: var(--acento); }
+header { display: flex; align-items: center; justify-content: center; margin: 14px 0 10px; }
+header h1 { font-size: 1.3rem; margin: 0; display: flex; align-items: center; gap: 8px; }
+header h1 .tit { width: 40px; height: 36px; }
+#editor .barraed .ico { width: 1.45em; height: 1.45em; }
+.tarjeta { background: var(--tarjeta); border: 2px solid var(--borde); border-radius: 14px; padding: 10px; margin-bottom: 12px; }
+#buscar { width: 100%; }
+.rejilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; align-items: start; margin-bottom: 12px; }
+.nota { background: var(--tarjeta); border: 2px solid var(--borde); border-radius: 14px; padding: 10px 12px 10px 22px;
+  position: relative; cursor: pointer; min-height: 64px; }
+.nota .barra { position: absolute; left: 9px; top: 10px; bottom: 10px; width: 5px; border-radius: 3px; background: var(--linea); }
+.nota h3 { margin: 0 0 4px; font-size: 1rem; font-weight: 600; overflow-wrap: anywhere; }
+.nota .vista { color: var(--suave); font-size: .9rem; white-space: pre-line; overflow-wrap: anywhere;
+  display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical; overflow: hidden; }
+.nota .pie { color: var(--suave); font-size: .85rem; margin-top: 6px; display: flex; gap: 8px; }
+.nota.imp { background: color-mix(in srgb, var(--rojo) 10%, var(--tarjeta)); }
+.nota.imp h3 { font-weight: 800; }
+.nota.imp .barra { width: 8px; }
+.seccion { font-size: 1rem; font-weight: 700; margin: 4px 4px 8px; }
+.vacio { color: var(--suave); padding: 6px 4px; }
+#msj { color: var(--suave); font-size: .9rem; min-height: 1.2em; margin: 0 4px 8px; }
+#msj:empty { margin: 0; min-height: 0; }
+/* editor (pantalla completa) */
+#editor { position: fixed; inset: 0; background: var(--fondo); display: none; flex-direction: column; z-index: 5; }
+#editor.abierto { display: flex; }
+#editor .barraed { display: flex; gap: 6px; padding: 12px 16px 8px; align-items: center; flex-wrap: wrap;
+  max-width: 980px; width: 100%; margin: 0 auto; }
+#editor .barraed > button, #editor .barraed > select { min-height: 38px; border: 2px solid var(--borde); background: var(--tarjeta); }
+#editor .barraed > select { padding: 0 8px; }
+#editor .cuerpo { flex: 1; overflow: auto; max-width: 980px; width: 100%; margin: 0 auto;
+  padding: 0 16px calc(20px + env(safe-area-inset-bottom)); }
+#etitulo { width: 100%; font-size: 1.25rem; font-weight: 700; border: 0; background: transparent; padding: 8px 4px; }
+#etexto { width: 100%; min-height: 55vh; background: var(--tarjeta); border: 2px solid var(--borde); border-radius: 14px;
+  resize: vertical; line-height: 1.5; }
+#evista { background: var(--tarjeta); border: 2px solid var(--borde); border-radius: 14px; padding: 12px; min-height: 30vh;
+  overflow-wrap: anywhere; cursor: text; }
+#evista p { margin: 0 0 4px; white-space: pre-wrap; }
+#evista h4 { margin: 8px 0 4px; font-size: 1.05rem; }
+#evista label { display: flex; gap: 8px; align-items: flex-start; padding: 3px 0; cursor: pointer; }
+#evista label input { width: 20px; height: 20px; min-height: 0; margin-top: 2px; flex: none; accent-color: var(--acento); }
+#evista label.hecha span { text-decoration: line-through; color: var(--suave); }
+#evista a { color: var(--acento); }
+.chip { font-size: .85rem; color: var(--suave); }
+.esp { flex: 1; }
+#bborrar { color: var(--rojo); }
+/* diálogo de contraseña: como las ventanitas del calendario */
+#dlg { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: none; align-items: center; justify-content: center; z-index: 9; padding: 16px; }
+#dlg.abierto { display: flex; }
+#dlg form { background: var(--tarjeta); border: 2px solid var(--borde); border-radius: 16px; padding: 16px; width: min(100%, 380px);
+  display: flex; flex-direction: column; gap: 10px; }
+#dlg h2 { margin: 0; font-size: 1rem; }
+#dlg p { margin: 0; color: var(--suave); font-size: .85rem; }
+#dlg input { width: 100%; }
+#dlg button { min-height: 46px; flex: 1; background: var(--fondo); }
+#dlg button.principal { background: var(--acento); }
+</style>
+</head>
+<body>
+<main>
+  <div class="vistas">
+    <img class="logo" src="/notas/logo-notas.svg" alt="">
+    <button id="bcandados" title="Abrir / cerrar las notas con candado"></button>
+    <button id="bnueva" class="principal">+ Nueva</button>
+  </div>
+  <header><h1><img class="tit" src="/notas/notas-titulo.svg" alt="">Notas</h1></header>
+  <section class="tarjeta"><input id="buscar" type="search" placeholder="Buscar en las notas" autocomplete="off" enterkeyhint="search"></section>
+  <div id="msj"></div>
+  <div id="lista"></div>
+</main>
+
+<div id="editor">
+  <div class="barraed">
+    <button id="bvolver" title="Volver (guarda)"></button>
+    <button id="bmodo"></button>
+    <button id="bcasilla" title="Añadir una casilla"></button>
+    <select id="ecolor" title="Color"></select>
+    <button id="bfijar" title="Fijar arriba"></button>
+    <button id="bcandado" title="Poner o quitar candado"></button>
+    <span class="esp"></span>
+    <span id="eestado" class="chip"></span>
+    <button id="bborrar" title="Borrar"></button>
+  </div>
+  <div class="cuerpo">
+    <input id="etitulo" placeholder="Título (en MAYÚSCULAS = importante)" autocomplete="off">
+    <div id="evista"></div>
+    <textarea id="etexto" placeholder="Escribe aquí…&#10;- [ ] así se hace una casilla"></textarea>
+  </div>
+</div>
+
+<div id="dlg"><form id="dform">
+  <h2 id="dtitulo">Contraseña</h2>
+  <p id="dtexto"></p>
+  <input id="dpass" type="password" autocomplete="current-password" placeholder="Contraseña">
+  <input id="dpass2" type="password" autocomplete="new-password" placeholder="Repítela">
+  <div style="display:flex; gap:8px; justify-content:flex-end">
+    <button type="button" id="dcancelar">Cancelar</button>
+    <button type="submit" class="principal" id="dok">Aceptar</button>
+  </div>
+</form></div>
+
+<script src="/notas/nacl-fast.min.js"></script>
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const COLORES = {"": ["Normal", "#9a9996"], rojo: ["Rojo", "#e01b24"], naranja: ["Naranja", "#ff7800"],
+  amarillo: ["Amarillo", "#f6d32d"], verde: ["Verde", "#2ec27e"], azul: ["Azul", "#3584e4"],
+  morado: ["Morado", "#9141ac"], marron: ["Marrón", "#986a44"], negro: ["Negro", "#3d3846"]};
+let notas = [], candado = null, clave = null;        // clave = Uint8Array(32) en memoria mientras está abierto
+const claras = new Map();                             // id → {titulo, texto} de las cifradas ya abiertas
+let actual = null, editando = false, tGuardar = 0, guardando = Promise.resolve();
+
+function el(tag, cls, txt) { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+function msj(t) { $("msj").textContent = t || ""; }
+function importante(t) { const l = [...(t || "")].filter(c => /\p{L}/u.test(c)); return l.length >= 3 && l.every(c => c === c.toUpperCase() && c !== c.toLowerCase()); }
+
+// ---------- cifrado (TweetNaCl) ----------
+const utf8 = s => new TextEncoder().encode(s), deutf8 = b => new TextDecoder().decode(b);
+function b64(u) { let s = ""; for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000)); return btoa(s); }
+function deb64(s) { const b = atob(s), u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
+function concat(a, b) { const r = new Uint8Array(a.length + b.length); r.set(a); r.set(b, a.length); return r; }
+function hmac(k, m) {   // HMAC-SHA512
+  if (k.length > 128) k = nacl.hash(k);
+  const kk = new Uint8Array(128); kk.set(k);
+  const ip = kk.map(x => x ^ 0x36), op = kk.map(x => x ^ 0x5c);
+  return nacl.hash(concat(op, nacl.hash(concat(ip, m))));
+}
+function pbkdf2(pass, sal, vueltas) {   // PBKDF2-HMAC-SHA512, 32 bytes
+  const p = utf8(pass);
+  let u = hmac(p, concat(sal, new Uint8Array([0, 0, 0, 1]))); const r = u.slice();
+  for (let i = 1; i < vueltas; i++) { u = hmac(p, u); for (let j = 0; j < r.length; j++) r[j] ^= u[j]; }
+  return r.slice(0, 32);
+}
+function cifrar(obj) {
+  const n = nacl.randomBytes(24);
+  return {nonce: b64(n), datos: b64(nacl.secretbox(utf8(JSON.stringify(obj)), n, clave))};
+}
+function descifrar(c, k = clave) {
+  const r = nacl.secretbox.open(deb64(c.datos), deb64(c.nonce), k);
+  return r ? JSON.parse(deutf8(r)) : null;
+}
+function pedirPass(titulo, texto, doble) {
+  return new Promise(res => {
+    $("dtitulo").textContent = titulo; $("dtexto").textContent = texto;
+    $("dpass").value = ""; $("dpass2").value = ""; $("dpass2").hidden = !doble;
+    $("dlg").classList.add("abierto"); setTimeout(() => $("dpass").focus(), 50);
+    const fin = v => { $("dlg").classList.remove("abierto"); $("dform").onsubmit = null; $("dcancelar").onclick = null; res(v); };
+    $("dcancelar").onclick = () => fin(null);
+    $("dform").onsubmit = e => {
+      e.preventDefault();
+      const a = $("dpass").value;
+      if (!a) return;
+      if (doble && a !== $("dpass2").value) { $("dtexto").textContent = "No coinciden. Escríbela otra vez en las dos."; return; }
+      fin(a);
+    };
+  });
+}
+async function abrirCandados() {   // pide la contraseña (o la crea) y deja la clave en memoria
+  if (clave) return true;
+  if (!candado) {
+    const p = await pedirPass("Crear contraseña", "Será la de todas las notas con candado. Si la olvidas, no se pueden recuperar.", true);
+    if (!p) return false;
+    msj("Preparando…"); await new Promise(r => setTimeout(r, 30));
+    const sal = nacl.randomBytes(16), vueltas = VUELTAS;
+    const k = pbkdf2(p, sal, vueltas);
+    clave = k;
+    const nuevo = {sal: b64(sal), vueltas, prueba: cifrar({ok: 1})};
+    const r = await enviar("/notas/candado", JSON.stringify(nuevo));
+    msj(r);
+    await cargar();
+    return !!clave;
+  }
+  const p = await pedirPass("Abrir candados", "Escribe tu contraseña de las notas.", false);
+  if (!p) return false;
+  msj("Abriendo…"); await new Promise(r => setTimeout(r, 30));
+  const k = pbkdf2(p, deb64(candado.sal), candado.vueltas);
+  if (!descifrar(candado.prueba, k)) { msj("Contraseña incorrecta"); return false; }
+  clave = k; msj("Candados abiertos (hasta que cierres la página o pulses 🔒)");
+  pintar();
+  return true;
+}
+const VUELTAS = 20000;
+
+// ---------- servidor ----------
+async function enviar(ruta, cuerpo) {
+  try {
+    const r = await fetch(ruta, {method: "POST", body: cuerpo, credentials: "same-origin"});
+    return r.ok ? await r.text() : "No se ha podido (" + r.status + ")";
+  } catch (e) { return "No llego al servidor"; }
+}
+async function cargar() {
+  try {
+    const r = await fetch("/notas/datos", {cache: "no-store", credentials: "same-origin"});
+    if (!r.ok) { msj("Sin permiso (" + r.status + ")"); return; }
+    const d = await r.json();
+    notas = d.notas; candado = d.candado;
+  } catch (e) { msj("No llego al servidor"); return; }
+  pintar();
+}
+function claro(n) {   // {titulo, texto} o null si está cerrada
+  if (!n.candado) return {titulo: n.titulo, texto: n.texto};
+  if (!clave) return null;
+  if (!claras.has(n.id + n.editada)) claras.set(n.id + n.editada, descifrar(n.candado));
+  return claras.get(n.id + n.editada);
+}
+
+// ---------- lista ----------
+function pintar() {
+  $("bcandados").innerHTML = ICO.candado(!!clave);   // candado dibujado (menu.js)
+  const q = $("buscar").value.trim().toLowerCase();
+  const lista = $("lista"); lista.replaceChildren();
+  const filas = notas.map(n => ({n, c: claro(n)})).filter(({n, c}) =>
+    !q || (c && (c.titulo + "\n" + c.texto).toLowerCase().includes(q)));
+  filas.sort((a, b) => (b.n.fijada - a.n.fijada) || (importante(b.c?.titulo) - importante(a.c?.titulo))
+    || (b.n.editada > a.n.editada ? 1 : -1));
+  if (!filas.length) lista.append(el("div", "vacio", q ? "Nada con eso" : "Aún no hay notas. Pulsa «+ Nueva»."));
+  let grupo = null, rej = null;
+  for (const {n, c} of filas) {
+    const g = n.fijada ? "📌 Fijadas" : "Otras";
+    if (g !== grupo) { grupo = g; if (filas.some(f => f.n.fijada)) lista.append(el("div", "seccion", g)); rej = el("div", "rejilla"); lista.append(rej); }
+    rej.append(tarjeta(n, c));
+  }
+}
+function tarjeta(n, c) {
+  const imp = c && importante(c.titulo);
+  const t = el("div", "nota" + (imp ? " imp" : ""));
+  const barra = el("span", "barra"); barra.style.background = COLORES[n.color]?.[1] || (imp ? "#e01b24" : "var(--linea)"); t.append(barra);
+  if (!c) {
+    const h = el("h3", "", "Nota con candado"); h.insertAdjacentHTML("afterbegin", ICO.candado(false) + " ");
+    t.append(h, el("div", "vista", "Pulsa para abrirla con tu contraseña"));
+  } else {
+    const h = el("h3", "", c.titulo || "Sin título");
+    if (imp) h.insertAdjacentHTML("afterbegin", ICO.imp());   // dibujado en vez de ❗
+    if (n.candado) h.insertAdjacentHTML("afterbegin", ICO.candado(true) + " ");
+    t.append(h);
+    const lineas = (c.texto || "").split("\n");
+    const cas = lineas.filter(l => /^\s*- \[[ xX]\] /.test(l)), hechas = cas.filter(l => /\[[xX]\]/.test(l));
+    t.append(el("div", "vista", lineas.slice(0, 8).map(l => l.replace(/^\s*- \[ \] /, "☐ ").replace(/^\s*- \[[xX]\] /, "☑ ")).join("\n")));
+    const pie = el("div", "pie");
+    if (cas.length) pie.append(el("span", "", `☑ ${hechas.length}/${cas.length}`));
+    pie.append(el("span", "", cuando(n.editada)));
+    t.append(pie);
+  }
+  t.onclick = () => abrir(n);
+  return t;
+}
+function cuando(iso) {
+  const d = new Date(iso), hoy = new Date();
+  const h = d.toLocaleTimeString("es", {hour: "2-digit", minute: "2-digit"});
+  if (d.toDateString() === hoy.toDateString()) return "hoy " + h;
+  return d.toLocaleDateString("es", {day: "numeric", month: "short"}) + " " + h;
+}
+
+// ---------- editor ----------
+async function abrir(n) {
+  if (n && n.candado && !clave && !(await abrirCandados())) return;
+  const c = n ? claro(n) : {titulo: "", texto: ""};
+  if (!c) { msj("No se ha podido abrir"); return; }
+  actual = n ? {...n, titulo: c.titulo, texto: c.texto, base: n.editada} : {id: "", titulo: "", texto: "", color: "", fijada: false, candado: null, base: ""};
+  actual.conCandado = !!(n && n.candado);
+  $("etitulo").value = actual.titulo; $("etexto").value = actual.texto; $("ecolor").value = actual.color || "";
+  ponerBotones();
+  $("editor").classList.add("abierto");
+  modo(!n || !actual.texto);   // nueva o vacía → directamente a escribir
+  $("eestado").textContent = n ? "" : "nueva";
+}
+function ponerBotones() {
+  $("bfijar").style.opacity = actual.fijada ? 1 : .45;
+  $("bcandado").innerHTML = ICO.candado(!actual.conCandado);
+  $("bborrar").innerHTML = ICO.borrar();
+}
+function modo(edit) {
+  editando = edit;
+  $("etexto").hidden = !edit; $("evista").hidden = edit;
+  $("bmodo").innerHTML = edit ? ICO.ver() + "<span>Ver</span>" : ICO.editar() + "<span>Editar</span>";
+  if (!edit) vista(); else setTimeout(() => (actual.titulo ? $("etexto") : $("etitulo")).focus(), 30);
+}
+function enlazar(p, texto) {   // texto con enlaces clicables
+  const re = /https?:\/\/\S+/g; let i = 0, m;
+  while ((m = re.exec(texto))) { p.append(texto.slice(i, m.index)); const a = el("a", "", m[0]); a.href = m[0]; a.target = "_blank"; a.rel = "noopener"; a.onclick = e => e.stopPropagation(); p.append(a); i = m.index + m[0].length; }
+  p.append(texto.slice(i));
+}
+function vista() {
+  const v = $("evista"); v.replaceChildren();
+  const lineas = $("etexto").value.split("\n");
+  if (!$("etexto").value.trim()) v.append(el("p", "chip", "Vacía. Toca aquí para escribir."));
+  lineas.forEach((l, i) => {
+    const m = l.match(/^(\s*)- \[([ xX])\] (.*)$/);
+    if (m) {
+      const lab = el("label", m[2] !== " " ? "hecha" : ""), cb = el("input"); cb.type = "checkbox"; cb.checked = m[2] !== " ";
+      const sp = el("span"); enlazar(sp, m[3]);
+      cb.onchange = () => { lineas[i] = `${m[1]}- [${cb.checked ? "x" : " "}] ${m[3]}`; $("etexto").value = lineas.join("\n"); programar(300); vista(); };
+      lab.onclick = e => e.stopPropagation();
+      lab.append(cb, sp); v.append(lab);
+    } else if (/^#{1,3} /.test(l)) {
+      v.append(el("h4", "", l.replace(/^#{1,3} /, "")));
+    } else {
+      const p = el("p"); enlazar(p, l || " "); v.append(p);
+    }
+  });
+}
+function programar(ms = 1200) {
+  $("eestado").textContent = "…";
+  clearTimeout(tGuardar); tGuardar = setTimeout(guardar, ms);
+}
+function guardar() {
+  clearTimeout(tGuardar);
+  guardando = guardando.then(async () => {
+    if (!actual) return;
+    const titulo = $("etitulo").value, texto = $("etexto").value;
+    if (!actual.id && !titulo.trim() && !texto.trim()) return;   // nueva y vacía: no se guarda
+    if (titulo === actual.titulo && texto === actual.texto && !actual.cambiado) { $("eestado").textContent = "guardada"; return; }
+    if (actual.conCandado && !clave) { $("eestado").textContent = "⚠ abre los candados (🔒) para guardar"; return; }
+    const datos = {id: actual.id, base: actual.base, color: $("ecolor").value, fijada: actual.fijada,
+      titulo: actual.conCandado ? "" : titulo, texto: actual.conCandado ? "" : texto,
+      candado: actual.conCandado ? cifrar({titulo, texto}) : null};
+    let r;
+    try { r = JSON.parse(await enviar("/notas/guardar", JSON.stringify(datos))); } catch (e) { r = {ok: false, aviso: "no se ha podido guardar"}; }
+    if (!r.ok) { $("eestado").textContent = "⚠ " + (r.aviso || "sin guardar"); return; }
+    actual.id = r.nota.id; actual.base = r.nota.editada; actual.titulo = titulo; actual.texto = texto; actual.cambiado = false;
+    $("eestado").textContent = r.aviso ? "⚠ copia" : "guardada";
+    if (r.aviso) msj(r.aviso);
+  });
+  return guardando;
+}
+async function cerrar() {
+  await guardar();
+  $("editor").classList.remove("abierto");
+  actual = null;
+  await cargar();
+}
+
+// ---------- botones ----------
+$("bnueva").onclick = () => abrir(null);
+$("buscar").oninput = pintar;
+$("bcandados").onclick = async () => {
+  if (clave) { clave = null; claras.clear(); msj("Candados cerrados"); pintar(); }
+  else await abrirCandados();
+};
+$("bvolver").innerHTML = ICO.volver();   // iconos dibujados (menu.js) en vez de emojis
+$("bcasilla").innerHTML = ICO.casilla() + "<span>Casilla</span>";
+$("bfijar").innerHTML = ICO.fijar();
+$("bvolver").onclick = cerrar;
+$("bmodo").onclick = () => { if (editando) guardar(); modo(!editando); };
+$("evista").onclick = () => modo(true);
+$("etexto").oninput = () => programar();
+$("etitulo").oninput = () => programar();
+$("bcasilla").onclick = () => {
+  if (!editando) modo(true);
+  const t = $("etexto"), p = t.selectionStart, ant = t.value.slice(0, p);
+  const pre = ant && !ant.endsWith("\n") ? "\n" : "";
+  t.setRangeText(pre + "- [ ] ", p, t.selectionEnd, "end"); t.focus(); programar();
+};
+for (const [c, [n]] of Object.entries(COLORES)) { const o = el("option", "", n); o.value = c; $("ecolor").append(o); }
+$("ecolor").onchange = () => { actual.cambiado = true; programar(200); };
+$("bfijar").onclick = () => { actual.fijada = !actual.fijada; actual.cambiado = true; ponerBotones(); programar(200); };
+$("bcandado").onclick = async () => {
+  if (!actual.conCandado && !(await abrirCandados())) return;
+  if (actual.conCandado && !clave && !(await abrirCandados())) return;
+  actual.conCandado = !actual.conCandado; actual.cambiado = true; ponerBotones();
+  msj(actual.conCandado ? "Nota con candado: se guarda cifrada" : "Candado quitado: se guarda sin cifrar");
+  programar(100);
+};
+$("bborrar").onclick = async () => {
+  const b = $("bborrar");
+  if (b.textContent !== "¿Seguro?") { b.textContent = "¿Seguro?"; setTimeout(() => { if (b.textContent === "¿Seguro?") b.innerHTML = ICO.borrar(); }, 3000); return; }
+  clearTimeout(tGuardar);
+  if (actual.id) msj(await enviar("/notas/borrar", actual.id));
+  actual = null; $("editor").classList.remove("abierto"); cargar();
+};
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && $("dlg").classList.contains("abierto")) return $("dcancelar").click();
+  if (e.key === "Escape" && actual) cerrar();
+  if ((e.ctrlKey || e.metaKey) && e.key === "s" && actual) { e.preventDefault(); guardar(); }
+});
+window.addEventListener("pagehide", () => { if (actual) guardar(); });
+document.addEventListener("visibilitychange", () => { if (document.hidden && actual) guardar(); else if (!document.hidden && !actual) cargar(); });
+setInterval(() => { if (!actual && !document.hidden) cargar(); }, 20000);   // cambios hechos en otros sitios
+// GESTO / BOTÓN DE ATRÁS (como en el calendario): con una nota abierta, atrás la cierra (y guarda)
+let ignorarPop = 0;
+new MutationObserver(() => {
+  const a = $("editor").classList.contains("abierto");
+  if (a && !history.state?.nota) history.pushState({nota: 1}, "");
+  else if (!a && history.state?.nota) { ignorarPop++; history.back(); }   // cerrada con ← o 🗑: quitar su paso
+}).observe($("editor"), {attributes: true, attributeFilter: ["class"]});
+window.addEventListener("popstate", () => {
+  if (ignorarPop) { ignorarPop--; return; }
+  if (actual && $("editor").classList.contains("abierto")) cerrar();
+});
+$("bcandados").innerHTML = ICO.candado(false);   // antes de que llegue la lista
+cargar();
+</script>
+</body>
+</html>
