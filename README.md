@@ -3,6 +3,12 @@
 Calendario con tareas, citas, avisos y notas con candado que funciona **entero en el móvil**: sin cuenta, sin servidor y
 sin permiso de internet. Android 13 o superior. Licencia GPL-3.0.
 
+[![Descargar APK](https://img.shields.io/github/v/release/De098/recordatorios?label=Descargar%20APK&logo=android&style=for-the-badge)](https://github.com/De098/recordatorios/releases/latest)
+[![Obtainium](https://img.shields.io/badge/Obtainium-actualizaciones%20autom%C3%A1ticas-5a4fcf?style=for-the-badge)](https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/De098/recordatorios)
+
+Descarga el `.apk` de la última versión (en **Assets**) y ábrelo en el móvil. Con [Obtainium](https://github.com/ImranR98/Obtainium)
+se instala y se actualiza sola: pulsa el segundo botón desde el móvil o añade `https://github.com/De098/recordatorios`.
+
 - **Calendario**: tareas que avisan hasta «Hecho», citas con avisos previos, repeticiones, días salteados, colores,
   cumpleaños, buscador, importantes en MAYÚSCULAS.
 - **Avisos**: alarmas exactas locales, con botón «✔ Hecho»; se reprograman al encender el móvil.
