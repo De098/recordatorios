@@ -35,10 +35,6 @@ Los datos están en la carpeta privada de la app; no hay copia de seguridad en l
 
 Hace falta JDK 17 o superior y el SDK de Android 36.
 
-## Lugar del sol
-
-«Cuando se ponga el sol» y «al amanecer» usan por defecto las coordenadas de Madrid (`Frases.lugar`).
-
 ## Licencias
 
 Código: GPL-3.0 (`LICENSE`). Tipografía Nunito: SIL OFL 1.1 (`app/src/main/assets/web/nunito-LICENCIA.txt`).
