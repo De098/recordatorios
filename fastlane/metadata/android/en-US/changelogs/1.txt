@@ -1,0 +1,1 @@
+First version: calendar with tasks, appointments and birthdays, on-device reminders with a Done button, locked notes, widgets and backup.

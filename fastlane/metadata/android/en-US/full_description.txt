@@ -1,0 +1,22 @@
+Recordatorios ("reminders" in Spanish) is a calendar with tasks, appointments, reminders and private notes that works entirely on your phone: no account, no server and no internet permission. Your data never leaves the device. The app is in Spanish.
+
+<b>Calendar</b>
+• Tasks that keep reminding you until you mark them as "Done".
+• Appointments with advance reminders (on time, 1 hour before, the day before…).
+• Repeats: every day, week, month or year, and skipped days (3 on, 2 off).
+• Colours, notes and birthdays with the age. Important items, written in CAPITALS, remind you earlier.
+• Search.
+
+<b>Reminders</b>
+Exact alarms on the phone itself, with a "Done" button in the notification. They are rescheduled automatically when the phone restarts.
+
+<b>Locked notes</b>
+Text notes with colours and pinning. Locked notes are encrypted on the phone with your password (PBKDF2 + NaCl secretbox); if you forget it they cannot be recovered.
+
+<b>Widgets</b>
+Upcoming (with "Done"), Month with coloured dots, and Add / New note buttons.
+
+<b>Backup</b>
+Export everything to a file and restore it on another phone (locked notes stay encrypted).
+
+Light and dark theme. Free software (GPL-3.0).
