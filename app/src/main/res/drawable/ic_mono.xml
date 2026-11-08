@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- icono 2e «Día marcado» (8-nov-2026), generado; fuente ~/Documentos/app-propia/iconos -->
+<!-- icono «Día marcado» -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
   <group android:pivotX="54" android:pivotY="52" android:scaleX="0.72" android:scaleY="0.72" android:translateY="2">
     <path android:pathData="M31,28 H71 A6,6 0 0 1 77,34 V76 A6,6 0 0 1 71,82 H31 A6,6 0 0 1 25,76 V34 A6,6 0 0 1 31,28 Z" android:strokeColor="#000000" android:strokeWidth="3.5" android:strokeLineCap="round" android:strokeLineJoin="round"/>

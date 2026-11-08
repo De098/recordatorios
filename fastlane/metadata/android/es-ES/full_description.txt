@@ -16,4 +16,7 @@ Notas de texto con colores y fijadas. Las que llevan candado se cifran en el mó
 <b>Widgets</b>
 Próximos (con «Hecho»), Mes con puntos de colores, y botones de Apuntar y Nota nueva.
 
+<b>Copia de seguridad</b>
+Exporta todo a un archivo y recupéralo en otro móvil (las notas con candado siguen cifradas).
+
 Tema claro y oscuro. Software libre (GPL-3.0).

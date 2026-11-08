@@ -1,0 +1,1 @@
+Primera versión: calendario con tareas, citas y cumpleaños, avisos en el propio móvil con «✔ Hecho», notas con candado, widgets y copia de seguridad.
