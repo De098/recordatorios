@@ -151,10 +151,10 @@ object Widgets {
                 r.setInt(R.id.barra, "setColorFilter", try { Color.parseColor(o.optString("c")) } catch (_: Exception) { p.suave })
                 r.setOnClickFillInIntent(R.id.fila, Intent().putExtra("accion", "abrir").putExtra("dia", o.optString("d")))
                 val k = o.optString("k")
-                if (o.optString("tipo") == "tarea" && k.isNotEmpty() && !hecho) {
+                if (o.optString("tipo") == "tarea" && k.isNotEmpty() && !hecho && (atrasada || o.optBoolean("pasada"))) {   // solo cuando ya ha llegado su hora
                     r.setViewVisibility(R.id.hecho, View.VISIBLE)
                     r.setOnClickFillInIntent(R.id.hecho, Intent().putExtra("accion", "hecho").putExtra("k", k).putExtra("t", o.optString("t")))
-                }
+                } else r.setViewVisibility(R.id.hecho, View.GONE)   // las filas se reaprovechan: esconderlo si no toca
                 items.addItem(n++, r)
             }
             fun cab(t: String) {

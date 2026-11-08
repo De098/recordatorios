@@ -7,7 +7,8 @@
             android:textSize="26sp" android:textColor="#241F31" android:background="@drawable/w_boton_claro" android:includeFontPadding="false" android:fontFamily="@font/nunito"/>
         <TextView android:id="@+id/titulo" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
             android:gravity="center" android:maxLines="1" android:ellipsize="end" android:layout_marginStart="6dp" android:layout_marginEnd="6dp"
-            android:textSize="17sp" android:textStyle="bold" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            android:textSize="17sp" android:autoSizeTextType="uniform" android:autoSizeMinTextSize="12sp" android:autoSizeMaxTextSize="17sp"
+            android:textStyle="bold" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
         <TextView android:id="@+id/sig" android:layout_width="48dp" android:layout_height="42dp" android:gravity="center" android:text="›"
             android:textSize="26sp" android:textColor="#241F31" android:background="@drawable/w_boton_claro" android:includeFontPadding="false" android:fontFamily="@font/nunito"/>
         <TextView android:id="@+id/actualizar" android:layout_width="42dp" android:layout_height="42dp" android:gravity="center"

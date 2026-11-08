@@ -82,7 +82,11 @@ object Avisos {
 /** Salta la alarma: enseña el aviso. */
 class AvisoReceiver : BroadcastReceiver() {
     override fun onReceive(c: Context, i: Intent) {
-        if (i.action == Avisos.ACCION) Avisos.mostrar(c, i)
+        if (i.action != Avisos.ACCION) return
+        Avisos.mostrar(c, i)
+        // ya ha llegado la hora de esa tarea: repintar los widgets (botón «Hecho»)
+        val pend = goAsync()
+        kotlin.concurrent.thread(name = "repintar") { try { Widgets.actualizarTodos(c.applicationContext) } finally { pend.finish() } }
     }
 }
 
