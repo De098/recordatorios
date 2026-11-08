@@ -1,0 +1,1 @@
+En el widget «Próximos», el botón «✔ Hecho» ya no sale en las citas y solo aparece cuando llega la hora de la tarea (o si está atrasada). El widget se repinta al saltar el aviso y su título ya no se corta.

@@ -1,0 +1,1 @@
+In the "Upcoming" widget, the Done button no longer shows on appointments and only appears once a task is due (or overdue). The widget refreshes when a reminder fires and its title is no longer cut off.
