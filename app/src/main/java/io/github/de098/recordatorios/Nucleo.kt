@@ -51,7 +51,7 @@ object Nucleo {
     val AVISOS = listOf(0 to "A la hora", 30 to "30 min antes", 60 to "1 hora antes", 120 to "2 horas antes",
         180 to "3 horas antes", 360 to "6 horas antes", DIA to "Al empezar el día (desde las 7:00)",
         1440 to "1 día antes", 2880 to "2 días antes", 10080 to "1 semana antes")
-    val COLOR_ITEM = listOf(Triple("", "⚪ Normal", null), Triple("rojo", "🔴 Rojo", "#e01b24"),
+    val COLOR_ITEM = listOf(Triple("", "🩵 Azul de la app", null), Triple("rojo", "🔴 Rojo", "#e01b24"),
         Triple("naranja", "🟠 Naranja", "#ff7800"), Triple("amarillo", "🟡 Amarillo", "#f6d32d"),
         Triple("verde", "🟢 Verde", "#2ec27e"), Triple("azul", "🔵 Azul", "#3584e4"),
         Triple("morado", "🟣 Morado", "#9141ac"), Triple("marron", "🟤 Marrón", "#986a44"),

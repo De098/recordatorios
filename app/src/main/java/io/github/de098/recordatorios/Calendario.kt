@@ -9,7 +9,7 @@ import java.time.temporal.ChronoUnit
 
 /** Lo que pide la web del calendario (/cal/…), contestado en el propio móvil. */
 object Calendario {
-    private val NORMAL = mapOf("tarea" to "#9a9996", "cita" to "#ff7800")   // color «Normal»
+    private val NORMAL = mapOf("tarea" to "#29b6f6", "cita" to "#29b6f6")   // sin color elegido: azul del logo de la app (antes tareas gris y citas naranja)
     private val HEX = N.COLOR_ITEM.filter { it.third != null }.associate { it.first to it.third!! }
     private val D = java.time.format.DateTimeFormatter.ISO_LOCAL_DATE
 

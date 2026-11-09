@@ -4,3 +4,4 @@ Notas: títulos más grandes y marcados; las fijadas llevan una chincheta en la 
 Formulario de Añadir renovado: tipo en pestañas con icono, campos en tarjetas y cada aviso en su fila con ✕. Títulos con el mismo estilo en toda la app.
 Confeti azul y blanco al marcar una tarea como hecha.
 Avisos con el estilo de la app: botón «✔ Hecho» siempre visible y «Deshacer» por si se pulsa sin querer.
+Nuevo color predeterminado: el azul de la app (antes tareas en gris y citas en naranja).

@@ -4,3 +4,4 @@ Notes: larger, clearer titles; pinned notes show a pin in the corner and stay at
 Redesigned Add form: type as tabs with icons, fields in cards and each reminder on its own row with ✕. Consistent title style across the app.
 Blue and white confetti when you mark a task as done.
 Notifications in the app's style: an always-visible “✔ Done” button and “Undo” in case you tap it by mistake.
+New default colour: the app's blue (previously grey for tasks and orange for appointments).
