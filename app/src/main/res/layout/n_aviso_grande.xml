@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Aviso desplegado (10-nov, D): texto entero y el botón debajo a la derecha -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+    <TextView android:id="@+id/nt" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"
+        android:textSize="16dp" android:textStyle="bold" android:fontFamily="@font/nunito" android:maxLines="2" android:ellipsize="end"/>
+    <TextView android:id="@+id/nx" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Notification"
+        android:textSize="14dp" android:fontFamily="@font/nunito" android:maxLines="8" android:ellipsize="end"/>
+    <TextView android:id="@+id/nb" android:layout_width="wrap_content" android:layout_height="38dp" android:gravity="center"
+        android:layout_gravity="end" android:layout_marginTop="8dp" android:paddingStart="16dp" android:paddingEnd="16dp" android:background="@drawable/w_hecho"
+        android:text="✓ Hecho" android:textSize="15dp" android:textStyle="bold" android:textColor="#FFFFFF" android:fontFamily="@font/nunito"/>
+</LinearLayout>

@@ -190,6 +190,14 @@ object Calendario {
         return "✔ Hecho: ${it.texto}"
     }
 
+    /** Deshace «✔ Hecho» (botón «Deshacer» del aviso, por si se pulsó sin querer). */
+    fun desmarcar(clave: String): String {
+        val m = Regex("""([0-9a-f]{6,32})__(\d{8}T\d{4})""").matchEntire(clave.trim()) ?: return "No se ha podido deshacer"
+        val it = N.leerItems().firstOrNull { it.id == m.groupValues[1] } ?: return "Esa tarea ya no existe"
+        N.desmarcarHecho(it, LocalDateTime.parse(m.groupValues[2], java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmm")))
+        return "Deshecho: ${it.texto}"
+    }
+
     // ---------------------------------------------------------------- avisos del móvil
 
     data class Aviso(val cuando: LocalDateTime, val titulo: String, val texto: String, val tipo: String,

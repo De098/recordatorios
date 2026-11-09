@@ -3,3 +3,4 @@ Week and month agendas: day headings are now larger and stand out more.
 Notes: larger, clearer titles; pinned notes show a pin in the corner and stay at the top, set apart from the rest.
 Redesigned Add form: type as tabs with icons, fields in cards and each reminder on its own row with ✕. Consistent title style across the app.
 Blue and white confetti when you mark a task as done.
+Notifications in the app's style: an always-visible “✔ Done” button and “Undo” in case you tap it by mistake.

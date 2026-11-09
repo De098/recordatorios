@@ -226,6 +226,7 @@ object Nucleo {
     fun clave(it: Item, cuando: LocalDateTime) = "${it.id}__${cuando.format(CLAVE)}"
     fun estaHecho(it: Item, cuando: LocalDateTime) = File(hechos, clave(it, cuando)).exists()
     fun marcarHecho(it: Item, cuando: LocalDateTime) = escribir(File(hechos, clave(it, cuando)), "")
+    fun desmarcarHecho(it: Item, cuando: LocalDateTime) { File(hechos, clave(it, cuando)).delete() }
 
     // ---------------------------------------------------------------- fechas
 

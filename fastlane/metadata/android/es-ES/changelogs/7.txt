@@ -3,3 +3,4 @@ Agendas de la semana y del mes: los días se ven más grandes y marcados.
 Notas: títulos más grandes y marcados; las fijadas llevan una chincheta en la esquina y quedan arriba, separadas de las demás.
 Formulario de Añadir renovado: tipo en pestañas con icono, campos en tarjetas y cada aviso en su fila con ✕. Títulos con el mismo estilo en toda la app.
 Confeti azul y blanco al marcar una tarea como hecha.
+Avisos con el estilo de la app: botón «✔ Hecho» siempre visible y «Deshacer» por si se pulsa sin querer.
