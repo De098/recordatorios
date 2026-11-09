@@ -85,6 +85,12 @@ header h1 .tit { width: 40px; height: 36px; }
 #editor .cuerpo { flex: 1; overflow: auto; max-width: 980px; width: 100%; margin: 0 auto;
   padding: 0 16px calc(20px + env(safe-area-inset-bottom)); }
 #etitulo { width: 100%; font-size: 1.25rem; font-weight: 700; border: 0; background: transparent; padding: 8px 4px; }
+/* 9-nov (D): «guardada» en la esquina de la nota, encima y sin ocupar sitio: antes iba en la barra y movía los botones al cambiar */
+.ecab { position: relative; }
+.ecab #etitulo { padding-right: 6.5em; }
+#eestado { position: absolute; top: 50%; right: 4px; transform: translateY(-50%); max-width: 75%; text-align: right;
+  background: var(--fondo); padding: 2px 4px; pointer-events: none; }
+#eestado:empty { display: none; }
 /* 9-nov (D): editor por líneas con casillas dibujadas (antes un cuadro de texto con «- [ ] »). #etexto queda oculto como copia del texto. */
 #eeditor { width: 100%; min-height: 55vh; box-sizing: border-box; background: var(--tarjeta); border: 2px solid var(--borde);
   border-radius: 14px; padding: 10px 12px; cursor: text; }
@@ -168,12 +174,14 @@ body.seleccion #bnueva, body.seleccion #bcandados, body.seleccion #bpapelera { d
     <button id="bfijar" title="Fijar arriba"></button>
     <button id="bcandado" title="Poner o quitar candado"></button>
     <span class="esp"></span>
-    <span id="eestado" class="chip"></span>
     <button id="bcopiar" title="Copiar la nota entera"></button>
     <button id="bborrar" title="Borrar"></button>
   </div>
   <div class="cuerpo">
-    <input id="etitulo" placeholder="Título (en MAYÚSCULAS = importante)" autocomplete="off">
+    <div class="ecab">
+      <input id="etitulo" placeholder="Título (en MAYÚSCULAS = importante)" autocomplete="off">
+      <span id="eestado" class="chip"></span>
+    </div>
     <div id="evista"></div>
     <div id="eeditor"></div>
     <textarea id="etexto" hidden></textarea>

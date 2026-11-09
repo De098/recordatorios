@@ -1,0 +1,1 @@
+Notas: el aviso «guardada» sale ahora en la esquina de la nota, junto al título, y ya no mueve los botones al marcar casillas.

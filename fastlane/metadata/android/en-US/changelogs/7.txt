@@ -1,0 +1,1 @@
+Notes: the “saved” indicator now sits in the note's corner next to the title and no longer shifts the buttons when ticking checkboxes.
