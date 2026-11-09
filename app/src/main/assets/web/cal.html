@@ -150,12 +150,14 @@ form button { background: var(--acento); color: var(--hoy-texto); font-weight: 6
 #ecolornom { color: var(--suave); font-weight: 400; }
 /* 10-nov (D): desplegable marcado sin el recuadro del navegador: la fila se tiñe de azul suave, el valor va en azul
    y la flechita apunta hacia abajo mientras está abierto */
-#editar .campo select:focus { outline: none; }
-#editar .campo:has(select:focus) { background: var(--sel); border-radius: 12px; margin: 0 -10px; padding: 0 10px; }
+#editar .campo :is(select, input):focus { outline: none; }   /* también día, hora y números */
+#editar .grupo { overflow: hidden; }   /* el tinte llega al borde de la tarjeta y toma sus esquinas */
+#editar .campo:has(:is(select, input):focus) { background: var(--sel); margin: 0 -14px; padding: 0 14px; }
+#editar .campo:has(input:focus) input { color: var(--acento); font-weight: 700; }
 #editar .campo:has(select:focus) select { color: var(--acento); font-weight: 700;
   background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 10'><path d='M2,2 l6,6 l6,-6' fill='none' stroke='%233584e4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
   background-size: 15px 9px; }
-#editar .campo:has(select:focus), #editar .campo:has(select:focus) + :not([hidden]) { border-top-color: transparent; }   /* sin rayas pegadas a la fila teñida */
+#editar .campo:has(:is(select, input):focus), #editar .campo:has(:is(select, input):focus) + :not([hidden]) { border-top-color: transparent; }   /* sin rayas pegadas a la fila teñida */
 /* selector de mes y año al pulsar el título */
 header h1 { cursor: pointer; }
 header h1::after { content: " ▾"; color: var(--suave); font-size: .8em; }
