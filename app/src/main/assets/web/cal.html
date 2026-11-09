@@ -141,9 +141,11 @@ header h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-
 #bvista .ico { width: 1.5em; height: 1.5em; }
 #menuv button.este { font-weight: 700; color: var(--acento); }
 #agenda[hidden], #scal[hidden], #lista[hidden] { display: none; }
-#agenda h3 { font-size: .95rem; margin: 14px 4px 6px; color: var(--suave); text-transform: capitalize; }
+/* 9-nov (D): días de las agendas más marcados y grandes (antes gris pequeño, se veían mal) */
+#agenda h3 { font-size: 1.15rem; font-weight: 800; margin: 18px 0 8px; padding: 7px 12px; color: var(--texto);
+  background: var(--linea); border-left: 5px solid var(--borde); border-radius: 8px; text-transform: capitalize; }
 #agenda h3:first-of-type { margin-top: 4px; }
-#agenda h3.hoy { color: var(--acento); }
+#agenda h3.hoy { color: var(--acento); border-left-color: var(--acento); background: var(--sel); }
 #agenda .vacio { margin: 0 4px 4px; }
 #agenda .pasado { opacity: .55; }
 @keyframes girar { to { transform: rotate(360deg); } }
