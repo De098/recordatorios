@@ -31,6 +31,11 @@
   const l = (x1, y, x2, c = C, w = 3) => `<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`;
   const AC = "#29B6F6";
   window.ICO = {
+    // 9-nov (D): tarta para la pestaña «Cumpleaños» del formulario
+    cumple: () => ico(`<rect x="10" y="25" width="28" height="15" rx="4" fill="#FFFFFF" stroke="${G}" stroke-width="3.4"/>`
+      + `<path d="M11.5,31.5 q4.2,3.6 8.4,0 t8.4,0 t8.4,0" fill="none" stroke="${C}" stroke-width="2.6" stroke-linecap="round"/>`
+      + `<line x1="24" y1="25" x2="24" y2="17" stroke="${G}" stroke-width="3.4" stroke-linecap="round"/>`
+      + `<path d="M24,6.5 c3.2,3.6 3.2,7 0,8 c-3.2,-1 -3.2,-4.4 0,-8 Z" fill="${AC}"/>`),
     cal: () => ico(hoja(14) + l(15, 21, 33) + `<g stroke="${C}" stroke-width="2.6" stroke-linecap="round"><line x1="19.5" y1="26" x2="19.5" y2="38"/><line x1="28.5" y1="26" x2="28.5" y2="38"/></g>`
       + l(14.5, 29, 33.5, C, 2.6) + l(14.5, 35, 33.5, C, 2.6) + `<rect x="21.5" y="30.5" width="5" height="4" rx="1" fill="${AC}"/>` + anillas),
     semana: () => ico(hoja(14) + l(15, 21, 33) + `<rect x="13.5" y="26" width="21" height="6" rx="2" fill="${AC}"/>` + l(15, 37, 33, C, 2.6) + anillas),
@@ -126,7 +131,7 @@ input#bq, input#buscar { background-image: ${LUPA_URL}; background-repeat: no-re
   transform: scale(.92); transition: transform .18s ease; }
 #bfondo.si #bcaja { transform: scale(1); }
 #bcaja .ico { width: 48px; height: 48px; display: block; margin: 0 auto 8px; vertical-align: 0; }
-#bcaja h2 { margin: 0 0 6px; font-size: 1.15rem; }
+#bcaja h2 { margin: 0 0 8px; padding-bottom: 4px; font-size: 1.15rem; font-weight: 800; border-bottom: 1px solid var(--borde); }   /* 9-nov (D): línea fina debajo; centrado porque la ventana va centrada */
 #bcaja p { margin: 0 0 4px; color: var(--suave); overflow-wrap: anywhere; }
 #bcaja p.bque { color: var(--texto); font-weight: 600; }
 #bcaja .bbotones { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }

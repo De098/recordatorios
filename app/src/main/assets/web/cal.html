@@ -69,6 +69,10 @@ header button { min-width: 44px; font-size: 1.2rem; }
 .puntos i.hecho { opacity: .35; }
 h2 { font-size: 1rem; margin: 4px 4px 8px; }
 h2.aviso { color: var(--rojo); }
+/* 9-nov (D): títulos de la lista del calendario con el estilo de los días de las agendas */
+#pend h2, #lista h2 { margin: 4px 4px 8px; padding: 0 0 4px 10%; font-size: 1.15rem; font-weight: 800; color: var(--texto);
+  border-bottom: 1px solid var(--borde); }
+#pend h2.aviso { color: var(--rojo); border-bottom-color: var(--rojo); }
 .fila { display: flex; align-items: center; gap: 10px; padding: 8px 4px; border-top: 1px solid var(--linea); }
 .fila:first-of-type { border-top: 0; }
 .barra { width: 5px; align-self: stretch; border-radius: 3px; flex: none; }
@@ -105,6 +109,38 @@ form button { background: var(--acento); color: var(--hoy-texto); font-weight: 6
 #editar .caja > * { min-width: 0; }
 #editar [hidden] { display: none !important; }
 #editar .caja { max-height: 92vh; overflow-y: auto; }
+/* 9-nov (D): formulario al estilo Xiaomi: tipo en pestañas con icono, título grande, campos en tarjetas
+   (nombre a la izquierda en negrita, valor a la derecha en gris) y cada aviso en su fila con ✕ */
+#editar .caja { background: var(--fondo); }
+#editar h2 { margin: 0 4px 2px; padding: 0 0 4px 10%; font-size: 1.15rem; font-weight: 800; color: var(--texto);
+  border-bottom: 1px solid var(--borde); }
+#editar .tipos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+#editar .tipos button { display: flex; flex-direction: column; align-items: center; gap: 2px; background: none; border: 0;
+  padding: 4px 0; min-height: 0; color: var(--suave); font: inherit; font-size: .9rem; }
+#editar .tipos i { display: flex; }
+#editar .tipos .ico { width: 34px; height: 34px; opacity: .4; filter: grayscale(1); }
+#editar .tipos button.este { color: var(--acento); font-weight: 800; }
+#editar .tipos button.este .ico { opacity: 1; filter: none; }
+#editar #etexto, #editar #enotas { background: var(--tarjeta); border: 0; border-radius: 14px; padding: 0 14px; }
+#editar #etexto { font-size: 1.2rem; font-weight: 700; min-height: 54px; }
+#editar #enotas { min-height: 50px; }
+#editar .grupo { background: var(--tarjeta); border-radius: 14px; padding: 0 14px; }
+#editar .grupo:not(:has(> :not([hidden]))) { display: none; }
+#editar .grupo > :not([hidden]) ~ :not([hidden]), #eavlista > * + * { border-top: 1px solid var(--linea); }
+#editar .campo { display: flex !important; align-items: center; justify-content: space-between; gap: 10px;
+  min-height: 52px; color: var(--texto); font-size: 1rem; }
+#editar .campo > span { font-weight: 800; flex: none; }
+#editar .campo input, #editar .campo select { flex: 1 1 auto; width: auto; min-width: 0; min-height: 50px; padding: 0;
+  background: none; border: 0; border-radius: 0; color: var(--suave); text-align: right; text-align-last: right; }
+#editar .campo input[type="number"] { flex: 0 1 8em; }
+#editar .campo select { -webkit-appearance: none; appearance: none; padding-right: 18px;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 16'><path d='M2,2 l6,6 l-6,6' fill='none' stroke='%236f6a78' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat right center / 9px 15px; }
+#editar #eavmas { color: var(--acento); font-weight: 700; }
+#eavlista .campo { font-weight: 600; }
+#eavlista .campo.sin { color: var(--suave); font-weight: 400; }
+#eavlista .campo button { flex: none; width: 40px; height: 40px; min-height: 0; padding: 0; border: 0; background: none;
+  color: var(--suave); font-size: 1.35rem; line-height: 1; }
+#editar .campo[hidden] { display: none !important; }
 /* selector de mes y año al pulsar el título */
 header h1 { cursor: pointer; }
 header h1::after { content: " ▾"; color: var(--suave); font-size: .8em; }
@@ -254,26 +290,34 @@ header h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-
 <div id="editar" hidden>
   <div class="caja">
     <h2 id="etitulo">Cambiar</h2>
-    <label>Qué<input id="etexto" autocomplete="off" placeholder="¿Qué quieres apuntar? (p. ej. Fisio)"></label>
-    <label id="enotas-et">Notas (opcional)<input id="enotas" autocomplete="off" placeholder="📝 p. ej. llevar el DNI"></label>
-    <div class="dos">
-      <label>Día<input id="efecha" type="date"></label>
-      <label id="ehora-et">Hora<input id="ehora" type="time"></label>
-      <label id="enacido-et" hidden>Año en que nació (opcional)<input id="enacido" type="number" min="1900" max="2100" inputmode="numeric" placeholder="p. ej. 1990"></label>
+    <!-- 9-nov (D): formulario al estilo del calendario de Xiaomi -->
+    <div class="tipos" id="etipos">
+      <button type="button" data-t="tarea"><i></i>Tarea</button>
+      <button type="button" data-t="cita"><i></i>Cita</button>
+      <button type="button" data-t="cumple"><i></i>Cumpleaños</button>
     </div>
-    <div class="dos">
-      <label>Tipo<select id="etipo"><option value="tarea">Tarea</option><option value="cita">Cita</option><option value="cumple">Cumpleaños 🎂</option></select></label>
-      <label id="erepetir-et">Repetir<select id="erepetir"></select></label>
+    <select id="etipo" hidden><option value="tarea">Tarea</option><option value="cita">Cita</option><option value="cumple">Cumpleaños</option></select>
+    <input id="etexto" autocomplete="off" placeholder="¿Qué quieres apuntar?">
+    <div class="grupo">
+      <label class="campo"><span>Día</span><input id="efecha" type="date"></label>
+      <label class="campo" id="ehora-et"><span>Hora</span><input id="ehora" type="time"></label>
+      <label class="campo" id="enacido-et" hidden><span>Año en que nació</span><input id="enacido" type="number" min="1900" max="2100" inputmode="numeric" placeholder="Opcional"></label>
     </div>
-    <div class="dos" id="eciclo">
-      <label>Días que sí<input id="esi" type="number" min="1" max="30" value="1" inputmode="numeric"></label>
-      <label>Días que no<input id="eno" type="number" min="1" max="30" value="1" inputmode="numeric"></label>
+    <div class="grupo">
+      <label class="campo" id="erepetir-et"><span>Repetir</span><select id="erepetir"></select></label>
+      <label class="campo" id="eciclo-si"><span>Días que sí</span><input id="esi" type="number" min="1" max="30" value="1" inputmode="numeric"></label>
+      <label class="campo" id="eciclo-no"><span>Días que no</span><input id="eno" type="number" min="1" max="30" value="1" inputmode="numeric"></label>
     </div>
-    <label id="eavisos-et">Avisar (puedes marcar varios; ninguno = sin aviso)<div class="chips" id="eavisos"></div></label>
-    <div class="dos">
-      <label id="ecada-et">Recordar cada (hasta «Hecho»)<select id="ecada"></select></label>
-      <label>Color (en el calendario)<select id="ecolor"></select></label>
+    <div class="grupo" id="eavisos-et">
+      <label class="campo"><span>Avisar</span><select id="eavmas"></select></label>
+      <div id="eavlista"></div>
+      <div id="eavisos" hidden></div>
     </div>
+    <div class="grupo">
+      <label class="campo" id="ecada-et"><span>Recordar cada</span><select id="ecada"></select></label>
+      <label class="campo"><span>Color</span><select id="ecolor"></select></label>
+    </div>
+    <input id="enotas" autocomplete="off" placeholder="Notas (opcional)">
     <p class="nota" id="enota"></p>
     <div class="botones">
       <button id="eborrar">Borrar</button>
@@ -480,18 +524,45 @@ function verCampos() {
   $("eavisos-et").hidden = !cita;
   $("ecada-et").hidden = cita;
   $("ehora-et").hidden = cumple; $("erepetir-et").hidden = cumple; $("enacido-et").hidden = !cumple;
-  $("enotas-et").hidden = cumple;   // cumples sin notas
-  $("eciclo").hidden = cumple || $("erepetir").value !== "ciclo";
-  $("etexto").placeholder = cumple ? "¿De quién es el cumple? (p. ej. Ana)" : "¿Qué quieres apuntar? (p. ej. Fisio)";
+  $("enotas").hidden = cumple;   // cumples sin notas
+  $("eciclo-si").hidden = $("eciclo-no").hidden = cumple || $("erepetir").value !== "ciclo";
+  for (const b of $("etipos").querySelectorAll("button")) b.classList.toggle("este", b.dataset.t === t);
+  $("etexto").placeholder = cumple ? "¿De quién es el cumple?" : "¿Qué quieres apuntar?";
   if (cumple && nuevo && tipoPrevio !== "cumple") ponerAvisos([1440, "dia"]);   // cumple nuevo: el día antes y el mismo día
   tipoPrevio = t;
 }
 $("etipo").onchange = verCampos;
 $("erepetir").onchange = verCampos;
+// 9-nov (D): el tipo se elige con pestañas con icono (el select #etipo queda oculto y es el que se lee al guardar)
+{ const ic = {tarea: "casilla", cita: "cal", cumple: "cumple"};
+  for (const b of $("etipos").querySelectorAll("button")) {
+    if (window.ICO && ICO[ic[b.dataset.t]]) b.querySelector("i").innerHTML = ICO[ic[b.dataset.t]]();
+    b.onclick = () => { $("etipo").value = b.dataset.t; verCampos(); };
+  } }
 function ponerAvisos(lista) {
   const v = lista.map(a => JSON.stringify(a));
   for (const c of $("eavisos").querySelectorAll("input")) c.checked = v.includes(c.value);
+  pintarAvisos();
 }
+// 9-nov (D): avisos en filas con ✕ y «＋ Añadir» (las casillas de #eavisos siguen siendo los datos, ocultas)
+function pintarAvisos() {
+  const todas = [...$("eavisos").querySelectorAll("input")];
+  const puestas = todas.filter(c => c.checked);
+  $("eavlista").replaceChildren(...(puestas.length ? puestas.map(c => {
+    const f = el("div", "campo"), x = el("button", "", "✕");
+    x.type = "button"; x.title = "Quitar este aviso"; x.setAttribute("aria-label", "Quitar este aviso");
+    x.onclick = () => { c.checked = false; pintarAvisos(); };
+    f.append(el("span", "", c.parentNode.textContent), x); return f;
+  }) : [el("div", "campo sin", "Sin aviso")]));
+  const mas = $("eavmas"), op0 = el("option", "", "＋ Añadir"); op0.value = "";
+  mas.replaceChildren(op0, ...todas.filter(c => !c.checked).map(c => { const o = el("option", "", c.parentNode.textContent); o.value = c.value; return o; }));
+  mas.value = ""; mas.disabled = puestas.length === todas.length;
+}
+$("eavmas").onchange = () => {
+  const v = $("eavmas").value;
+  for (const c of $("eavisos").querySelectorAll("input")) if (c.value === v) c.checked = true;
+  pintarAvisos();
+};
 function cadaCercano(m) {
   const ops = [...$("ecada").options].map(o => +o.value);
   return ops.reduce((a, b) => Math.abs(b - m) < Math.abs(a - m) ? b : a, ops[0]);
