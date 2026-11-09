@@ -1,0 +1,1 @@
+Fixed: with a large system font size, the app and widgets looked broken. They now keep their layout.

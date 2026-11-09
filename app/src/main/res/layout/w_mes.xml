@@ -4,60 +4,60 @@
     android:background="@drawable/w_fondo_claro">
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center">
         <TextView android:id="@+id/ant" android:layout_width="48dp" android:layout_height="42dp" android:gravity="center" android:text="‹"
-            android:textSize="26sp" android:textColor="#241F31" android:background="@drawable/w_boton_claro" android:includeFontPadding="false" android:fontFamily="@font/nunito"/>
+            android:textSize="26dp" android:textColor="#241F31" android:background="@drawable/w_boton_claro" android:includeFontPadding="false" android:fontFamily="@font/nunito"/>
         <TextView android:id="@+id/mes" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
-            android:gravity="center" android:textSize="18sp" android:textStyle="bold" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            android:gravity="center" android:textSize="18dp" android:textStyle="bold" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
         <TextView android:id="@+id/sig" android:layout_width="48dp" android:layout_height="42dp" android:gravity="center" android:text="›"
-            android:textSize="26sp" android:textColor="#241F31" android:background="@drawable/w_boton_claro" android:includeFontPadding="false" android:fontFamily="@font/nunito"/>
+            android:textSize="26dp" android:textColor="#241F31" android:background="@drawable/w_boton_claro" android:includeFontPadding="false" android:fontFamily="@font/nunito"/>
     </LinearLayout>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="8dp" android:layout_marginBottom="2dp"><TextView android:id="@+id/d0" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="center" android:text="L" android:textSize="12sp" android:textColor="#6F6A78" android:fontFamily="@font/nunito"/><TextView android:id="@+id/d1" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="center" android:text="M" android:textSize="12sp" android:textColor="#6F6A78" android:fontFamily="@font/nunito"/><TextView android:id="@+id/d2" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="center" android:text="X" android:textSize="12sp" android:textColor="#6F6A78" android:fontFamily="@font/nunito"/><TextView android:id="@+id/d3" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="center" android:text="J" android:textSize="12sp" android:textColor="#6F6A78" android:fontFamily="@font/nunito"/><TextView android:id="@+id/d4" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="center" android:text="V" android:textSize="12sp" android:textColor="#6F6A78" android:fontFamily="@font/nunito"/><TextView android:id="@+id/d5" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="center" android:text="S" android:textSize="12sp" android:textColor="#6F6A78" android:fontFamily="@font/nunito"/><TextView android:id="@+id/d6" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="center" android:text="D" android:textSize="12sp" android:textColor="#6F6A78" android:fontFamily="@font/nunito"/></LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="8dp" android:layout_marginBottom="2dp"><TextView android:id="@+id/d0" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="center" android:text="L" android:textSize="12dp" android:textColor="#6F6A78" android:fontFamily="@font/nunito"/><TextView android:id="@+id/d1" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="center" android:text="M" android:textSize="12dp" android:textColor="#6F6A78" android:fontFamily="@font/nunito"/><TextView android:id="@+id/d2" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="center" android:text="X" android:textSize="12dp" android:textColor="#6F6A78" android:fontFamily="@font/nunito"/><TextView android:id="@+id/d3" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="center" android:text="J" android:textSize="12dp" android:textColor="#6F6A78" android:fontFamily="@font/nunito"/><TextView android:id="@+id/d4" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="center" android:text="V" android:textSize="12dp" android:textColor="#6F6A78" android:fontFamily="@font/nunito"/><TextView android:id="@+id/d5" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="center" android:text="S" android:textSize="12dp" android:textColor="#6F6A78" android:fontFamily="@font/nunito"/><TextView android:id="@+id/d6" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="center" android:text="D" android:textSize="12dp" android:textColor="#6F6A78" android:fontFamily="@font/nunito"/></LinearLayout>
     <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:minHeight="48dp" android:orientation="horizontal">
         <LinearLayout android:id="@+id/c0" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n0" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q0_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q0_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q0_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c1" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n1" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q1_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q1_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q1_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c2" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n2" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q2_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q2_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q2_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c3" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n3" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q3_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q3_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q3_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c4" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n4" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q4_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q4_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q4_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c5" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n5" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q5_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q5_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q5_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c6" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n6" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q6_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q6_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q6_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
@@ -66,49 +66,49 @@
         <LinearLayout android:id="@+id/c7" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n7" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q7_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q7_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q7_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c8" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n8" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q8_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q8_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q8_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c9" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n9" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q9_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q9_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q9_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c10" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n10" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q10_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q10_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q10_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c11" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n11" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q11_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q11_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q11_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c12" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n12" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q12_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q12_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q12_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c13" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n13" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q13_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q13_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q13_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
@@ -117,49 +117,49 @@
         <LinearLayout android:id="@+id/c14" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n14" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q14_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q14_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q14_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c15" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n15" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q15_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q15_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q15_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c16" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n16" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q16_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q16_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q16_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c17" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n17" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q17_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q17_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q17_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c18" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n18" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q18_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q18_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q18_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c19" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n19" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q19_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q19_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q19_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c20" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n20" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q20_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q20_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q20_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
@@ -168,49 +168,49 @@
         <LinearLayout android:id="@+id/c21" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n21" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q21_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q21_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q21_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c22" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n22" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q22_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q22_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q22_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c23" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n23" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q23_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q23_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q23_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c24" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n24" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q24_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q24_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q24_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c25" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n25" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q25_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q25_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q25_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c26" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n26" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q26_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q26_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q26_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c27" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n27" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q27_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q27_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q27_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
@@ -219,49 +219,49 @@
         <LinearLayout android:id="@+id/c28" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n28" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q28_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q28_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q28_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c29" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n29" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q29_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q29_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q29_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c30" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n30" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q30_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q30_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q30_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c31" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n31" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q31_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q31_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q31_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c32" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n32" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q32_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q32_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q32_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c33" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n33" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q33_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q33_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q33_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c34" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n34" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q34_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q34_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q34_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
@@ -270,49 +270,49 @@
         <LinearLayout android:id="@+id/c35" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n35" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q35_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q35_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q35_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c36" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n36" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q36_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q36_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q36_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c37" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n37" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q37_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q37_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q37_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c38" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n38" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q38_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q38_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q38_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c39" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n39" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q39_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q39_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q39_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c40" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n40" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q40_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q40_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q40_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/c41" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp">
             <TextView android:id="@+id/n41" android:layout_width="30dp" android:layout_height="30dp" android:gravity="center"
-                android:textSize="15sp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+                android:textSize="15dp" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
             <LinearLayout android:layout_width="wrap_content" android:layout_height="9dp" android:layout_marginTop="3dp"
                 android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/q41_0" android:layout_width="7dp" android:layout_height="7dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q41_1" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/><ImageView android:id="@+id/q41_2" android:layout_width="7dp" android:layout_height="7dp" android:layout_marginStart="3dp" android:src="@drawable/w_punto" android:visibility="gone" android:contentDescription="@null"/></LinearLayout>
         </LinearLayout>

@@ -1,0 +1,1 @@
+Arreglado: con la letra grande activada en el móvil, la app y los widgets salían descuadrados. Ahora mantienen su diseño.

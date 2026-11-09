@@ -113,6 +113,7 @@ class MainActivity : Activity() {
                 settings.javaScriptEnabled = true
                 settings.domStorageEnabled = true
                 settings.setSupportZoom(false)
+                settings.textZoom = 100  // no agrandar solo la letra con la letra grande del móvil: descuadra todo
                 settings.allowFileAccess = false
                 settings.allowContentAccess = false
                 settings.blockNetworkLoads = true
