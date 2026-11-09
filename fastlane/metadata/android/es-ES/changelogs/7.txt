@@ -5,3 +5,4 @@ Formulario de Añadir renovado: tipo en pestañas con icono, campos en tarjetas 
 Confeti azul y blanco al marcar una tarea como hecha.
 Avisos con el estilo de la app: botón «✔ Hecho» siempre visible y «Deshacer» por si se pulsa sin querer.
 Nuevo color predeterminado: el azul de la app (antes tareas en gris y citas en naranja).
+Colores elegidos con círculos de color, también en las notas, que ya tienen el azul de la app como predeterminado.

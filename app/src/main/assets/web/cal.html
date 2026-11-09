@@ -141,6 +141,13 @@ form button { background: var(--acento); color: var(--hoy-texto); font-weight: 6
 #eavlista .campo button { flex: none; width: 40px; height: 40px; min-height: 0; padding: 0; border: 0; background: none;
   color: var(--suave); font-size: 1.35rem; line-height: 1; }
 #editar .campo[hidden] { display: none !important; }
+/* 10-nov (D): elegir color con círculos de verdad (los emojis no tienen el azul de la app) */
+.circulos { display: flex; flex-wrap: wrap; gap: 9px; }
+.circulos button { width: 30px; height: 30px; min-width: 0; min-height: 0; padding: 0; border: 0; border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); cursor: pointer; }
+.circulos button.este { box-shadow: 0 0 0 2px var(--tarjeta), 0 0 0 4px var(--texto); }
+#ecirculos { border-top: 0 !important; padding: 2px 0 14px; }
+#ecolornom { color: var(--suave); font-weight: 400; }
 /* selector de mes y año al pulsar el título */
 header h1 { cursor: pointer; }
 header h1::after { content: " ▾"; color: var(--suave); font-size: .8em; }
@@ -316,7 +323,8 @@ header h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-
     </div>
     <div class="grupo">
       <label class="campo" id="ecada-et"><span>Recordar cada</span><select id="ecada"></select></label>
-      <label class="campo"><span>Color</span><select id="ecolor"></select></label>
+      <div class="campo"><span>Color</span><b id="ecolornom"></b><select id="ecolor" hidden></select></div>
+      <div class="circulos" id="ecirculos"></div>
     </div>
     <p class="nota" id="enota"></p>
     <div class="botones">
@@ -527,7 +535,7 @@ const OP = {repetir: [["no","Una vez"],["diario","Cada día"],["semanal","Cada s
            ["dia","Al empezar el día (desde las 7:00)"],[1440,"1 día antes"],[2880,"2 días antes"],[10080,"1 semana antes"]],
   cada: [[15,"15 minutos"],[30,"30 minutos"],[60,"1 hora"],[120,"2 horas"],[180,"3 horas"],[360,"6 horas"],[720,"12 horas"],[1440,"1 día"]],
   cada_def: 360,
-  colores: [["","🩵 Azul de la app"],["rojo","🔴 Rojo"],["naranja","🟠 Naranja"],["amarillo","🟡 Amarillo"],["verde","🟢 Verde"],
+  colores: [["","Azul de la app"],["rojo","🔴 Rojo"],["naranja","🟠 Naranja"],["amarillo","🟡 Amarillo"],["verde","🟢 Verde"],
             ["azul","🔵 Azul"],["morado","🟣 Morado"],["marron","🟤 Marrón"],["negro","⚫ Negro"]]};
 let opPuestas = "";
 function ponerOpciones() {
@@ -551,6 +559,7 @@ function verCampos() {
   $("enotas").hidden = cumple;   // cumples sin notas
   $("eciclo-si").hidden = $("eciclo-no").hidden = cumple || $("erepetir").value !== "ciclo";
   for (const b of $("etipos").querySelectorAll("button")) b.classList.toggle("este", b.dataset.t === t);
+  pintarColores();
   $("etexto").placeholder = cumple ? "¿De quién es el cumple?" : "¿Qué quieres apuntar?";
   if (cumple && nuevo && tipoPrevio !== "cumple") ponerAvisos([1440, "dia"]);   // cumple nuevo: el día antes y el mismo día
   tipoPrevio = t;
@@ -563,6 +572,20 @@ $("erepetir").onchange = verCampos;
     if (window.ICO && ICO[ic[b.dataset.t]]) b.querySelector("i").innerHTML = ICO[ic[b.dataset.t]]();
     b.onclick = () => { $("etipo").value = b.dataset.t; verCampos(); };
   } }
+// 10-nov (D): círculos de color (el select #ecolor queda oculto y es el que se lee al guardar)
+const HEXCOL = {"": "#29b6f6", rojo: "#e01b24", naranja: "#ff7800", amarillo: "#f6d32d", verde: "#2ec27e",
+  azul: "#3584e4", morado: "#9141ac", marron: "#986a44", negro: "#000000"};
+const sinEmoji = t => t.replace(/^[^\p{L}]+/u, "");
+function pintarColores() {
+  const sel = $("ecolor");
+  $("ecirculos").replaceChildren(...[...sel.options].map(o => {
+    const b = el("button"); b.type = "button"; b.title = sinEmoji(o.textContent); b.setAttribute("aria-label", b.title);
+    b.style.background = HEXCOL[o.value] || HEXCOL[""]; b.classList.toggle("este", o.value === sel.value);
+    b.onclick = () => { sel.value = o.value; pintarColores(); };
+    return b;
+  }));
+  $("ecolornom").textContent = sinEmoji(sel.selectedOptions[0]?.textContent || "");
+}
 function ponerAvisos(lista) {
   const v = lista.map(a => JSON.stringify(a));
   for (const c of $("eavisos").querySelectorAll("input")) c.checked = v.includes(c.value);

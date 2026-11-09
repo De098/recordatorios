@@ -79,6 +79,14 @@ body.seleccion .nota .chincheta { display: none; }
   max-width: 980px; width: 100%; margin: 0 auto; }
 #editor .barraed > button, #editor .barraed > select { min-height: 38px; border: 2px solid var(--borde); background: var(--tarjeta); }
 #editor .barraed > select { padding: 0 8px; }
+/* 10-nov (D): elegir color con círculos de verdad (los emojis no tienen el azul de la app) */
+.circulos { display: flex; flex-wrap: wrap; gap: 9px; }
+.circulos button { width: 30px; height: 30px; min-width: 0; min-height: 0; padding: 0; border: 0; border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); cursor: pointer; }
+.circulos button.este { box-shadow: 0 0 0 2px var(--tarjeta), 0 0 0 4px var(--texto); }
+#colores { max-width: 980px; width: 100%; margin: 0 auto; padding: 2px 16px 10px; box-sizing: border-box; }
+#colores[hidden] { display: none; }
+#bcolor .bola { display: block; width: 20px; height: 20px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); }
 /* se adapta al ancho que haya: en pantallas estrechas los botones se aprietan para que quepan en una fila */
 .vistas { flex-wrap: wrap; }
 #editor .barraed > .esp { flex: 1 1 0; min-width: 0; }
@@ -178,13 +186,15 @@ body.seleccion #bnueva, body.seleccion #bcandados, body.seleccion #bpapelera { d
     <button id="bvolver" title="Volver (guarda)"></button>
     <button id="bmodo"></button>
     <button id="bcasilla" title="Añadir una casilla"></button>
-    <select id="ecolor" title="Color"></select>
+    <button id="bcolor" title="Color"><i class="bola"></i></button>
+    <select id="ecolor" hidden></select>
     <button id="bfijar" title="Fijar arriba"></button>
     <button id="bcandado" title="Poner o quitar candado"></button>
     <span class="esp"></span>
     <button id="bcopiar" title="Copiar la nota entera"></button>
     <button id="bborrar" title="Borrar"></button>
   </div>
+  <div class="circulos" id="colores" hidden></div>
   <div class="cuerpo">
     <div class="ecab">
       <input id="etitulo" placeholder="Título (en MAYÚSCULAS = importante)" autocomplete="off">
@@ -211,7 +221,7 @@ body.seleccion #bnueva, body.seleccion #bcandados, body.seleccion #bpapelera { d
 <script>
 "use strict";
 const $ = id => document.getElementById(id);
-const COLORES = {"": ["Normal", "#9a9996"], rojo: ["Rojo", "#e01b24"], naranja: ["Naranja", "#ff7800"],
+const COLORES = {"": ["Azul de la app", "#29b6f6"], rojo: ["Rojo", "#e01b24"], naranja: ["Naranja", "#ff7800"],
   amarillo: ["Amarillo", "#f6d32d"], verde: ["Verde", "#2ec27e"], azul: ["Azul", "#3584e4"],
   morado: ["Morado", "#9141ac"], marron: ["Marrón", "#986a44"], negro: ["Negro", "#3d3846"]};
 let notas = [], candado = null, clave = null;        // clave = Uint8Array(32) en memoria mientras está abierto
@@ -336,7 +346,7 @@ function pintar() {
 function tarjeta(n, c) {
   const imp = c && importante(c.titulo);
   const t = el("div", "nota" + (imp ? " imp" : ""));
-  const barra = el("span", "barra"); barra.style.background = COLORES[n.color]?.[1] || (imp ? "#e01b24" : "var(--linea)"); t.append(barra);
+  const barra = el("span", "barra"); barra.style.background = (n.color && COLORES[n.color]?.[1]) || (imp ? "#e01b24" : COLORES[""][1]); t.append(barra);
   if (!c) {
     const h = el("h3", "", "Nota con candado"); h.insertAdjacentHTML("afterbegin", ICO.candado(false) + " ");
     t.append(h, el("div", "vista", "Pulsa para abrirla con tu contraseña"));
@@ -400,6 +410,7 @@ async function abrir(n) {
 }
 function ponerBotones() {
   $("bfijar").style.opacity = actual.fijada ? 1 : .45;
+  pintarColor(); $("colores").hidden = true;
   $("bcandado").innerHTML = ICO.candado(!actual.conCandado);
   $("bborrar").innerHTML = ICO.borrar();
 }
@@ -494,7 +505,7 @@ window.addEventListener("resize", () => { if (!$("eeditor").hidden) ajustarTodas
 function modo(edit) {
   editando = edit;
   $("eeditor").hidden = !edit; $("evista").hidden = edit;
-  $("bcasilla").style.display = $("ecolor").style.display = edit ? "" : "none";   // Casilla y Color solo existen mientras se edita
+  $("bcasilla").style.display = $("bcolor").style.display = edit ? "" : "none"; if (!edit) $("colores").hidden = true;   // Casilla y Color solo existen mientras se edita
   if (edit) construirEditor();
   $("bmodo").style.display = edit ? "none" : "";   // al editar no hace falta «Ver»: Volver hace lo mismo (guarda y cierra)
   $("bmodo").innerHTML = ICO.editar() + "<span>Editar</span>";
@@ -616,9 +627,19 @@ $("bcasilla").onclick = () => {
   volcar();
 };
 // como en el calendario: cada color con su circulito de color delante
-const BOLA = {"": "⚪", rojo: "🔴", naranja: "🟠", amarillo: "🟡", verde: "🟢", azul: "🔵", morado: "🟣", marron: "🟤", negro: "⚫"};
-for (const [c, [n]] of Object.entries(COLORES)) { const o = el("option", "", BOLA[c] || "⚪"); o.title = n; o.value = c; $("ecolor").append(o); }
-$("ecolor").onchange = () => { actual.cambiado = true; programar(200); };
+// 10-nov (D): colores con círculos de verdad (el select #ecolor queda oculto y es el que se lee al guardar)
+for (const [c, [n, hex]] of Object.entries(COLORES)) {
+  const o = el("option", "", n); o.value = c; $("ecolor").append(o);
+  const b = el("button"); b.type = "button"; b.dataset.c = c; b.title = n; b.setAttribute("aria-label", n); b.style.background = hex;
+  b.onclick = () => { $("ecolor").value = c; actual.cambiado = true; programar(200); pintarColor(); $("colores").hidden = true; };
+  $("colores").append(b);
+}
+function pintarColor() {
+  const v = $("ecolor").value;
+  $("bcolor").querySelector(".bola").style.background = COLORES[v]?.[1] || COLORES[""][1];
+  for (const b of $("colores").children) b.classList.toggle("este", b.dataset.c === v);
+}
+$("bcolor").onclick = () => { $("colores").hidden = !$("colores").hidden; };
 $("bfijar").onclick = () => { actual.fijada = !actual.fijada; actual.cambiado = true; ponerBotones(); programar(200); };
 $("bcandado").onclick = async () => {
   if (!actual.conCandado && !(await abrirCandados())) return;
