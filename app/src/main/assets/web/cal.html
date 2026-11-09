@@ -473,10 +473,34 @@ function fila(c, cuando) {
   return f;
 }
 
+// 10-nov (D): confeti azul y blanco (los colores de la app) al marcar una tarea como hecha
+function confeti(x, y) {
+  try { if (matchMedia("(prefers-reduced-motion: reduce)").matches) return; } catch (e) {}
+  const capa = el("div"); capa.style.cssText = "position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden";
+  document.body.append(capa);
+  const colores = ["#3584e4", "#29B6F6", "#81D4FA", "#ffffff", "#ffffff", "#1c71d8"];
+  for (let i = 0; i < 70; i++) {
+    const p = el("i"), col = colores[i % colores.length], w = 6 + Math.random() * 6;
+    p.style.cssText = `position:absolute;left:${x}px;top:${y}px;width:${w}px;height:${w * (Math.random() < .5 ? .45 : 1)}px;`
+      + `background:${col};border-radius:${Math.random() < .3 ? "50%" : "2px"};`
+      + (col === "#ffffff" ? "box-shadow:0 0 0 1px #81D4FA;" : "");
+    capa.append(p);
+    const ang = -Math.PI / 2 + (Math.random() - .5) * Math.PI * 1.3, vel = 140 + Math.random() * 220;
+    const dx = Math.cos(ang) * vel, dy = Math.sin(ang) * vel, caida = 260 + Math.random() * 260, giro = (Math.random() - .5) * 1080;
+    p.animate([
+      {transform: "translate(-50%,-50%) rotate(0deg)", opacity: 1},
+      {transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) rotate(${giro / 2}deg)`, opacity: 1, offset: .35},
+      {transform: `translate(calc(-50% + ${dx * 1.3}px), calc(-50% + ${dy + caida}px)) rotate(${giro}deg)`, opacity: 0}
+    ], {duration: 1300 + Math.random() * 700, easing: "cubic-bezier(.2,.7,.4,1)", fill: "forwards"});
+  }
+  setTimeout(() => capa.remove(), 2300);
+}
 async function hecho(k, b) {
+  const rb = b.getBoundingClientRect();
   b.disabled = true; b.textContent = "…";
   try {
     const r = await fetch(conK("/cal/hecho"), {method: "POST", body: k});
+    if (r.ok) confeti(rb.left + rb.width / 2, rb.top + rb.height / 2);
     $("msj").textContent = await r.text();
   } catch (e) { $("msj").textContent = "No se ha podido marcar"; }
   cargar();
