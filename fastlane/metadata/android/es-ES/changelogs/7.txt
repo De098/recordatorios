@@ -1,2 +1,3 @@
 Notas: el aviso «guardada» sale ahora en la esquina de la nota, junto al título, y ya no mueve los botones al marcar casillas.
 Agendas de la semana y del mes: los días se ven más grandes y marcados.
+Notas: títulos más grandes y marcados; las fijadas llevan una chincheta en la esquina y quedan arriba, separadas de las demás.

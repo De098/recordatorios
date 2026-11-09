@@ -1,2 +1,3 @@
 Notes: the “saved” indicator now sits in the note's corner next to the title and no longer shifts the buttons when ticking checkboxes.
 Week and month agendas: day headings are now larger and stand out more.
+Notes: larger, clearer titles; pinned notes show a pin in the corner and stay at the top, set apart from the rest.
