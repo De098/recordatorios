@@ -2,7 +2,7 @@ Notas: el aviso «guardada» sale ahora en la esquina de la nota, junto al títu
 Agendas de la semana y del mes: los días se ven más grandes y marcados.
 Notas: títulos más grandes y marcados; las fijadas llevan una chincheta en la esquina y quedan arriba, separadas de las demás.
 Formulario de Añadir renovado: tipo en pestañas con icono, campos en tarjetas y cada aviso en su fila con ✕. Títulos con el mismo estilo en toda la app.
-Confeti azul y blanco al marcar una tarea como hecha.
+Confeti azul y blanco al marcar una tarea como hecha, y botón «Deshacer» junto a las tareas hechas.
 Avisos con el estilo de la app: botón «✔ Hecho» siempre visible y «Deshacer» por si se pulsa sin querer.
 Nuevo color predeterminado: el azul de la app (antes tareas en gris y citas en naranja).
 Colores elegidos con círculos de color, también en las notas, que ya tienen el azul de la app como predeterminado.

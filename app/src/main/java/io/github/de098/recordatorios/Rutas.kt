@@ -36,6 +36,8 @@ object Rutas {
                     texto = Calendario.marcar(cuerpo); tipo = TEXTO; cambia = true
                     Avisos.cancelar(c, cuerpo.trim())
                 }
+                // 10-nov (D): «Deshacer» en la lista; al reprogramar vuelve su aviso si aún no ha pasado
+                metodo == "POST" && path == "/cal/deshecho" -> { texto = Calendario.desmarcar(cuerpo); tipo = TEXTO; cambia = true }
                 metodo == "POST" && path == "/cal/anadir" -> { texto = Calendario.guardar(cuerpo, nuevo = true); tipo = TEXTO; cambia = true }
                 metodo == "POST" && path == "/cal/editar" -> { texto = Calendario.guardar(cuerpo); tipo = TEXTO; cambia = true }
                 metodo == "POST" && path == "/cal/borrar" -> { texto = Calendario.borrar(cuerpo); tipo = TEXTO; cambia = true }

@@ -83,6 +83,8 @@ h2.aviso { color: var(--rojo); }
 .ok { background: var(--verde); color: #fff; font-weight: 600; flex: none; }
 :root[data-tema="oscuro"] .ok { color: #10131a; }
 .estado { color: var(--verde); font-size: .85rem; flex: none; }
+/* 10-nov (D): «Deshacer» junto a una tarea hecha, con borde para que no parezca otro «Hecho» */
+.deshacer { background: transparent; border: 1.5px solid var(--verde); color: var(--verde); font-size: .85rem; font-weight: 600; flex: none; padding: 0 10px; min-height: 36px; }
 .vacio { color: var(--suave); padding: 6px 4px; }
 form { display: flex; gap: 8px; }
 input { flex: 1; min-width: 0; font: inherit; color: var(--texto); background: var(--fondo);
@@ -485,7 +487,12 @@ function fila(c, cuando) {
   f.append(info);
   info.onclick = () => abrirEditar(c);
   if (c.tipo === "tarea") {
-    if (c.hecho) f.append(el("span", "estado", "✔ Hecho"));
+    if (c.hecho) {
+      f.append(el("span", "estado", "✔ Hecho"));
+      const d = el("button", "deshacer", "Deshacer");   // 10-nov (D): por si se pulsó sin querer
+      d.onclick = () => deshacer(c.k, d);
+      f.append(d);
+    }
     else if (cuando || c.pasada) {
       const b = el("button", "ok", "✔ Hecho");
       b.onclick = () => hecho(c.k, b);
@@ -525,6 +532,15 @@ async function hecho(k, b) {
     if (r.ok) confeti(rb.left + rb.width / 2, rb.top + rb.height / 2);
     $("msj").textContent = await r.text();
   } catch (e) { $("msj").textContent = "No se ha podido marcar"; }
+  cargar();
+}
+
+async function deshacer(k, b) {
+  b.disabled = true; b.textContent = "…";
+  try {
+    const r = await fetch(conK("/cal/deshecho"), {method: "POST", body: k});
+    $("msj").textContent = r.ok ? await r.text() : "No se ha podido deshacer";
+  } catch (e) { $("msj").textContent = "No se ha podido deshacer"; }
   cargar();
 }
 
