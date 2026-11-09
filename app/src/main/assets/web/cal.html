@@ -146,8 +146,11 @@ form button { background: var(--acento); color: var(--hoy-texto); font-weight: 6
 .circulos button { width: 30px; height: 30px; min-width: 0; min-height: 0; padding: 0; border: 0; border-radius: 50%;
   box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); cursor: pointer; }
 .circulos button.este { box-shadow: 0 0 0 2px var(--tarjeta), 0 0 0 4px var(--texto); }
-#ecirculos { border-top: 0 !important; padding: 2px 0 14px; }
-#ecolornom { color: var(--suave); font-weight: 400; }
+/* Color: nombre a la izquierda; a la derecha los círculos en 2 filas y debajo, en pequeño, el color elegido */
+#editar .ccolor { padding: 12px 0 10px; }
+#editar .ccolor .cder { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+#ecirculos { display: grid; grid-template-columns: repeat(5, 30px); gap: 9px; }
+#ecolornom { color: var(--suave); font-size: .8rem; font-weight: 600; opacity: .75; }
 /* 10-nov (D): desplegable marcado sin el recuadro del navegador: la fila se tiñe de azul suave, el valor va en azul
    y la flechita apunta hacia abajo mientras está abierto */
 #editar .campo :is(select, input):focus { outline: none; }   /* también día, hora y números */
@@ -333,8 +336,9 @@ header h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-
     </div>
     <div class="grupo">
       <label class="campo" id="ecada-et"><span>Recordar cada</span><select id="ecada"></select></label>
-      <div class="campo"><span>Color</span><b id="ecolornom"></b><select id="ecolor" hidden></select></div>
-      <div class="circulos" id="ecirculos"></div>
+      <div class="campo ccolor"><span>Color</span>
+        <div class="cder"><div class="circulos" id="ecirculos"></div><b id="ecolornom"></b></div>
+        <select id="ecolor" hidden></select></div>
     </div>
     <p class="nota" id="enota"></p>
     <div class="botones">
