@@ -1,0 +1,1 @@
+When deleting a repeating item you can now choose between removing just that occurrence or that one and all later ones. Notes: a trash mode to delete several at once (also by long-pressing a note), an editor with drawn checkboxes that adds the next one on Enter, copy the whole note, colours with their dot, and delete confirmation in a centred dialog.

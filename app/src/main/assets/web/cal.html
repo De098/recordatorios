@@ -558,11 +558,19 @@ $("eguardar").onclick = () => {
   if (nuevo) mandar("/cal/anadir", JSON.stringify(d));
   else mandar("/cal/editar", JSON.stringify({id: editando.id, ...d}));
 };
-$("eborrar").onclick = () => {
+$("eborrar").onclick = async () => {
   if (!editando) return;
-  const b = $("eborrar");
-  if (b.textContent !== "¿Seguro?") { b.textContent = "¿Seguro?"; return; }   // segundo toque para borrar
-  mandar("/cal/borrar", editando.id);
+  const c = editando;
+  const que = c.tipo === "cumple" ? "Este cumpleaños" : c.tipo === "cita" ? "Esta cita" : "Esta tarea";
+  if (c.r && c.r !== "no" && !c.cumple && c.tipo !== "cumple" && c.d) {   // se repite: ¿solo esta vez o también las siguientes?
+    const modo = await confirmarBorrarVez(c.t, c.d);
+    if (!modo || editando !== c) return;
+    mandar("/cal/borrar", JSON.stringify({id: c.id, modo, fecha: c.d}));
+    return;
+  }
+  if (!(await confirmarBorrar(c.t, que))) return;   // ventana en el centro (menu.js)
+  if (editando !== c) return;   // se cerró el formulario mientras tanto
+  mandar("/cal/borrar", c.id);
 };
 // con otro día marcado en el calendario, «Añadir» abre ese día (como mantenerlo pulsado)
 $("bnuevo").onclick = () => abrirNuevo(modo === "cal" && sel && sel !== datos.hoy ? sel : null);

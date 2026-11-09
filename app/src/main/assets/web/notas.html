@@ -40,17 +40,18 @@ textarea { padding: 12px; }
 /* barra de arriba, como la del calendario: logo a la izquierda, botones a la derecha */
 .vistas { position: relative; display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin: 0 0 6px; }
 .vistas .logo { width: 44px; height: 50px; margin-right: auto; }
-.vistas > button { min-height: 34px; font-size: .9rem; padding: 0 12px; border: 2px solid var(--borde); }
+.vistas > button { min-height: 38px; padding: 0 12px; border: 2px solid var(--borde); }
 .vistas > button.principal { border-color: var(--acento); }
 header { display: flex; align-items: center; justify-content: center; margin: 14px 0 10px; }
 header h1 { font-size: 1.3rem; margin: 0; display: flex; align-items: center; gap: 8px; }
 header h1 .tit { width: 40px; height: 36px; }
-#editor .barraed .ico { width: 1.45em; height: 1.45em; }
+#editor .barraed .ico, .vistas .ico { width: 1.45em; height: 1.45em; }
 .tarjeta { background: var(--tarjeta); border: 2px solid var(--borde); border-radius: 14px; padding: 10px; margin-bottom: 12px; }
 #buscar { width: 100%; }
-.rejilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; align-items: start; margin-bottom: 12px; }
+.rejilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr)); gap: 10px; align-items: start; margin-bottom: 12px; }
 .nota { background: var(--tarjeta); border: 2px solid var(--borde); border-radius: 14px; padding: 10px 12px 10px 22px;
   position: relative; cursor: pointer; min-height: 64px; }
+.nota { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 .nota .barra { position: absolute; left: 9px; top: 10px; bottom: 10px; width: 5px; border-radius: 3px; background: var(--linea); }
 .nota h3 { margin: 0 0 4px; font-size: 1rem; font-weight: 600; overflow-wrap: anywhere; }
 .nota .vista { color: var(--suave); font-size: .9rem; white-space: pre-line; overflow-wrap: anywhere;
@@ -70,22 +71,66 @@ header h1 .tit { width: 40px; height: 36px; }
   max-width: 980px; width: 100%; margin: 0 auto; }
 #editor .barraed > button, #editor .barraed > select { min-height: 38px; border: 2px solid var(--borde); background: var(--tarjeta); }
 #editor .barraed > select { padding: 0 8px; }
+/* se adapta al ancho que haya: en pantallas estrechas los botones se aprietan para que quepan en una fila */
+.vistas { flex-wrap: wrap; }
+#editor .barraed > .esp { flex: 1 1 0; min-width: 0; }
+@media (max-width: 440px) {
+  main { padding-left: 10px; padding-right: 10px; }
+  .vistas { gap: 6px; }
+  .vistas > button { padding: 0 9px; }
+  #editor .barraed { gap: 4px; padding: 10px 10px 6px; }
+  #editor .barraed > button, #editor .barraed > select { padding: 0 8px; min-width: 38px; }
+  #editor .cuerpo { padding-left: 10px; padding-right: 10px; }
+}
 #editor .cuerpo { flex: 1; overflow: auto; max-width: 980px; width: 100%; margin: 0 auto;
   padding: 0 16px calc(20px + env(safe-area-inset-bottom)); }
 #etitulo { width: 100%; font-size: 1.25rem; font-weight: 700; border: 0; background: transparent; padding: 8px 4px; }
-#etexto { width: 100%; min-height: 55vh; background: var(--tarjeta); border: 2px solid var(--borde); border-radius: 14px;
-  resize: vertical; line-height: 1.5; }
+/* 9-nov (D): editor por líneas con casillas dibujadas (antes un cuadro de texto con «- [ ] »). #etexto queda oculto como copia del texto. */
+#eeditor { width: 100%; min-height: 55vh; box-sizing: border-box; background: var(--tarjeta); border: 2px solid var(--borde);
+  border-radius: 14px; padding: 10px 12px; cursor: text; }
+.fila { display: flex; gap: 10px; align-items: flex-start; }
+.fila textarea.lin { display: block; flex: 1; min-width: 0; min-height: 0; border: 0; border-radius: 0; background: transparent;
+  padding: 4px 2px; resize: none; overflow: hidden; line-height: 1.5; }
+.fila textarea.lin:focus { outline: none; }
+.fila .cbx { margin-top: 5px; }
+.fila.hecha textarea.lin { text-decoration: line-through; color: var(--suave); }
 #evista { background: var(--tarjeta); border: 2px solid var(--borde); border-radius: 14px; padding: 12px; min-height: 30vh;
   overflow-wrap: anywhere; cursor: text; }
 #evista p { margin: 0 0 4px; white-space: pre-wrap; }
 #evista h4 { margin: 8px 0 4px; font-size: 1.05rem; }
 #evista label { display: flex; gap: 8px; align-items: flex-start; padding: 3px 0; cursor: pointer; }
-#evista label input { width: 20px; height: 20px; min-height: 0; margin-top: 2px; flex: none; accent-color: var(--acento); }
+/* casilla dibujada (la misma al ver y al editar) */
+#evista label input, .cbx { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; min-height: 0; padding: 0; margin: 0;
+  flex: none; border: 2.5px solid var(--acento); border-radius: 7px; background: var(--tarjeta); cursor: pointer; }
+#evista label input { margin-top: 2px; }
+#evista label input:checked, .cbx:checked { background: var(--acento) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 85% no-repeat; }
 #evista label.hecha span { text-decoration: line-through; color: var(--suave); }
 #evista a { color: var(--acento); }
+/* en pantallas táctiles, mantener pulsado = editar (sin seleccionar texto); con ratón se puede seleccionar y copiar */
+@media (pointer: coarse) { #evista { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; } }
 .chip { font-size: .85rem; color: var(--suave); }
 .esp { flex: 1; }
 #bborrar { color: var(--rojo); }
+/* 9-nov (D): papelera = seleccionar varias notas y borrarlas de una vez */
+#bpapelera { color: var(--rojo); }
+.nota .casilla { display: none; position: absolute; right: 10px; top: 10px; width: 22px; height: 22px; border-radius: 50%;
+  border: 2px solid var(--borde); background: var(--fondo); }
+body.seleccion .nota .casilla { display: block; }
+body.seleccion .nota { padding-right: 42px; }
+body.seleccion .nota.bloq { opacity: .45; }
+body.seleccion .nota.bloq .casilla { display: none; }
+.nota.sel { border-color: var(--rojo); background: color-mix(in srgb, var(--rojo) 12%, var(--tarjeta)); }
+.nota.sel .casilla { background: var(--rojo); border-color: var(--rojo); }
+.nota.sel .casilla::after { content: ""; position: absolute; left: 6px; top: 2px; width: 5px; height: 10px;
+  border: solid var(--hoy-texto); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+#barrasel { display: none; position: sticky; top: 0; z-index: 4; align-items: center; flex-wrap: wrap; gap: 8px; margin: 0 0 10px;
+  box-sizing: border-box; max-width: 100%; padding: 8px 10px; background: var(--tarjeta); border: 2px solid var(--borde); border-radius: 14px; }
+body.seleccion #barrasel { display: flex; }
+body.seleccion #bnueva, body.seleccion #bcandados, body.seleccion #bpapelera { display: none; }
+#barrasel button { min-height: 36px; padding: 0 10px; font-size: .9rem; border: 2px solid var(--borde); background: var(--fondo); }
+#barrasel button { flex: 1 1 0; }
+#barrasel #selsi { background: var(--rojo); border-color: var(--rojo); color: var(--hoy-texto); font-weight: 700; }
+#barrasel #selsi:disabled { opacity: .4; }
 /* diálogo de contraseña: como las ventanitas del calendario */
 #dlg { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: none; align-items: center; justify-content: center; z-index: 9; padding: 16px; }
 #dlg.abierto { display: flex; }
@@ -102,9 +147,12 @@ header h1 .tit { width: 40px; height: 36px; }
 <main>
   <div class="vistas">
     <img class="logo" src="/notas/logo-notas.svg" alt="">
+    <button id="bpapelera" title="Borrar varias notas"></button>
     <button id="bcandados" title="Abrir / cerrar las notas con candado"></button>
     <button id="bnueva" class="principal">+ Nueva</button>
   </div>
+  <div id="barrasel">
+    <button id="selno" type="button">Cancelar</button><button id="seltodas" type="button">Todas</button><button id="selsi" type="button" disabled>Eliminar</button></div>
   <header><h1><img class="tit" src="/notas/notas-titulo.svg" alt="">Notas</h1></header>
   <section class="tarjeta"><input id="buscar" type="search" placeholder="Buscar en las notas" autocomplete="off" enterkeyhint="search"></section>
   <div id="msj"></div>
@@ -121,12 +169,14 @@ header h1 .tit { width: 40px; height: 36px; }
     <button id="bcandado" title="Poner o quitar candado"></button>
     <span class="esp"></span>
     <span id="eestado" class="chip"></span>
+    <button id="bcopiar" title="Copiar la nota entera"></button>
     <button id="bborrar" title="Borrar"></button>
   </div>
   <div class="cuerpo">
     <input id="etitulo" placeholder="Título (en MAYÚSCULAS = importante)" autocomplete="off">
     <div id="evista"></div>
-    <textarea id="etexto" placeholder="Escribe aquí…&#10;- [ ] así se hace una casilla"></textarea>
+    <div id="eeditor"></div>
+    <textarea id="etexto" hidden></textarea>
   </div>
 </div>
 
@@ -246,15 +296,19 @@ function claro(n) {   // {titulo, texto} o null si está cerrada
   return claras.get(n.id + n.editada);
 }
 
+let seleccion = null, visibles = [], suprimirClic = false, borrandoSel = false;   // modo papelera: ids marcados / ids que se pueden marcar ahora / borrando
 // ---------- lista ----------
 function pintar() {
   $("bcandados").innerHTML = ICO.candado(!!clave);   // candado dibujado (menu.js)
+  $("bpapelera").innerHTML = ICO.borrar();
   const q = $("buscar").value.trim().toLowerCase();
   const lista = $("lista"); lista.replaceChildren();
   const filas = notas.map(n => ({n, c: claro(n)})).filter(({n, c}) =>
     !q || (c && (c.titulo + "\n" + c.texto).toLowerCase().includes(q)));
   filas.sort((a, b) => (b.n.fijada - a.n.fijada) || (importante(b.c?.titulo) - importante(a.c?.titulo))
     || (b.n.editada > a.n.editada ? 1 : -1));
+  visibles = filas.filter(f => !f.n.candado).map(f => f.n.id);   // las de candado no se pueden marcar
+  if (seleccion) { for (const id of [...seleccion]) if (!visibles.includes(id)) seleccion.delete(id); contarSel(); }
   if (!filas.length) lista.append(el("div", "vacio", q ? "Nada con eso" : "Aún no hay notas. Pulsa «+ Nueva»."));
   let grupo = null, rej = null;
   for (const {n, c} of filas) {
@@ -276,14 +330,35 @@ function tarjeta(n, c) {
     if (n.candado) h.insertAdjacentHTML("afterbegin", ICO.candado(true) + " ");
     t.append(h);
     const lineas = (c.texto || "").split("\n");
-    const cas = lineas.filter(l => /^\s*- \[[ xX]\] /.test(l)), hechas = cas.filter(l => /\[[xX]\]/.test(l));
-    t.append(el("div", "vista", lineas.slice(0, 8).map(l => l.replace(/^\s*- \[ \] /, "☐ ").replace(/^\s*- \[[xX]\] /, "☑ ")).join("\n")));
+    const cas = lineas.filter(l => /^\s*- \[[ xX]\](?: |$)/.test(l)), hechas = cas.filter(l => /\[[xX]\]/.test(l));
+    t.append(el("div", "vista", lineas.slice(0, 8).map(l => l.replace(/^\s*- \[ \](?: |$)/, "☐ ").replace(/^\s*- \[[xX]\](?: |$)/, "☑ ")).join("\n")));
     const pie = el("div", "pie");
     if (cas.length) pie.append(el("span", "", `☑ ${hechas.length}/${cas.length}`));
     pie.append(el("span", "", cuando(n.editada)));
     t.append(pie);
   }
-  t.onclick = () => abrir(n);
+  t.append(el("span", "casilla"));
+  if (n.candado) t.classList.add("bloq");   // con candado: no se puede marcar para borrar
+  if (seleccion && seleccion.has(n.id)) t.classList.add("sel");
+  // mantener pulsada una nota (medio segundo) = empezar a seleccionar, con esa nota marcada
+  let temporizador = null, x0 = 0, y0 = 0;
+  const soltar = () => { clearTimeout(temporizador); temporizador = null; };
+  t.addEventListener("pointerdown", ev => {
+    if (seleccion || (ev.pointerType === "mouse" && ev.button !== 0)) return;
+    x0 = ev.clientX; y0 = ev.clientY; soltar();
+    temporizador = setTimeout(() => {
+      temporizador = null; suprimirClic = true;   // el «clic» al soltar no debe abrirla ni desmarcarla
+      const fin = () => setTimeout(() => { suprimirClic = false; }, 60);
+      document.addEventListener("pointerup", fin, {once: true}); document.addEventListener("pointercancel", fin, {once: true});
+      try { navigator.vibrate && navigator.vibrate(25); } catch (e) {}
+      modoSel(true);
+      if (n.candado) avisoCandado(); else { seleccion.add(n.id); pintar(); }
+    }, 500);
+  });
+  t.addEventListener("pointermove", ev => { if (temporizador && Math.hypot(ev.clientX - x0, ev.clientY - y0) > 10) soltar(); });
+  for (const e of ["pointerup", "pointercancel", "pointerleave"]) t.addEventListener(e, soltar);
+  t.oncontextmenu = ev => ev.preventDefault();   // sin el menú de «copiar» del móvil al mantener pulsado
+  t.onclick = () => { if (suprimirClic) return; seleccion ? (n.candado ? avisoCandado() : alternarSel(n.id, t)) : abrir(n); };
   return t;
 }
 function cuando(iso) {
@@ -311,11 +386,102 @@ function ponerBotones() {
   $("bcandado").innerHTML = ICO.candado(!actual.conCandado);
   $("bborrar").innerHTML = ICO.borrar();
 }
+// ---------- 9-nov (D): editor por líneas con casillas dibujadas ----------
+// Cada línea es un <textarea> de una fila; las de casilla llevan un cuadradito. El texto se guarda igual que siempre ("- [ ] cosa"),
+// copiado en el #etexto oculto por volcar(). Enter en una casilla con texto crea otra; en una casilla vacía sale de la lista.
+let filaActiva = null;
+const CASILLA_RE = /^(\s*)- \[([ xX])\](?: (.*))?$/;
+function ajustar(ta) { ta.style.height = "auto"; ta.style.height = ta.scrollHeight + "px"; }
+function ajustarTodas() { for (const t of $("eeditor").querySelectorAll("textarea")) ajustar(t); }
+function enfocar(ta, pos) { ta.focus(); const p = pos == null ? ta.value.length : pos; try { ta.setSelectionRange(p, p); } catch (e) {} }
+function volcar() {
+  const l = [];
+  for (const f of $("eeditor").children) {
+    const ta = f.querySelector("textarea"), cb = f.querySelector(".cbx");
+    l.push(cb ? (f.dataset.sangria || "") + "- [" + (cb.checked ? "x" : " ") + "] " + ta.value : ta.value);
+  }
+  $("etexto").value = l.join("\n");
+  programar();
+}
+function ponerCasilla(f, hecha) {
+  if (f.querySelector(".cbx")) return;
+  const cb = el("input", "cbx"); cb.type = "checkbox"; cb.checked = !!hecha; cb.setAttribute("aria-label", "Casilla");
+  cb.onchange = () => { f.classList.toggle("hecha", cb.checked); volcar(); };
+  f.classList.toggle("hecha", !!hecha); f.prepend(cb);
+}
+function quitarCasilla(f) { f.querySelector(".cbx")?.remove(); f.classList.remove("hecha"); delete f.dataset.sangria; }
+function crearFila(o, texto) {
+  const f = el("div", "fila");
+  if (o.check) { f.dataset.sangria = o.sangria || ""; ponerCasilla(f, o.hecha); }
+  const ta = el("textarea", "lin"); ta.rows = 1; ta.value = texto;
+  ta.onfocus = () => { filaActiva = f; };
+  // en el móvil el teclado no siempre manda bien las teclas: beforeinput es lo fiable
+  ta.addEventListener("beforeinput", ev => {
+    if (ev.inputType === "insertLineBreak" || ev.inputType === "insertParagraph") { ev.preventDefault(); intro(f, ta); }
+    else if (ev.inputType === "deleteContentBackward" && retroceso(f, ta)) ev.preventDefault();
+  });
+  ta.onkeydown = ev => {
+    if (ev.isComposing || ev.keyCode === 229) return;
+    if (ev.key === "Enter" && !ev.shiftKey && !ev.ctrlKey && !ev.altKey && !ev.metaKey) { ev.preventDefault(); intro(f, ta); }
+    else if (ev.key === "Backspace" && retroceso(f, ta)) ev.preventDefault();
+    else if (ev.key === "ArrowUp" && ta.selectionStart === 0 && ta.selectionEnd === 0 && f.previousElementSibling) { ev.preventDefault(); enfocar(f.previousElementSibling.querySelector("textarea")); }
+    else if (ev.key === "ArrowDown" && ta.selectionStart === ta.value.length && f.nextElementSibling) { ev.preventDefault(); enfocar(f.nextElementSibling.querySelector("textarea"), 0); }
+  };
+  ta.oninput = () => { if (ta.value.includes("\n")) partirFila(f, ta); else { ajustar(ta); volcar(); } };   // pegar varias líneas
+  f.append(ta); return f;
+}
+function intro(f, ta) {   // Enter
+  const esCasilla = !!f.querySelector(".cbx");
+  if (esCasilla && !ta.value.trim()) { quitarCasilla(f); volcar(); enfocar(ta); return; }   // casilla vacía + Enter = salir de la lista
+  const despues = ta.value.slice(ta.selectionEnd);
+  ta.value = ta.value.slice(0, ta.selectionStart); ajustar(ta);
+  const n = crearFila(esCasilla ? {check: true, sangria: f.dataset.sangria} : {}, despues);
+  f.after(n);
+  const t = n.querySelector("textarea"); ajustar(t); enfocar(t, 0); volcar();
+}
+function retroceso(f, ta) {   // Retroceso al principio de la línea: quita la casilla o une con la línea de arriba; true si lo ha tratado
+  if (ta.selectionStart !== 0 || ta.selectionEnd !== 0) return false;
+  if (f.querySelector(".cbx")) { quitarCasilla(f); volcar(); enfocar(ta, 0); return true; }
+  const ant = f.previousElementSibling; if (!ant) return false;
+  const t0 = ant.querySelector("textarea"), largo = t0.value.length;
+  t0.value += ta.value; f.remove(); ajustar(t0); enfocar(t0, largo); volcar();
+  return true;
+}
+function partirFila(f, ta) {   // si entra un salto de línea (pegar, o un teclado raro), reparte en filas
+  const esCasilla = !!f.querySelector(".cbx"), caret = ta.selectionStart;
+  const partes = ta.value.split("\n");
+  ta.value = partes[0]; ajustar(ta);
+  let ult = f, pos = caret <= partes[0].length ? [ta, caret] : null, acum = partes[0].length + 1;
+  for (let k = 1; k < partes.length; k++) {
+    const n = crearFila(esCasilla ? {check: true, sangria: f.dataset.sangria} : {}, partes[k]);
+    ult.after(n); ult = n;
+    const t = n.querySelector("textarea"); ajustar(t);
+    if (!pos && caret <= acum + partes[k].length) pos = [t, caret - acum];
+    acum += partes[k].length + 1;
+  }
+  const [t2, p2] = pos || [ult.querySelector("textarea"), null];
+  enfocar(t2, p2); volcar();
+}
+function construirEditor() {
+  const ed = $("eeditor"); ed.replaceChildren(); filaActiva = null;
+  for (const l of $("etexto").value.split("\n")) {
+    const m = l.match(CASILLA_RE);
+    ed.append(m ? crearFila({check: true, hecha: m[2] !== " ", sangria: m[1]}, m[3] || "") : crearFila({}, l));
+  }
+  if (ed.children.length === 1 && !$("etexto").value) ed.firstElementChild.querySelector("textarea").placeholder = "Escribe aquí…";
+  ajustarTodas();
+}
+$("eeditor").onclick = ev => { if (ev.target === $("eeditor")) enfocar($("eeditor").lastElementChild.querySelector("textarea")); };
+window.addEventListener("resize", () => { if (!$("eeditor").hidden) ajustarTodas(); });
+
 function modo(edit) {
   editando = edit;
-  $("etexto").hidden = !edit; $("evista").hidden = edit;
-  $("bmodo").innerHTML = edit ? ICO.ver() + "<span>Ver</span>" : ICO.editar() + "<span>Editar</span>";
-  if (!edit) vista(); else setTimeout(() => (actual.titulo ? $("etexto") : $("etitulo")).focus(), 30);
+  $("eeditor").hidden = !edit; $("evista").hidden = edit;
+  $("bcasilla").style.display = $("ecolor").style.display = edit ? "" : "none";   // Casilla y Color solo existen mientras se edita
+  if (edit) construirEditor();
+  $("bmodo").style.display = edit ? "none" : "";   // al editar no hace falta «Ver»: Volver hace lo mismo (guarda y cierra)
+  $("bmodo").innerHTML = ICO.editar() + "<span>Editar</span>";
+  if (!edit) vista(); else setTimeout(() => { if (actual.titulo) enfocar($("eeditor").lastElementChild.querySelector("textarea")); else $("etitulo").focus(); }, 30);
 }
 function enlazar(p, texto) {   // texto con enlaces clicables
   const re = /https?:\/\/\S+/g; let i = 0, m;
@@ -325,10 +491,11 @@ function enlazar(p, texto) {   // texto con enlaces clicables
 function vista() {
   const v = $("evista"); v.replaceChildren();
   const lineas = $("etexto").value.split("\n");
-  if (!$("etexto").value.trim()) v.append(el("p", "chip", "Vacía. Toca aquí para escribir."));
+  if (!$("etexto").value.trim()) v.append(el("p", "chip", "Vacía. Mantén pulsado aquí para escribir."));
   lineas.forEach((l, i) => {
-    const m = l.match(/^(\s*)- \[([ xX])\] (.*)$/);
+    const m = l.match(/^(\s*)- \[([ xX])\](?: (.*))?$/);
     if (m) {
+      m[3] = m[3] || "";
       const lab = el("label", m[2] !== " " ? "hecha" : ""), cb = el("input"); cb.type = "checkbox"; cb.checked = m[2] !== " ";
       const sp = el("span"); enlazar(sp, m[3]);
       cb.onchange = () => { lineas[i] = `${m[1]}- [${cb.checked ? "x" : " "}] ${m[3]}`; $("etexto").value = lineas.join("\n"); programar(300); vista(); };
@@ -380,20 +547,60 @@ $("bcandados").onclick = async () => {
   else await abrirCandados();
 };
 $("bvolver").innerHTML = ICO.volver();   // iconos dibujados (menu.js) en vez de emojis
-$("bcasilla").innerHTML = ICO.casilla() + "<span>Casilla</span>";
+$("bcasilla").innerHTML = ICO.casilla();   // solo el recuadro con el check, sin texto
 $("bfijar").innerHTML = ICO.fijar();
+// copiar la nota entera (título + texto; las casillas como ☐ / ☑). Dos cuadrados solapados, con el estilo de los demás iconos.
+const SVG_COPIAR = '<svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><rect x="7" y="7" width="24" height="24" rx="6" fill="#FFFFFF" stroke="#78858F" stroke-width="3.4"/><rect x="17" y="17" width="24" height="24" rx="6" fill="#81D4FA" stroke="#78858F" stroke-width="3.4"/></svg>';
+const SVG_COPIADO = '<svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M10,25 l9,9 l19,-20" fill="none" stroke="#26a269" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const SVG_NO_COPIADO = '<svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M13,13 l22,22 M35,13 l-22,22" fill="none" stroke="#c01c28" stroke-width="5" stroke-linecap="round"/></svg>';
+$("bcopiar").innerHTML = SVG_COPIAR;
+let tCopiado = null;
+$("bcopiar").onclick = async () => {
+  const titulo = $("etitulo").value.trim();
+  const cuerpo = $("etexto").value.replace(/^(\s*)- \[ \] /gm, "$1☐ ").replace(/^(\s*)- \[[xX]\] /gm, "$1☑ ");
+  const todo = (titulo ? titulo + "\n\n" : "") + cuerpo;
+  let ok = false;
+  try { if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(todo); ok = true; } } catch (e) {}
+  if (!ok) {   // en la app personal la web va por http y no hay portapapeles moderno: se copia con un cuadro de texto temporal
+    const a = document.createElement("textarea"); a.value = todo; a.style.cssText = "position:fixed;left:-9999px;top:0";
+    document.body.append(a); a.select(); try { ok = document.execCommand("copy"); } catch (e) {} a.remove();
+  }
+  // el aviso va dentro del propio botón (tic verde / cruz roja del mismo tamaño): no mueve nada de la barra
+  $("bcopiar").innerHTML = ok ? SVG_COPIADO : SVG_NO_COPIADO;
+  $("bcopiar").title = ok ? "Copiada" : "No se ha podido copiar";
+  clearTimeout(tCopiado);
+  tCopiado = setTimeout(() => { $("bcopiar").innerHTML = SVG_COPIAR; $("bcopiar").title = "Copiar la nota entera"; }, 1200);
+};
 $("bvolver").onclick = cerrar;
 $("bmodo").onclick = () => { if (editando) guardar(); modo(!editando); };
-$("evista").onclick = () => modo(true);
-$("etexto").oninput = () => programar();
+// editar una nota abierta = mantener pulsado medio segundo en el texto (un toque suelto ya no entra a editar)
+{
+  const v = $("evista"); let temp = null, x0 = 0, y0 = 0;
+  const soltar = () => { clearTimeout(temp); temp = null; };
+  v.addEventListener("pointerdown", ev => {
+    if (editando || ev.target.closest("label, a") || (ev.pointerType === "mouse" && ev.button !== 0)) return;   // casillas y enlaces siguen con un toque
+    x0 = ev.clientX; y0 = ev.clientY; soltar();
+    temp = setTimeout(() => { temp = null; try { navigator.vibrate && navigator.vibrate(25); } catch (e) {} modo(true); }, 500);
+  });
+  v.addEventListener("pointermove", ev => { if (temp && Math.hypot(ev.clientX - x0, ev.clientY - y0) > 10) soltar(); });
+  for (const e of ["pointerup", "pointercancel", "pointerleave"]) v.addEventListener(e, soltar);
+  v.oncontextmenu = ev => ev.preventDefault();
+}
+// (el texto lo copia volcar() desde las líneas del editor)
 $("etitulo").oninput = () => programar();
 $("bcasilla").onclick = () => {
   if (!editando) modo(true);
-  const t = $("etexto"), p = t.selectionStart, ant = t.value.slice(0, p);
-  const pre = ant && !ant.endsWith("\n") ? "\n" : "";
-  t.setRangeText(pre + "- [ ] ", p, t.selectionEnd, "end"); t.focus(); programar();
+  const ed = $("eeditor");
+  const f = filaActiva && ed.contains(filaActiva) ? filaActiva : ed.lastElementChild;
+  const ta = f.querySelector("textarea");
+  if (f.querySelector(".cbx") && ta.value.trim()) {   // esta línea ya es una casilla con texto: otra debajo
+    const n = crearFila({check: true}, ""); f.after(n); enfocar(n.querySelector("textarea"));
+  } else { ponerCasilla(f, false); enfocar(ta, ta.selectionStart); }   // convierte esta línea en casilla
+  volcar();
 };
-for (const [c, [n]] of Object.entries(COLORES)) { const o = el("option", "", n); o.value = c; $("ecolor").append(o); }
+// como en el calendario: cada color con su circulito de color delante
+const BOLA = {"": "⚪", rojo: "🔴", naranja: "🟠", amarillo: "🟡", verde: "🟢", azul: "🔵", morado: "🟣", marron: "🟤", negro: "⚫"};
+for (const [c, [n]] of Object.entries(COLORES)) { const o = el("option", "", BOLA[c] || "⚪"); o.title = n; o.value = c; $("ecolor").append(o); }
 $("ecolor").onchange = () => { actual.cambiado = true; programar(200); };
 $("bfijar").onclick = () => { actual.fijada = !actual.fijada; actual.cambiado = true; ponerBotones(); programar(200); };
 $("bcandado").onclick = async () => {
@@ -404,12 +611,64 @@ $("bcandado").onclick = async () => {
   programar(100);
 };
 $("bborrar").onclick = async () => {
-  const b = $("bborrar");
-  if (b.textContent !== "¿Seguro?") { b.textContent = "¿Seguro?"; setTimeout(() => { if (b.textContent === "¿Seguro?") b.innerHTML = ICO.borrar(); }, 3000); return; }
+  if (!actual) return;
+  const n = actual;
+  // no se enseña el título: con candado podría ser privado
+  if (!(await confirmarBorrar("", "Se borrará esta nota."))) return;   // ventana en el centro (menu.js)
+  if (actual !== n) return;   // se cerró la nota mientras tanto
   clearTimeout(tGuardar);
   if (actual.id) msj(await enviar("/notas/borrar", actual.id));
   actual = null; $("editor").classList.remove("abierto"); cargar();
 };
+// ---------- 9-nov (D): papelera = seleccionar varias notas y borrarlas de una vez ----------
+function contarSel() {
+  const n = seleccion ? seleccion.size : 0;
+  if (borrandoSel) {   // mientras se borran: nada se puede tocar
+    $("selsi").disabled = $("selno").disabled = $("seltodas").disabled = true;
+    $("selsi").textContent = "Eliminando…"; return;
+  }
+  $("selno").disabled = false; $("seltodas").disabled = !visibles.length;
+  $("selsi").disabled = !n; $("selsi").textContent = n ? "Eliminar (" + n + ")" : "Eliminar";
+  $("seltodas").textContent = n && n === visibles.length ? "Ninguna" : "Todas";
+}
+function avisoCandado() { msj("Las notas con candado no se borran desde aquí: ábrela y bórrala dentro"); }
+function modoSel(si, desdeAtras) {   // el gesto de atrás de Android lo cancela (un paso de historial mientras dura)
+  if (si && !seleccion) history.pushState({sel: 1}, "");
+  else if (!si && seleccion && !desdeAtras && history.state?.sel) { ignorarPop++; history.back(); }
+  seleccion = si ? new Set() : null;
+  document.body.classList.toggle("seleccion", !!si);
+  pintar();
+}
+function alternarSel(id, t) {
+  if (borrandoSel) return;
+  if (seleccion.has(id)) seleccion.delete(id); else seleccion.add(id);
+  t.classList.toggle("sel", seleccion.has(id)); contarSel();
+}
+$("bpapelera").onclick = () => { if (!actual) modoSel(true); };
+$("selno").onclick = () => { if (!borrandoSel) modoSel(false); };
+$("seltodas").onclick = () => {
+  if (!seleccion || borrandoSel) return;
+  if (seleccion.size && seleccion.size === visibles.length) seleccion.clear(); else visibles.forEach(id => seleccion.add(id));
+  pintar();
+};
+$("selsi").onclick = async () => {
+  if (!seleccion || !seleccion.size || borrandoSel) return;
+  const ids = [...seleccion].filter(id => !notas.find(x => x.id === id)?.candado);   // nunca las de candado
+  if (!ids.length) return;
+  const aviso = ids.length === 1 ? "Se borrará 1 nota." : "Se borrarán " + ids.length + " notas.";
+  // no se enseñan los títulos: con candado podrían ser privados
+  const si = await confirmarBorrar("", aviso);   // ventana en el centro (menu.js)
+  if (!si || !seleccion) return;
+  borrandoSel = true; contarSel();
+  let mal = 0;
+  try {
+    for (const id of ids) { const r = await enviar("/notas/borrar", id); if (!/^Borrada|ya no está/.test(r)) mal++; }
+  } finally { borrandoSel = false; }
+  modoSel(false);
+  await cargar();
+  msj(mal ? (ids.length - mal) + " borradas; " + mal + " no se han podido borrar" : (ids.length === 1 ? "1 nota borrada" : ids.length + " notas borradas"));
+};
+document.addEventListener("keydown", e => { if (e.key === "Escape" && seleccion && !actual && !borrandoSel) modoSel(false); });
 document.addEventListener("keydown", e => {
   if (e.key === "Escape" && $("dlg").classList.contains("abierto")) return $("dcancelar").click();
   if (e.key === "Escape" && actual) cerrar();
@@ -427,6 +686,7 @@ new MutationObserver(() => {
 }).observe($("editor"), {attributes: true, attributeFilter: ["class"]});
 window.addEventListener("popstate", () => {
   if (ignorarPop) { ignorarPop--; return; }
+  if (seleccion) { modoSel(false, true); return; }   // atrás con la selección activa = cancelarla
   if (actual && $("editor").classList.contains("abierto")) cerrar();
 });
 $("bcandados").innerHTML = ICO.candado(false);   // antes de que llegue la lista

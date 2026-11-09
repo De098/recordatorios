@@ -77,6 +77,11 @@ class MainActivity : Activity() {
             try { startActivityForResult(i, PEDIR_IMPORTAR) } catch (_: Exception) { aviso("No se puede abrir archivos en este móvil") }
         }
 
+        /** Menú del logo: versión de la app, la que pone el build (versionName); cambia sola al compilar. */
+        @JavascriptInterface
+        fun version(): String =
+            try { packageManager.getPackageInfo(packageName, 0).versionName ?: "" } catch (_: Exception) { "" }
+
         /** La web avisa del tema elegido (menu.js) para pintar a juego la barra de estado y la de gestos. */
         @JavascriptInterface
         fun tema(oscuro: Boolean, fondo: String) {

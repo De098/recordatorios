@@ -3,6 +3,9 @@
     <style name="Tema" parent="@android:style/Theme.Material.Light.NoActionBar">
         <item name="android:windowBackground">@color/fondo</item>
         <item name="android:colorAccent">@color/acento</item>
+        <!-- pantalla de arranque del sistema (Android 12+): solo el logo sobre el fondo de la app -->
+        <item name="android:windowSplashScreenBackground">@color/fondo</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_frente</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar">true</item>
     </style>

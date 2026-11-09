@@ -1,0 +1,1 @@
+Al borrar algo que se repite, ahora puedes elegir entre quitar solo esa vez o esa y las siguientes. Notas: papelera para borrar varias a la vez (también manteniendo pulsada una nota), editor con casillas dibujadas que encadena otra casilla al pulsar Enter, copiar la nota entera, colores con su círculo y confirmación de borrado en una ventana central.

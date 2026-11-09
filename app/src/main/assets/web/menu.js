@@ -1,6 +1,7 @@
 /* Menú común de Calendario y Notas.
    - Al pulsar el logo (img.logo) sale un menú en el centro con el fondo oscurecido:
-     Calendario (logo.svg) · Notas (logo-notas.svg: libreta de espiral con casillas) · Tema (sol / luna) · Exportar / Importar (copia de seguridad, solo en la app).   (Más adelante: donaciones, si la app sale en F-Droid.)
+     Calendario (logo.svg) · Notas (logo-notas.svg: libreta de espiral con casillas) · Tema (sol / luna) · Exportar / Importar (copia de seguridad, solo en la app, en su propia fila)
+     · al final, en pequeño, la versión de la app (Recordatorios.version()).   (Más adelante: donaciones, si la app sale en F-Droid.)
    - Tema: claro u oscuro elegido a mano (localStorage «tema»); sin elegir, el del sistema.
      Pone <html data-tema="claro|oscuro">; las páginas pintan el oscuro con :root[data-tema="oscuro"].
    - En la app Android avisa a la app (Recordatorios.tema) para que la barra de estado vaya a juego.
@@ -98,13 +99,46 @@
 #mcaja .mbotones button i { display: flex; align-items: center; justify-content: center; width: 40px; height: 44px; font-style: normal; }
 #mcaja .mbotones button.aqui { border-color: var(--acento); color: var(--acento); font-weight: 700; }
 #mcaja .mbotones button:active { transform: scale(.96); }
+/* copia de seguridad: fila aparte con dos botones iguales a lo ancho del menú (icono y texto en línea) */
+#mcaja .mbotones.mfila { grid-template-columns: 1fr 1fr; margin-top: 10px; }
+#mcaja .mbotones.mfila[hidden] { display: none; }
+#mcaja .mfila button { flex-direction: row; gap: 8px; min-height: 60px; padding: 8px 10px; }
+#mcaja .mfila button i, #mcaja .mfila button svg { width: 30px; height: 30px; }
+/* versión de la app: línea pequeña y gris al final, separada por un filete; no se pulsa */
+#mcaja .mver { margin: 14px 0 0; padding-top: 10px; border-top: 1px solid var(--linea, var(--borde)); text-align: center;
+  font-size: .78rem; color: var(--suave); user-select: none; -webkit-user-select: none; }
+#mcaja .mver[hidden] { display: none; }
 img.logo { cursor: pointer; }
 .ico { width: 1.3em; height: 1.3em; flex: none; vertical-align: -.3em; }
 .ico.ico-imp { width: 1.05em; height: 1.05em; vertical-align: -.15em; margin-right: 3px; }
 button:has(> .ico) { display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
 input#bq, input#buscar { background-image: ${LUPA_URL}; background-repeat: no-repeat; background-position: 11px center;
   background-size: 22px 22px; padding-left: 42px; }
-@media (prefers-reduced-motion: reduce) { #mfondo, #mcaja { transition: none; } }`;
+/* confirmar borrar: mismo fondo degradado y misma tarjeta que el menú */
+#bfondo { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center;
+  padding: 16px; opacity: 0; transition: opacity .18s ease;
+  background: radial-gradient(circle at 50% 50%, rgba(0,0,0,.35) 0%, rgba(0,0,0,.62) 55%, rgba(0,0,0,.82) 100%);
+  -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+#bfondo[hidden] { display: none; }
+#bfondo.si { opacity: 1; }
+#bcaja { background: var(--tarjeta); color: var(--texto); border: 2px solid var(--borde); border-radius: 22px;
+  padding: 20px 16px 16px; width: min(100%, 340px); box-shadow: 0 18px 50px rgba(0,0,0,.45); text-align: center;
+  transform: scale(.92); transition: transform .18s ease; }
+#bfondo.si #bcaja { transform: scale(1); }
+#bcaja .ico { width: 48px; height: 48px; display: block; margin: 0 auto 8px; vertical-align: 0; }
+#bcaja h2 { margin: 0 0 6px; font-size: 1.15rem; }
+#bcaja p { margin: 0 0 4px; color: var(--suave); overflow-wrap: anywhere; }
+#bcaja p.bque { color: var(--texto); font-weight: 600; }
+#bcaja .bbotones { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+#bcaja .bbotones button { min-height: 48px; border-radius: 14px; font: inherit; font-weight: 600; cursor: pointer;
+  background: var(--fondo); color: var(--texto); border: 2px solid transparent; }
+#bcaja .bbotones #bsi { background: #c01c28; color: #ffffff; border-color: #a51d2d; }
+#bcaja .bbotones.serie { grid-template-columns: 1fr; }
+#bcaja .bbotones.serie #bno { order: 3; }
+#bcaja .bbotones #bsi2 { background: #c01c28; color: #ffffff; border-color: #a51d2d; }
+#bcaja .bbotones #bsi2[hidden] { display: none; }
+#bcaja .bbotones button:active { transform: scale(.96); }
+@media (prefers-reduced-motion: reduce) { #mfondo, #mcaja, #bfondo, #bcaja { transition: none; } }`;
 
   // copia de seguridad (solo en la app): bandeja con flecha hacia fuera (exportar) o hacia dentro (importar)
   const CAJA = fuera => `<svg viewBox="0 0 48 48" width="40" height="40" aria-hidden="true">`
@@ -126,10 +160,13 @@ input#bq, input#buscar { background-image: ${LUPA_URL}; background-repeat: no-re
         <button id="mcal" data-ir="/cal"><img src="${R}/logo.svg" alt=""><span>Calendario</span></button>
         <button id="mnotas" data-ir="/notas"><img src="${R}/logo-notas.svg" alt=""><span>Notas</span></button>
         <button id="mtema"><i></i><span></span></button>
-        <button id="mexp" hidden><i>${CAJA(true)}</i><span>Exportar</span></button>
-        <button id="mimp" hidden><i>${CAJA(false)}</i><span>Importar</span></button>
         <!-- aquí irá «Donar» -->
-      </div></div>`;
+      </div>
+      <div class="mbotones mfila" id="mcopia" hidden>
+        <button id="mexp"><i>${CAJA(true)}</i><span>Exportar</span></button>
+        <button id="mimp"><i>${CAJA(false)}</i><span>Importar</span></button>
+      </div>
+      <p class="mver" hidden></p></div>`;
     document.body.append(f);
     if (!hayCal) f.querySelector("#mcal").remove();
     f.querySelector(pagina === "notas" ? "#mnotas" : "#mcal")?.classList.add("aqui");
@@ -162,10 +199,15 @@ input#bq, input#buscar { background-image: ${LUPA_URL}; background-repeat: no-re
     const app = window.Recordatorios;
     if (app && app.exportar && app.importar) {
       const e = f.querySelector("#mexp"), i = f.querySelector("#mimp");
-      e.hidden = i.hidden = false;
+      f.querySelector("#mcopia").hidden = false;
       e.onclick = () => { cerrar(); app.exportar(); };
       i.onclick = () => { cerrar(); app.importar(); };
     }
+    // versión de la app (la del build: cambia sola al compilar). Fuera de la app no se pone.
+    try {
+      const v = app && app.version && app.version();
+      if (v) { const p = f.querySelector(".mver"); p.textContent = "Recordatorios " + v; p.hidden = false; }
+    } catch (e) {}
     f.querySelector("#mtema").onclick = () => {
       try { localStorage.setItem("tema", oscuro() ? "claro" : "oscuro"); } catch (e) {}
       aplicar();
@@ -177,4 +219,87 @@ input#bq, input#buscar { background-image: ${LUPA_URL}; background-repeat: no-re
     }
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", montar); else montar();
+
+  /* CONFIRMAR BORRAR (calendario y notas): ventana en el centro, como el menú.
+     Uso: if (await confirmarBorrar("Fisio", "Esta cita")) { …borrar… }
+     Cancelar, tocar fuera, Escape o el gesto de atrás → false; «Eliminar» (en rojo) → true.
+     El gesto de atrás solo cierra esta ventana: el aviso no les llega a las páginas
+     (este oyente se registra antes que los suyos y corta el evento). */
+  let bResolver = null, bResultado = false, bTragar = false;
+  function bAcabar() {
+    const f = document.getElementById("bfondo");
+    f.classList.remove("si"); f.hidden = true;
+    const r = bResolver; bResolver = null;
+    if (r) r(bResultado);
+  }
+  function bCerrar(si) {
+    if (!bResolver || bTragar) return;
+    bResultado = si;
+    // quitar el paso del historial que puso la ventana y responder cuando ya se haya quitado,
+    // para que la página no se líe con su propio historial (notas abiertas, formularios)
+    if (history.state && history.state.borrar) {
+      bTragar = true; history.back();
+      setTimeout(() => { if (bTragar) { bTragar = false; bAcabar(); } }, 500);   // por si no llega el aviso
+    } else bAcabar();
+  }
+  window.addEventListener("popstate", ev => {
+    if (bTragar) { bTragar = false; ev.stopImmediatePropagation(); bAcabar(); return; }
+    if (bResolver) { ev.stopImmediatePropagation(); bResultado = false; bAcabar(); }   // atrás = cancelar
+  });
+  document.addEventListener("keydown", ev => {
+    if (ev.key === "Escape" && bResolver) { ev.stopImmediatePropagation(); ev.preventDefault(); bCerrar(false); }
+  }, true);
+
+  const diaLargo = d => { try { return new Date(d + "T12:00:00").toLocaleDateString("es", {weekday: "long", day: "numeric", month: "long"}); } catch (e) { return d; } };
+  function bCaja() {
+    let f = document.getElementById("bfondo");
+    if (!f) {
+      f = document.createElement("div"); f.id = "bfondo"; f.hidden = true;
+      f.innerHTML = `<div id="bcaja" role="alertdialog" aria-modal="true" aria-labelledby="btit">
+        ${window.ICO.borrar()}
+        <h2 id="btit"></h2>
+        <p class="bque"></p><p class="bque2"></p>
+        <div class="bbotones"><button id="bno" type="button">Cancelar</button><button id="bsi" type="button">Eliminar</button><button id="bsi2" type="button" hidden></button></div></div>`;
+      document.body.append(f);
+      f.addEventListener("click", ev => { if (ev.target === f) bCerrar(false); });
+      f.querySelector("#bno").onclick = () => bCerrar(false);
+    }
+    return f;
+  }
+  function bAbrir(f) {
+    return new Promise(res => {
+      bResolver = res; bResultado = false;
+      f.hidden = false; requestAnimationFrame(() => f.classList.add("si"));
+      history.pushState(Object.assign({}, history.state, {borrar: 1}), "");
+      f.querySelector("#bno").focus();
+    });
+  }
+  window.confirmarBorrar = function (nombre, que) {
+    if (bResolver) return Promise.resolve(false);
+    const f = bCaja();
+    f.querySelector("#btit").textContent = "¿Seguro que quieres eliminarlo?";
+    f.querySelector(".bque2").textContent = "No se puede deshacer.";
+    f.querySelector(".bbotones").classList.remove("serie");
+    const si = f.querySelector("#bsi"); si.textContent = "Eliminar"; si.onclick = () => bCerrar(true);
+    f.querySelector("#bsi2").hidden = true;
+    const n = (nombre || "").trim();
+    f.querySelector(".bque").textContent = n ? `${que || "Se eliminará"}: «${n.length > 80 ? n.slice(0, 80) + "…" : n}»` : (que || "");
+    f.querySelector(".bque").hidden = !n && !que;
+    return bAbrir(f);
+  };
+  // Algo que se repite: «esta» (solo esa vez) | «siguientes» (esa y las que vienen después) | false (cancelar)
+  window.confirmarBorrarVez = function (nombre, dia) {
+    if (bResolver) return Promise.resolve(false);
+    const f = bCaja();
+    f.querySelector("#btit").textContent = "¿Qué quieres borrar?";
+    const n = (nombre || "").trim();
+    f.querySelector(".bque").textContent = n ? `«${n.length > 80 ? n.slice(0, 80) + "…" : n}»` : "";
+    f.querySelector(".bque").hidden = !n;
+    f.querySelector(".bque2").textContent = "Se repite. Esta vez es el " + diaLargo(dia) + ".";
+    f.querySelector(".bbotones").classList.add("serie");
+    const a = f.querySelector("#bsi"); a.textContent = "Solo esta"; a.onclick = () => bCerrar("esta");
+    const b = f.querySelector("#bsi2"); b.hidden = false; b.textContent = "Esta y las siguientes"; b.onclick = () => bCerrar("siguientes");
+    return bAbrir(f);
+  };
 })();
+

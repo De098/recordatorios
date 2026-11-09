@@ -31,6 +31,8 @@ data class Item(
     val cumple: Boolean,
     val nacido: Int?,
     val antes: Int,
+    val hasta: String? = null,          // último día (AAAA-MM-DD) en que aún toca: «borrar esta y las siguientes»
+    val salvo: Set<String> = emptySet(),  // días sueltos quitados de la serie («borrar solo esta»)
 )
 
 /**
@@ -86,6 +88,10 @@ object Nucleo {
     /** Texto de un campo JSON (null y ausente = ""). */
     fun txt(j: JSONObject, k: String): String = if (j.isNull(k)) "" else j.opt(k).toString()
 
+    /** "AAAA-MM-DD" si x es una fecha válida; si no, null. */
+    private fun diaIso(x: Any?): String? =
+        try { if (x == null || x == JSONObject.NULL) null else LocalDate.parse(x.toString().take(10)).toString() } catch (_: Exception) { null }
+
     fun leerItems(): List<Item> {
         val lista = mutableListOf<Item>()
         val nombres = items.list() ?: return lista
@@ -119,8 +125,10 @@ object Nucleo {
                     if (si < 1 || no < 0) continue
                     ciclo = si to no
                 }
+                val hasta = diaIso(j.opt("hasta"))
+                val salvo = j.optJSONArray("salvo")?.let { a -> (0 until a.length()).mapNotNull { k -> diaIso(a.opt(k)) }.toSet() } ?: emptySet()
                 lista += Item(j.getString("id"), texto, tipo, inicio, repetir, ciclo, color, cada, importante(texto),
-                    txt(j, "notas").trim(), avisos, cumple, nacido, antes)
+                    txt(j, "notas").trim(), avisos, cumple, nacido, antes, hasta, salvo)
             } catch (_: Exception) {
                 // archivo roto: se ignora
             }
@@ -159,7 +167,9 @@ object Nucleo {
             j.put("editado", ahoraTxt)
             val conocidos = setOf("id", "texto", "tipo", "inicio", "repetir", "creado", "editado", "ciclo", "color",
                 "cada", "avisos", "antes", "cumple", "nacido", "notas")
-            for (k in previo.keys()) if (k !in conocidos) j.put(k, previo.get(k))
+            for (k in previo.keys()) if (k !in conocidos) j.put(k, previo.get(k))   // también hasta / salvo
+            val h = diaIso(j.opt("hasta"))
+            if (h != null && inicio.toLocalDate().toString() > h) j.remove("hasta")   // se movió la serie más allá de su fin
         }
         if (repetir == "ciclo" && ciclo != null) j.put("ciclo", JSONArray(listOf(ciclo.first, ciclo.second)))
         val notas = (notas0 ?: txt(previo, "notas")).trim()
@@ -178,13 +188,39 @@ object Nucleo {
             j.put("antes", antes)
         }
         escribir(File(items, "$nuevoId.json"), j.toString(1))
+        val salvoGuardado = j.optJSONArray("salvo")?.let { a -> (0 until a.length()).mapNotNull { k -> diaIso(a.opt(k)) }.toSet() } ?: emptySet()
         return Item(nuevoId, texto.trim(), tipo, inicio, repetir, ciclo, color, cada ?: (CADA_HORAS * 60),
-            importante(texto), notas, avisos, cumple, nacido, antes)
+            importante(texto), notas, avisos, cumple, nacido, antes, diaIso(j.opt("hasta")), salvoGuardado)
     }
 
     fun borrarItem(it: Item) {
         File(items, "${it.id}.json").delete()
         hechos.listFiles()?.forEach { f -> if (f.name.startsWith(it.id + "__")) f.delete() }
+    }
+
+    /**
+     * Algo que se repite: quita solo la vez del día `dia` (modo "esta") o esa y todas las siguientes ("siguientes").
+     * Si "siguientes" empieza en la primera vez, se borra todo. Devuelve false si no queda nada.
+     */
+    fun quitarVez(it: Item, dia: LocalDate, modo: String): Boolean {
+        val f = File(items, "${it.id}.json")
+        val j = JSONObject(f.readText())
+        if (modo == "siguientes") {
+            if (!dia.isAfter(it.inicio.toLocalDate())) { borrarItem(it); return false }
+            val hasta = dia.minusDays(1).toString()
+            j.put("hasta", hasta)
+            val nuevos = JSONArray()
+            j.optJSONArray("salvo")?.let { a -> for (k in 0 until a.length()) if (a.optString(k) <= hasta) nuevos.put(a.optString(k)) }
+            j.put("salvo", nuevos)   // las sueltas de después del fin ya sobran
+        } else {
+            val s = sortedSetOf<String>()
+            j.optJSONArray("salvo")?.let { a -> for (k in 0 until a.length()) s += a.optString(k) }
+            s += dia.toString()
+            j.put("salvo", JSONArray(s.toList()))
+        }
+        j.put("editado", LocalDateTime.now().format(ISO_MIN))
+        escribir(f, j.toString(1))
+        return true
     }
 
     fun clave(it: Item, cuando: LocalDateTime) = "${it.id}__${cuando.format(CLAVE)}"
@@ -195,8 +231,31 @@ object Nucleo {
 
     private fun dias(a: LocalDateTime, b: LocalDateTime) = Duration.between(a, b).toDays()
 
-    /** La última vez que tocaba (<= ahora), o null si aún no ha tocado nunca. */
-    fun ultima(it: Item, ahora: LocalDateTime): LocalDateTime? {
+    /** La última vez que tocaba (<= ahora) sin contar las quitadas (salvo) ni las de después del fin (hasta). */
+    fun ultima(it: Item, ahora0: LocalDateTime): LocalDateTime? {
+        var ahora = ahora0
+        it.hasta?.let { h -> val tope = LocalDate.parse(h).atTime(23, 59, 59); if (tope < ahora) ahora = tope }
+        var u = ultima0(it, ahora)
+        var n = 0
+        while (u != null && u.toLocalDate().toString() in it.salvo && n < 400) { u = ultima0(it, u.minusMinutes(1)); n++ }
+        return u
+    }
+
+    /** La próxima vez que toca (> ahora) sin contar las quitadas (salvo); null si ya pasó el fin (hasta). */
+    fun siguiente(it: Item, ahora: LocalDateTime): LocalDateTime? {
+        var o = siguiente0(it, ahora)
+        for (n in 0 until 400) {
+            val x = o ?: return null
+            val d = x.toLocalDate().toString()
+            if (it.hasta != null && d > it.hasta) return null
+            if (d !in it.salvo) return x
+            o = siguiente0(it, x)
+        }
+        return null
+    }
+
+    /** La última vez que tocaba (<= ahora), o null si aún no ha tocado nunca (sin mirar hasta / salvo). */
+    private fun ultima0(it: Item, ahora: LocalDateTime): LocalDateTime? {
         val ini = it.inicio
         if (ini > ahora) return null
         return when (it.repetir) {
@@ -222,11 +281,11 @@ object Nucleo {
         }
     }
 
-    /** La próxima vez que toca (> ahora), o null si era de una vez y ya pasó. */
-    fun siguiente(it: Item, ahora: LocalDateTime): LocalDateTime? {
+    /** La próxima vez que toca (> ahora), o null si era de una vez y ya pasó (sin mirar hasta / salvo). */
+    private fun siguiente0(it: Item, ahora: LocalDateTime): LocalDateTime? {
         val ini = it.inicio
         if (ini > ahora) return ini
-        val u = ultima(it, ahora)!!
+        val u = ultima0(it, ahora)!!
         return when (it.repetir) {
             "diario" -> u.plusDays(1)
             "semanal" -> u.plusWeeks(1)
@@ -244,7 +303,12 @@ object Nucleo {
 
     /** Todas las veces que toca entre desde (incluido) y hasta (excluido). */
     fun ocurrencias(it: Item, desde: LocalDateTime, hasta: LocalDateTime): List<LocalDateTime> {
-        var o: LocalDateTime? = ultima(it, desde) ?: it.inicio
+        var o: LocalDateTime? = ultima(it, desde)
+        if (o == null) {   // aún no ha tocado nunca: empezar por la primera vez que valga
+            o = it.inicio
+            val d = o.toLocalDate().toString()
+            if (d in it.salvo || (it.hasta != null && d > it.hasta)) o = siguiente(it, o)
+        }
         val salida = mutableListOf<LocalDateTime>()
         while (o != null && o < hasta && salida.size < 400) {
             if (o >= desde) salida += o
@@ -345,6 +409,14 @@ object Nucleo {
         if (it.cumple) diaCorto(d, ahora) else fechaCorta(d, ahora)
 
     fun describirRepeticion(it: Item): String {
+        val t = describirRepeticion0(it)
+        val h = it.hasta
+        if (h == null || it.repetir == "no") return t
+        val d = LocalDate.parse(h)
+        return "$t, hasta el ${d.dayOfMonth} de ${MESES[d.monthValue - 1]}"
+    }
+
+    private fun describirRepeticion0(it: Item): String {
         val ini = it.inicio
         val hora = ini.format(HM)
         return when (it.repetir) {

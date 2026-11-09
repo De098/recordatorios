@@ -155,10 +155,31 @@ object Calendario {
         return "${if (nuevo) "Apuntado" else "Guardado"}: ${if (cumple) N.titulo(it) else texto}"
     }
 
-    fun borrar(id: String): String {
-        val it = N.leerItems().firstOrNull { it.id == id.trim() } ?: return "No borrado: ya no está"
-        N.borrarItem(it)
-        return "Borrado: ${it.texto}"
+    /**
+     * cuerpo = el id (borra todo, como siempre) o JSON {id, modo: "esta" | "siguientes", fecha: "AAAA-MM-DD"}
+     * para quitar solo una vez de algo que se repite, o esa y las siguientes.
+     */
+    fun borrar(cuerpo0: String): String {
+        val cuerpo = cuerpo0.trim()
+        var id = cuerpo
+        var modo = "todo"
+        var dia: LocalDate? = null
+        if (cuerpo.startsWith("{")) {
+            try {
+                val j = JSONObject(cuerpo)
+                id = j.optString("id").trim()
+                modo = j.optString("modo", "todo")
+                val f = j.optString("fecha")
+                if (f.isNotEmpty()) dia = LocalDate.parse(f)
+            } catch (_: Exception) { return "No borrado: petición rara" }
+        }
+        val item = N.leerItems().firstOrNull { x -> x.id == id } ?: return "No borrado: ya no está"
+        if ((modo == "esta" || modo == "siguientes") && dia != null && item.repetir != "no" && !item.cumple) {
+            if (!N.quitarVez(item, dia, modo)) return "Borrado: ${item.texto}"
+            return if (modo == "esta") "Borrada solo esa vez: ${item.texto}" else "Borradas esa vez y las siguientes: ${item.texto}"
+        }
+        N.borrarItem(item)
+        return "Borrado: ${item.texto}"
     }
 
     /** Marca como hecha la tarea «id__AAAAMMDDTHHMM». */

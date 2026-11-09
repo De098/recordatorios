@@ -99,7 +99,8 @@ object Notas {
         papelera.mkdirs()
         val destino = File(papelera, "$id.json")
         if (!ruta.renameTo(destino)) { destino.writeText(ruta.readText()); ruta.delete() }
-        return "Borrada (está en notas/papelera por si acaso)"
+        // la carpeta papelera está dentro de la app: la persona no puede entrar, así que no se le promete nada
+        return "Borrada"
     }
 
     /** Crea la contraseña (sal, vueltas y una «prueba» cifrada para comprobarla). Solo si aún no hay. */
