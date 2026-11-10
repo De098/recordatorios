@@ -451,9 +451,21 @@ function pintarAgenda(porDia) {
   if (!alguno && modo === "mes") ag.append(el("div", "vacio", "Nada apuntado este mes"));
 }
 
+// 10-nov (D): los puntos de carga llevan los 3 colores más usados en lo que se ve (mes, semana o agenda);
+// si hay menos de 3 colores, los que faltan se quedan con los de siempre (azul, verde y amarillo del CSS).
+function coloresCarga() {
+  let [ini, fin] = rango();
+  if (modo === "cal") { ini = new Date(vista.getFullYear(), vista.getMonth(), 1); fin = new Date(vista.getFullYear(), vista.getMonth() + 1, 1); }   // sin los días grises de los meses de al lado
+  const desde = iso(ini), hasta = iso(fin), n = {};
+  for (const c of datos.cosas) if (c.c && c.d >= desde && c.d < hasta) n[c.c] = (n[c.c] || 0) + 1;
+  const top = Object.keys(n).sort((x, y) => n[y] - n[x]).slice(0, 3);
+  document.querySelectorAll("#cargando i").forEach((i, k) => { i.style.background = top[k] || ""; });
+}
+
 function pintar() {
   const porDia = {};
   for (const c of datos.cosas) (porDia[c.d] ||= []).push(c);
+  coloresCarga();
   $("bvista").innerHTML = iconoV(modo) + "<span>▾</span>";
   const agenda = modo !== "cal";
   $("scal").hidden = agenda; $("lista").hidden = agenda; $("agenda").hidden = !agenda;
