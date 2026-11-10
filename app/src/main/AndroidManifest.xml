@@ -55,6 +55,16 @@
         </receiver>
 
         <receiver
+            android:name=".WMesGrande"
+            android:label="@string/w_nombre_mes_grande"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/w_mes_grande_info" />
+        </receiver>
+
+        <receiver
             android:name=".WBotones"
             android:label="@string/w_nombre_botones"
             android:exported="true">

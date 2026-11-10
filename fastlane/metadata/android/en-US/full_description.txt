@@ -14,7 +14,7 @@ Exact alarms on the phone itself, with a "Done" button in the notification. They
 Text notes with colours and pinning. Locked notes are encrypted on the phone with your password (PBKDF2 + NaCl secretbox); if you forget it they cannot be recovered.
 
 <b>Widgets</b>
-Upcoming (with "Done"), Month with coloured dots, and Add / New note buttons.
+Upcoming (with "Done"), Month with coloured dots, Month with entries written in each day, and Add / New note buttons.
 
 <b>Backup</b>
 Export everything to a file and restore it on another phone (locked notes stay encrypted).

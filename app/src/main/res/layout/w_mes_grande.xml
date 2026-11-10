@@ -1,0 +1,741 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Widget «Mes con lo apuntado» (10-nov-2026, D: como el mes grande de la web). Generado; cada día: número (gn) y 4 líneas (ge). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/raiz" android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:paddingStart="8dp" android:paddingEnd="8dp" android:paddingTop="10dp" android:paddingBottom="6dp"
+    android:background="@drawable/w_fondo_claro">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center">
+        <TextView android:id="@+id/ant" android:layout_width="48dp" android:layout_height="42dp" android:gravity="center" android:text="‹"
+            android:textSize="26dp" android:textColor="#241F31" android:background="@drawable/w_boton_claro" android:includeFontPadding="false" android:fontFamily="@font/nunito"/>
+        <TextView android:id="@+id/mes" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+            android:gravity="center" android:textSize="18dp" android:textStyle="bold" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+        <TextView android:id="@+id/sig" android:layout_width="48dp" android:layout_height="42dp" android:gravity="center" android:text="›"
+            android:textSize="26dp" android:textColor="#241F31" android:background="@drawable/w_boton_claro" android:includeFontPadding="false" android:fontFamily="@font/nunito"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="8dp" android:layout_marginBottom="2dp"><TextView android:id="@+id/d0" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="center" android:text="L" android:textSize="12dp" android:textColor="#6F6A78" android:fontFamily="@font/nunito"/><TextView android:id="@+id/d1" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="center" android:text="M" android:textSize="12dp" android:textColor="#6F6A78" android:fontFamily="@font/nunito"/><TextView android:id="@+id/d2" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="center" android:text="X" android:textSize="12dp" android:textColor="#6F6A78" android:fontFamily="@font/nunito"/><TextView android:id="@+id/d3" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="center" android:text="J" android:textSize="12dp" android:textColor="#6F6A78" android:fontFamily="@font/nunito"/><TextView android:id="@+id/d4" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="center" android:text="V" android:textSize="12dp" android:textColor="#6F6A78" android:fontFamily="@font/nunito"/><TextView android:id="@+id/d5" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="center" android:text="S" android:textSize="12dp" android:textColor="#6F6A78" android:fontFamily="@font/nunito"/><TextView android:id="@+id/d6" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="center" android:text="D" android:textSize="12dp" android:textColor="#6F6A78" android:fontFamily="@font/nunito"/></LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
+        <LinearLayout android:id="@+id/g0" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn0" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge0_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge0_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge0_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge0_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g1" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn1" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge1_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge1_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge1_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge1_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g2" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn2" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge2_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge2_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge2_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge2_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g3" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn3" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge3_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge3_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge3_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge3_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g4" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn4" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge4_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge4_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge4_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge4_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g5" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn5" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge5_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge5_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge5_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge5_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g6" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn6" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge6_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge6_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge6_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge6_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
+        <LinearLayout android:id="@+id/g7" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn7" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge7_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge7_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge7_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge7_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g8" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn8" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge8_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge8_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge8_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge8_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g9" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn9" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge9_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge9_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge9_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge9_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g10" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn10" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge10_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge10_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge10_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge10_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g11" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn11" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge11_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge11_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge11_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge11_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g12" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn12" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge12_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge12_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge12_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge12_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g13" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn13" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge13_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge13_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge13_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge13_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
+        <LinearLayout android:id="@+id/g14" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn14" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge14_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge14_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge14_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge14_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g15" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn15" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge15_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge15_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge15_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge15_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g16" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn16" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge16_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge16_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge16_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge16_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g17" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn17" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge17_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge17_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge17_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge17_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g18" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn18" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge18_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge18_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge18_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge18_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g19" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn19" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge19_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge19_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge19_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge19_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g20" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn20" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge20_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge20_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge20_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge20_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
+        <LinearLayout android:id="@+id/g21" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn21" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge21_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge21_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge21_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge21_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g22" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn22" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge22_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge22_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge22_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge22_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g23" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn23" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge23_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge23_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge23_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge23_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g24" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn24" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge24_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge24_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge24_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge24_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g25" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn25" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge25_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge25_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge25_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge25_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g26" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn26" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge26_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge26_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge26_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge26_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g27" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn27" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge27_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge27_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge27_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge27_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
+        <LinearLayout android:id="@+id/g28" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn28" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge28_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge28_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge28_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge28_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g29" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn29" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge29_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge29_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge29_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge29_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g30" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn30" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge30_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge30_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge30_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge30_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g31" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn31" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge31_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge31_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge31_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge31_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g32" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn32" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge32_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge32_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge32_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge32_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g33" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn33" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge33_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge33_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge33_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge33_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g34" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn34" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge34_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge34_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge34_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge34_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
+        <LinearLayout android:id="@+id/g35" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn35" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge35_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge35_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge35_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge35_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g36" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn36" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge36_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge36_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge36_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge36_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g37" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn37" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge37_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge37_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge37_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge37_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g38" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn38" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge38_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge38_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge38_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge38_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g39" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn39" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge39_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge39_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge39_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge39_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g40" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn40" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge40_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge40_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge40_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge40_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/g41" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:orientation="vertical"
+            android:paddingStart="2dp" android:paddingEnd="2dp" android:paddingTop="2dp" android:background="@drawable/w_celda_claro">
+            <TextView android:id="@+id/gn41" android:layout_width="21dp" android:layout_height="21dp" android:gravity="center" android:textSize="12dp"
+                android:includeFontPadding="false" android:textColor="#241F31" android:fontFamily="@font/nunito"/>
+            <TextView android:id="@+id/ge41_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge41_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge41_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+            <TextView android:id="@+id/ge41_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp"
+                android:paddingStart="2dp" android:paddingEnd="1dp" android:maxLines="1" android:ellipsize="end" android:textSize="9.5dp" android:includeFontPadding="false"
+                android:textColor="#241F31" android:background="@drawable/w_ev" android:fontFamily="@font/nunito" android:visibility="gone"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

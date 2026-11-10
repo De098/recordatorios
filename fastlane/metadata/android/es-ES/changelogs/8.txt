@@ -1,4 +1,5 @@
-Calendario: número de semana más discreto, número del día centrado, cumpleaños más simétrico, subrayado de lo importante en un rojo más claro y, al cargar, tres puntos con los colores del mes.
-Ajustes cabe con la letra muy grande y trae casillas marcadas al final, volver a ver la guía, Acerca de y cambiar u olvidar la contraseña de los candados.
-Con una ventana abierta, la página de debajo ya no se mueve.
-Títulos largos de las notas enteros; «guardada» junto a «Importante».
+Widget nuevo «Mes con lo apuntado»: cada día con lo apuntado escrito.
+Calendario: número de semana más discreto, número del día centrado, cumpleaños más simétrico, importante en un rojo más claro y tres puntos de colores al cargar.
+Ajustes: cambiar u olvidar la contraseña de los candados, casillas marcadas al final, volver a ver la guía y Acerca de; cabe con letra muy grande.
+Notas: candado a la derecha y títulos largos enteros.
+Con una ventana abierta, lo de debajo ya no se mueve.

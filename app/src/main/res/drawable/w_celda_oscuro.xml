@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- casilla del widget «Mes con lo apuntado»: raya fina a la derecha y abajo -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item><shape android:shape="rectangle"><solid android:color="#3A3A42"/></shape></item>
+    <item android:right="1dp" android:bottom="1dp"><shape android:shape="rectangle"><solid android:color="#00000000"/></shape></item>
+</layer-list>

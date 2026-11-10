@@ -7,6 +7,7 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Color
 import android.net.Uri
@@ -60,6 +61,7 @@ object Widgets {
         val am = AppWidgetManager.getInstance(c)
         for (id in am.getAppWidgetIds(ComponentName(c, WProximos::class.java))) proximos(c, am, id)
         for (id in am.getAppWidgetIds(ComponentName(c, WMes::class.java))) mes(c, am, id)
+        for (id in am.getAppWidgetIds(ComponentName(c, WMesGrande::class.java))) mesGrande(c, am, id)
         for (id in am.getAppWidgetIds(ComponentName(c, WBotones::class.java))) botones(c, am, id)
     }
 
@@ -269,6 +271,83 @@ object Widgets {
         am.updateAppWidget(wid, v)
     }
 
+    // ---------------------------------------------------------------- MES CON LO APUNTADO (11-nov, D: como el mes grande de la web)
+    /** Cada día con lo apuntado escrito (título con su color de fondo); caben más líneas cuanto más alto es el widget. */
+    fun mesGrande(c: Context, am: AppWidgetManager, wid: Int) {
+        val p = paleta(c)
+        val prefs = c.getSharedPreferences("sincro", Context.MODE_PRIVATE)
+        val desplaza = prefs.getInt("mes_$wid", 0)
+        val v = RemoteViews(c.packageName, R.layout.w_mes_grande)
+        v.setInt(R.id.raiz, "setBackgroundResource", p.fondo)
+        v.setTextColor(R.id.mes, p.texto)
+        for (b in intArrayOf(R.id.ant, R.id.sig)) { v.setInt(b, "setBackgroundResource", p.boton); v.setTextColor(b, p.texto) }
+        for (s in intArrayOf(R.id.d0, R.id.d1, R.id.d2, R.id.d3, R.id.d4, R.id.d5, R.id.d6)) v.setTextColor(s, p.suave)
+
+        // líneas por día según el alto del widget (en dp): cabecera ~80 dp, 6 filas, ~13 dp por línea
+        val alto = am.getAppWidgetOptions(wid).getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT, 0).takeIf { it > 0 } ?: 300
+        val lineas = (((alto - 80) / 6f - 24) / 13f).toInt().coerceIn(1, 4)
+
+        val hoy = Calendar.getInstance()
+        val m = Calendar.getInstance().apply { set(Calendar.DAY_OF_MONTH, 1); add(Calendar.MONTH, desplaza) }
+        v.setTextViewText(R.id.mes, MESES[m.get(Calendar.MONTH)].replaceFirstChar { it.uppercase() } + " " + m.get(Calendar.YEAR))
+        val porDia = HashMap<String, MutableList<JSONObject>>()
+        datos(c, desplaza)?.optJSONArray("cosas")?.let { cs ->
+            for (i in 0 until cs.length()) { val o = cs.getJSONObject(i); porDia.getOrPut(o.optString("d")) { mutableListOf() } += o }
+        }
+        val celda = if (p.oscuro) R.drawable.w_celda_oscuro else R.drawable.w_celda_claro
+        // fondo de cada cosa: teñido con esquinas redondas en Android 12+; en los anteriores, color liso
+        fun fondo(id: Int, color: Int) =
+            if (Build.VERSION.SDK_INT >= 31) v.setColorStateList(id, "setBackgroundTintList", ColorStateList.valueOf(color))
+            else v.setInt(id, "setBackgroundColor", color)
+        val dia = m.clone() as Calendar
+        dia.add(Calendar.DAY_OF_MONTH, -((m.get(Calendar.DAY_OF_WEEK) + 5) % 7))   // empezar en lunes
+        for (n in 0 until 42) {
+            val idG = c.resources.getIdentifier("g$n", "id", c.packageName)
+            val idN = c.resources.getIdentifier("gn$n", "id", c.packageName)
+            val iso = String.format(Locale.ROOT, "%04d-%02d-%02d", dia.get(Calendar.YEAR), dia.get(Calendar.MONTH) + 1, dia.get(Calendar.DAY_OF_MONTH))
+            val delMes = dia.get(Calendar.MONTH) == m.get(Calendar.MONTH)
+            val esHoy = dia.get(Calendar.YEAR) == hoy.get(Calendar.YEAR) && dia.get(Calendar.DAY_OF_YEAR) == hoy.get(Calendar.DAY_OF_YEAR)
+            val cosas = porDia[iso].orEmpty()
+            val imp = cosas.any { it.optBoolean("imp") }
+            val claro = { col: Int -> if (delMes) col else (col and 0x00FFFFFF) or 0x55000000 }
+            v.setInt(idG, "setBackgroundResource", celda)
+            v.setTextViewText(idN, dia.get(Calendar.DAY_OF_MONTH).toString())
+            v.setTextColor(idN, when { esHoy -> p.hoyTexto; imp && delMes -> p.rojo; else -> claro(p.texto) })
+            v.setInt(idN, "setBackgroundResource", if (esHoy) p.hoy else 0)
+            // lo que no quepa: la última línea dice «+N»
+            val ver = if (cosas.size > lineas) cosas.take(lineas - 1) else cosas
+            for (j in 0 until 4) {
+                val idE = c.resources.getIdentifier("ge${n}_$j", "id", c.packageName)
+                val o = ver.getOrNull(j)
+                val mas = o == null && j == ver.size && cosas.size > ver.size
+                v.setViewVisibility(idE, if (o != null || mas) View.VISIBLE else View.GONE)
+                if (mas) {
+                    v.setTextViewText(idE, "+${cosas.size - ver.size}")
+                    v.setTextColor(idE, claro(p.suave))
+                    fondo(idE, Color.TRANSPARENT)
+                } else if (o != null) {
+                    val col = try { Color.parseColor(o.optString("c")) } catch (_: Exception) { p.suave }
+                    val hecho = o.optBoolean("hecho")
+                    val t = o.optString("tt").ifEmpty { o.optString("t") }
+                    v.setTextViewText(idE, if (o.optBoolean("imp")) SpannableStringBuilder(t).apply {
+                        setSpan(android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE) } else t)
+                    v.setTextColor(idE, claro(if (hecho) p.suave else p.texto))
+                    // color de la cosa, suave (como en la web); lo hecho y los otros meses, más claro aún
+                    val alfa = if (hecho || !delMes) 0x22 else if (p.oscuro) 0x55 else 0x40
+                    fondo(idE, (col and 0x00FFFFFF) or (alfa shl 24))
+                }
+            }
+            v.setOnClickPendingIntent(idG, abrir(c, wid * 100 + n, dia = iso, pestana = "cal"))
+            dia.add(Calendar.DAY_OF_MONTH, 1)
+        }
+        v.setOnClickPendingIntent(R.id.mes, abrir(c, 9300 + wid))
+        for ((b, delta) in listOf(R.id.ant to -1, R.id.sig to 1))
+            v.setOnClickPendingIntent(b, PendingIntent.getBroadcast(c, wid * 10 + delta + 5,
+                Intent(c, WMesGrande::class.java).setAction(ACC_MES).putExtra("wid", wid).putExtra("delta", delta),
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT))
+        am.updateAppWidget(wid, v)
+    }
+
     // ---------------------------------------------------------------- BOTONES
     private fun botones(c: Context, am: AppWidgetManager, wid: Int) {
         val p = paleta(c)
@@ -315,7 +394,12 @@ class WBotones : AppWidgetProvider() {
     override fun onUpdate(c: Context, am: AppWidgetManager, ids: IntArray) = Widgets.actualizarTodos(c)
 }
 
-class WMes : AppWidgetProvider() {
+/** «Mes con lo apuntado» (11-nov): mismo cambio de mes que WMes; al cambiar el tamaño caben más o menos líneas. */
+class WMesGrande : WMes() {
+    override fun onAppWidgetOptionsChanged(c: Context, am: AppWidgetManager, wid: Int, op: Bundle) = Widgets.mesGrande(c, am, wid)
+}
+
+open class WMes : AppWidgetProvider() {
     override fun onUpdate(c: Context, am: AppWidgetManager, ids: IntArray) = Widgets.actualizarTodos(c)
     override fun onReceive(c: Context, i: Intent) {
         if (i.action == Widgets.ACC_MES) {

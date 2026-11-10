@@ -13,7 +13,7 @@ se instala y se actualiza sola: pulsa el segundo botón desde el móvil o añade
   cumpleaños, buscador, importantes en MAYÚSCULAS.
 - **Avisos**: alarmas exactas locales, con botón «✔ Hecho»; se reprograman al encender el móvil.
 - **Notas** con colores, fijadas y candado (cifrado en el móvil: PBKDF2-HMAC-SHA512 + TweetNaCl secretbox).
-- **Widgets**: Próximos, Mes y Apuntar/Nota.
+- **Widgets**: Próximos, Mes, Mes con lo apuntado y Apuntar/Nota.
 
 ## Cómo está hecha
 
@@ -28,7 +28,7 @@ Kotlin sin dependencias (solo la plataforma Android). La interfaz son dos págin
 | `Notas.kt` | notas y candado (el cifrado lo hace la página, aquí nunca se descifra) |
 | `Rutas.kt` | puente entre las páginas y las clases anteriores |
 | `Programador.kt`, `Avisos.kt` | alarmas locales, notificaciones y botón «Hecho» |
-| `Widgets.kt` | los tres widgets |
+| `Widgets.kt` | los cuatro widgets |
 
 Los datos están en la carpeta privada de la app; no hay copia de seguridad en la nube (`allowBackup=false`).
 
