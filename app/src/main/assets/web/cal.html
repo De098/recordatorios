@@ -46,9 +46,10 @@ header button { min-width: 44px; font-size: 1.2rem; }
   color: var(--suave); font-size: .8rem; padding-bottom: 4px; }
 .mes { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
 .dia { background: none; border-radius: 10px; min-height: 52px; padding: 4px 0 2px;
-  display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  display: flex; flex-direction: column; align-items: center; gap: 1px; }   /* 10-nov (D): puntos más cerca del número (antes 3px); la casilla sigue midiendo lo mismo */
 .dia.fuera { opacity: .35; }
-.dia .n { width: 30px; height: 30px; line-height: 30px; border-radius: 50%; font-size: .95rem; }
+/* 10-nov (D): line-height 31px baja el número medio píxel; con Nunito quedaba alto dentro del círculo */
+.dia .n { width: 30px; height: 30px; line-height: 31px; border-radius: 50%; font-size: .95rem; }
 .dia.hoy .n { background: var(--acento); color: var(--hoy-texto); font-weight: 700; }
 /* seleccionado: círculo detrás del número (el recuadro de toda la casilla quedaba descentrado con los rayos) */
 .dia.sel .n { background: var(--sel); }
@@ -58,9 +59,9 @@ header button { min-width: 44px; font-size: 1.2rem; }
 /* día de CUMPLEAÑOS: rayos de sol amarillos alrededor del número */
 .dia.cumple .n { position: relative; }
 .dia.cumple .n::before { content: ""; position: absolute; inset: -7px; pointer-events: none;
-  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'><g stroke='%23e5a50a' stroke-width='2.4' stroke-linecap='round'><line x1='22.0' y1='6.5' x2='22.0' y2='1.5'/><line x1='33.0' y1='11.0' x2='36.5' y2='7.5'/><line x1='38.5' y1='22.0' x2='43.5' y2='22.0'/><line x1='33.0' y1='33.0' x2='36.5' y2='36.5'/><line x1='11.0' y1='33.0' x2='7.5' y2='36.5'/><line x1='5.5' y1='22.0' x2='0.5' y2='22.0'/><line x1='11.0' y1='11.0' x2='7.5' y2='7.5'/></g></svg>") center / contain no-repeat; }
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'><g stroke='%23e5a50a' stroke-width='2.4' stroke-linecap='round'><line x1='22.0' y1='6.5' x2='22.0' y2='1.5'/><line x1='33.0' y1='11.0' x2='36.5' y2='7.5'/><line x1='37.5' y1='22.0' x2='42.5' y2='22.0'/><line x1='33.0' y1='33.0' x2='36.5' y2='36.5'/><line x1='11.0' y1='33.0' x2='7.5' y2='36.5'/><line x1='6.5' y1='22.0' x2='1.5' y2='22.0'/><line x1='11.0' y1='11.0' x2='7.5' y2='7.5'/></g></svg>") center / contain no-repeat; }
 /* cumple solo (sin puntos ni subrayado): también el rayo de abajo */
-.dia.cumple.solo .n::before { background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'><g stroke='%23e5a50a' stroke-width='2.4' stroke-linecap='round'><line x1='22.0' y1='6.5' x2='22.0' y2='1.5'/><line x1='33.0' y1='11.0' x2='36.5' y2='7.5'/><line x1='38.5' y1='22.0' x2='43.5' y2='22.0'/><line x1='33.0' y1='33.0' x2='36.5' y2='36.5'/><line x1='22.0' y1='37.5' x2='22.0' y2='42.5'/><line x1='11.0' y1='33.0' x2='7.5' y2='36.5'/><line x1='5.5' y1='22.0' x2='0.5' y2='22.0'/><line x1='11.0' y1='11.0' x2='7.5' y2='7.5'/></g></svg>"); }
+.dia.cumple.solo .n::before { background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'><g stroke='%23e5a50a' stroke-width='2.4' stroke-linecap='round'><line x1='22.0' y1='6.5' x2='22.0' y2='1.5'/><line x1='33.0' y1='11.0' x2='36.5' y2='7.5'/><line x1='37.5' y1='22.0' x2='42.5' y2='22.0'/><line x1='33.0' y1='33.0' x2='36.5' y2='36.5'/><line x1='22.0' y1='37.5' x2='22.0' y2='42.5'/><line x1='11.0' y1='33.0' x2='7.5' y2='36.5'/><line x1='6.5' y1='22.0' x2='1.5' y2='22.0'/><line x1='11.0' y1='11.0' x2='7.5' y2='7.5'/></g></svg>"); }
 .dia.imp .n { text-decoration: underline 3px var(--rojo); text-underline-offset: 4px; text-decoration-skip-ink: none; }
 .fila.imp { background: color-mix(in srgb, var(--rojo) 10%, transparent); border-radius: 8px; }
 .fila.imp .t { font-weight: 800; }
