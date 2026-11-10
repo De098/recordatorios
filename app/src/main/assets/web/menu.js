@@ -12,7 +12,7 @@
   // 10-nov (D): con la letra de Android más grande, agrandar TODO a la vez (como una lupa) en vez de solo la letra,
   // así no se descuadra. Tope 1,3 para que en móviles con letra enorme no quede la pantalla demasiado estrecha.
   // Ajustes guardados en este móvil (ver AJUSTES más abajo). Uso en las páginas: ajustes.leer("aviso"); al cambiar llega el evento «ajustes».
-  const AJ_DEF = {letra: 1, aviso: 1440, numsemana: false, verhechos: true};
+  const AJ_DEF = {letra: 1, aviso: 1440, numsemana: false, verhechos: true, alfinal: true};
   const ajLeer = () => { try { return Object.assign({}, AJ_DEF, JSON.parse(localStorage.getItem("ajustes") || "{}")); } catch (e) { return Object.assign({}, AJ_DEF); } };
   const ajAvisar = k => { if (!k || k === "letra") ponerZoom(); window.dispatchEvent(new CustomEvent("ajustes", {detail: k})); };
   window.ajustes = {
@@ -197,7 +197,8 @@ input#bq, input#buscar { background-image: ${LUPA_URL}; background-repeat: no-re
 
   const R = pagina === "notas" ? "/notas" : "/cal";   // los iconos (logo.svg, logo-notas.svg) se sirven en las dos rutas
   /* AJUSTES (10-nov-2026): ventana que sube desde abajo al pulsar «Ajustes» en el menú.
-     Tema · tamaño de la letra · aviso de las citas nuevas · número de la semana · ver las tareas hechas.
+     Tema · tamaño de la letra · aviso de las citas nuevas · número de la semana · ver las tareas hechas
+     · casillas marcadas al final (notas) · volver a ver la guía · acerca de (versión, licencia, código).
      Todo se guarda en este móvil (tema en «tema», lo demás en «ajustes») y se aplica al momento. */
   const AV = [[null, "Sin aviso"], [0, "A la hora"], [30, "30 min antes"], [60, "1 hora antes"], [120, "2 horas antes"],
     [180, "3 horas antes"], [360, "6 horas antes"], ["dia", "Al empezar el día (desde las 7:00)"], [1440, "1 día antes"],
@@ -258,6 +259,20 @@ input#bq, input#buscar { background-image: ${LUPA_URL}; background-repeat: no-re
   background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 16'><path d='M2,2 l6,6 l-6,6' fill='none' stroke='%236f6a78' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat right center / 9px 15px; }
 html.estrecho #acaja .acampo > span { white-space: normal; }   /* pantalla estrecha: el nombre en dos líneas, el valor entero */
 #acaja .acampo em { white-space: nowrap; flex: none; }
+/* 10-nov: fila-casilla dentro de un campo con nota, filas-botón (guía, código) y la cabecera de «Acerca de» */
+#acaja .acampo.afila { min-height: 0; }
+#acaja .aboton { width: 100%; border: 0; padding: 0; background: none; font: inherit; text-align: left; text-decoration: none; }
+#acaja .acampo em { font-style: normal; color: var(--suave); }
+#acaja .aboton em { color: var(--acento); font-weight: 700; padding-right: 18px;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 16'><path d='M2,2 l6,6 l-6,6' fill='none' stroke='%236f6a78' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat right center / 9px 15px; min-height: 15px; }
+#acaja .aacerca .acab { display: flex; align-items: center; gap: 12px; padding: 14px 0 6px; }
+#acaja .aacerca .acab img { width: 40px; height: 46px; flex: none; }
+#acaja .aacerca .acab b { display: block; font-size: 1.05rem; font-weight: 800; }
+#acaja .aacerca .acab small { color: var(--suave); font-size: .85rem; }
+#acaja .aacerca > .anota { margin: 0 2px 10px; }
+#acaja .aacerca > .anota + .acampo { border-top: 1px solid var(--linea); }
+#acaja div.acampo em { background: none; padding-right: 0; }
+#acaja .aacerca > .acampo { border-radius: 0; }
 #acaja .apie { margin: 14px 8px 0; text-align: center; font-size: .78rem; color: var(--suave); }
 @media (prefers-reduced-motion: reduce) { #afondo, #acaja, #acaja input.aint, #acaja input.aint::before { transition: none; } }`;
 
@@ -283,12 +298,26 @@ html.estrecho #acaja .acampo > span { white-space: normal; }   /* pantalla estre
         <label class="acampo"><span>Número de la semana</span><input type="checkbox" class="aint" id="anumsemana"></label>
         <label class="acampo"><span>Ver las tareas hechas</span><input type="checkbox" class="aint" id="averhechos"></label>
       </div>
-      <h3 class="aapp">La app</h3>
-      <div class="agrupo aapp">
-        <button type="button" class="acampo" id="aversiones"><span>Buscar actualizaciones</span><em id="aver"></em></button>
+      <h3>Notas</h3>
+      <div class="agrupo">
+        <div class="acampo col"><label class="acampo afila"><span>Casillas marcadas al final</span><input type="checkbox" class="aint" id="aalfinal"></label>
+          <p class="anota">Al marcar una casilla baja al final de su lista; al desmarcarla vuelve con las que faltan.</p></div>
       </div>
-      <p class="anota aapp" style="margin: 6px 8px 0">Abre en el navegador la página de versiones (GitHub). La app no usa internet.</p>
-      <p class="apie">Se guardan en este móvil.</p></div>`;
+      <p class="apie">Se guardan en este móvil.</p>
+      <h3>Ayuda</h3>
+      <div class="agrupo">
+        <button type="button" class="acampo aboton" id="aguia"><span>Volver a ver la guía</span><em></em></button>
+      </div>
+      <h3>Acerca de</h3>
+      <div class="agrupo aacerca">
+        <div class="acab"><img src="${R}/logo.svg" alt=""><div><b>Recordatorios</b><small id="aacver">Versión web</small></div></div>
+        <p class="anota">Calendario y notas privadas. Sin anuncios ni rastreo: tus datos se quedan en tu móvil.</p>
+        <button type="button" class="acampo aapp" id="aversiones"><span>Buscar actualizaciones</span><em id="aver"></em></button>
+        <div class="acampo"><span>Licencia</span><em>GPL-3.0</em></div>
+        <a class="acampo aboton" href="https://github.com/De098/recordatorios"><span>Código</span><em>GitHub</em></a>
+        <div class="acampo"><span>Letra</span><em>Nunito (OFL)</em></div>
+      </div>
+      <p class="anota aapp" style="margin: 6px 8px 0">«Buscar actualizaciones» abre en el navegador la página de versiones (GitHub). La app no usa internet.</p></div>`;
     document.body.append(f);
     for (const e of f.querySelectorAll(".acal")) e.hidden = !hayCal;
     // buscar actualizaciones: solo abre la página de versiones; se compara a ojo con la versión que se ve aquí
@@ -307,6 +336,19 @@ html.estrecho #acaja .acampo > span { white-space: normal; }   /* pantalla estre
     f.querySelector("#aaviso").onchange = ev => window.ajustes.poner("aviso", JSON.parse(ev.target.value));
     f.querySelector("#anumsemana").onchange = ev => window.ajustes.poner("numsemana", ev.target.checked);
     f.querySelector("#averhechos").onchange = ev => window.ajustes.poner("verhechos", ev.target.checked);
+    f.querySelector("#aalfinal").onchange = ev => window.ajustes.poner("alfinal", ev.target.checked);
+    // 10-nov (D): «Volver a ver la guía»: borra el «No volver a mostrar» y la enseña ya (en Notas, pasando al calendario).
+    // El aviso va en localStorage porque en la app Calendario y Notas son dos vistas ya cargadas: la del calendario
+    // lo recoge con el evento «storage» (ver GUÍA); en el navegador, al cargar /cal.
+    f.querySelector("#aguia").onclick = () => {
+      try { localStorage.removeItem("guiaVista"); sessionStorage.removeItem("guia"); localStorage.setItem("guiaForzar", String(Date.now())); } catch (e) {}
+      if (pagina !== "cal" || !verGuia) { location.href = "/cal"; return; }
+      aCerrar(); setTimeout(verGuia, 350);
+    };
+    try {
+      const app = window.Recordatorios, v = app && app.version && app.version();
+      if (v) f.querySelector("#aacver").textContent = "Versión " + v;
+    } catch (e) {}
     return f;
   }
   function aPintar() {
@@ -318,7 +360,9 @@ html.estrecho #acaja .acampo > span { white-space: normal; }   /* pantalla estre
     f.querySelector("#aaviso").value = JSON.stringify(a.aviso);
     f.querySelector("#anumsemana").checked = !!a.numsemana;
     f.querySelector("#averhechos").checked = a.verhechos !== false;
+    f.querySelector("#aalfinal").checked = a.alfinal !== false;
   }
+  let verGuia = null;   // la pone montar(): enseña la guía aunque se marcara «No volver a mostrar»
   const aAbierto = () => { const f = document.getElementById("afondo"); return !!f && !f.hidden; };
   function aAbrir() {
     const f = aCaja(); aPintar();
@@ -363,9 +407,13 @@ html.estrecho #acaja .acampo > span { white-space: normal; }   /* pantalla estre
 @media (prefers-reduced-motion: reduce) { #gfondo { transition: none; } #gfoco { animation: none; } }`;
   function guiaInicio(abrirMenu) {
     let ver = false;
-    try { ver = pagina === "cal" && !!window.Recordatorios && !localStorage.getItem("guiaVista") && !sessionStorage.getItem("guia"); } catch (e) {}
+    try {
+      const forzar = !!localStorage.getItem("guiaForzar");   // pedida en Ajustes → «Volver a ver la guía» (también en el navegador)
+      ver = pagina === "cal" && (forzar || (!!window.Recordatorios && !localStorage.getItem("guiaVista") && !sessionStorage.getItem("guia")));
+      if (ver) localStorage.removeItem("guiaForzar");
+    } catch (e) {}
     const logo = document.querySelector("img.logo");
-    if (!ver || !logo) return;
+    if (!ver || !logo || document.getElementById("gfondo")) return;
     try { sessionStorage.setItem("guia", "1"); } catch (e) {}
     const st = document.createElement("style"); st.textContent = CSS_GUIA; document.head.append(st);
     const f = document.createElement("div"); f.id = "gfondo";
@@ -468,7 +516,10 @@ html.estrecho #acaja .acampo > span { white-space: normal; }   /* pantalla estre
       l.addEventListener("click", ev => { ev.stopPropagation(); abrir(); });
       l.addEventListener("keydown", ev => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); abrir(); } });
     }
-    setTimeout(() => guiaInicio(abrir), 400);   // guía de bienvenida (ver GUÍA)
+    verGuia = () => guiaInicio(abrir);
+    setTimeout(verGuia, 400);   // guía de bienvenida (ver GUÍA)
+    // pedida desde Ajustes en Notas (la otra vista de la app): enseñarla aquí al pasar al calendario
+    window.addEventListener("storage", ev => { if (ev.key === "guiaForzar" && ev.newValue) setTimeout(verGuia, 350); });
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", montar); else montar();
 

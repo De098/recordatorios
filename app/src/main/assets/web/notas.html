@@ -438,10 +438,39 @@ function volcar() {
   $("etexto").value = l.join("\n");
   programar();
 }
+// 10-nov (D): «Casillas marcadas al final» (Ajustes, sí por defecto). En cada lista (casillas seguidas) las marcadas van
+// detrás de las sin marcar, cada grupo en su orden de antes. Se aplica al marcar o desmarcar una.
+const alFinal = () => !window.ajustes || ajustes.leer("alfinal") !== false;
+const marcada = l => /^\s*- \[[xX]\]/.test(l);
+function bajarHechas(lineas) {   // lineas: array de textos; devuelve otro array
+  const r = [];
+  for (let i = 0; i < lineas.length;) {
+    if (!CASILLA_RE.test(lineas[i])) { r.push(lineas[i++]); continue; }
+    let j = i; while (j < lineas.length && CASILLA_RE.test(lineas[j])) j++;
+    const lista = lineas.slice(i, j);
+    r.push(...lista.filter(l => !marcada(l)), ...lista.filter(marcada));
+    i = j;
+  }
+  return r;
+}
+function bajarFilas() {   // lo mismo en el editor, moviendo las filas (el texto escrito no cambia)
+  const filas = [...$("eeditor").children];
+  for (let i = 0; i < filas.length;) {
+    if (!filas[i].querySelector(".cbx")) { i++; continue; }
+    let j = i; while (j < filas.length && filas[j].querySelector(".cbx")) j++;
+    const lista = filas.slice(i, j), antes = filas[i].previousElementSibling, padre = $("eeditor");
+    const orden = [...lista.filter(f => !f.querySelector(".cbx").checked), ...lista.filter(f => f.querySelector(".cbx").checked)];
+    if (orden.some((f, k) => f !== lista[k])) {
+      let ref = antes;
+      for (const f of orden) { if (ref) ref.after(f); else padre.prepend(f); ref = f; }
+    }
+    i = j;
+  }
+}
 function ponerCasilla(f, hecha) {
   if (f.querySelector(".cbx")) return;
   const cb = el("input", "cbx"); cb.type = "checkbox"; cb.checked = !!hecha; cb.setAttribute("aria-label", "Casilla");
-  cb.onchange = () => { f.classList.toggle("hecha", cb.checked); volcar(); };
+  cb.onchange = () => { f.classList.toggle("hecha", cb.checked); if (alFinal()) bajarFilas(); volcar(); };
   f.classList.toggle("hecha", !!hecha); f.prepend(cb);
 }
 function quitarCasilla(f) { f.querySelector(".cbx")?.remove(); f.classList.remove("hecha"); delete f.dataset.sangria; }
@@ -533,7 +562,10 @@ function vista() {
       m[3] = m[3] || "";
       const lab = el("label", m[2] !== " " ? "hecha" : ""), cb = el("input"); cb.type = "checkbox"; cb.checked = m[2] !== " ";
       const sp = el("span"); enlazar(sp, m[3]);
-      cb.onchange = () => { lineas[i] = `${m[1]}- [${cb.checked ? "x" : " "}] ${m[3]}`; $("etexto").value = lineas.join("\n"); programar(300); vista(); };
+      cb.onchange = () => {
+        lineas[i] = `${m[1]}- [${cb.checked ? "x" : " "}] ${m[3]}`;
+        $("etexto").value = (alFinal() ? bajarHechas(lineas) : lineas).join("\n"); programar(300); vista();
+      };
       lab.onclick = e => e.stopPropagation();
       lab.append(cb, sp); v.append(lab);
     } else if (/^#{1,3} /.test(l)) {
