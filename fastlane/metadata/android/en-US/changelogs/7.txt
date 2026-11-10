@@ -9,3 +9,4 @@ Colours are picked with real colour dots, also in notes, which now default to th
 With a larger Android font size, the whole app scales up proportionally without breaking the layout.
 Now works on Android 10 and later (it used to need Android 13).
 “Important” checkbox next to the title in the calendar and in notes (it used to require typing in capitals).
+New Settings screen (logo menu): theme, text size, default reminder for new appointments, week numbers, show or hide done tasks, and "Check for updates" (opens the releases page; the app still has no internet access).

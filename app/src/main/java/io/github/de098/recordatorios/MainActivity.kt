@@ -83,6 +83,14 @@ class MainActivity : Activity() {
         fun version(): String =
             try { packageManager.getPackageInfo(packageName, 0).versionName ?: "" } catch (_: Exception) { "" }
 
+        /** Ajustes → «Buscar actualizaciones»: abre en el navegador la página de versiones de GitHub.
+         *  La app no se conecta a nada (sigue sin permiso de internet): la persona mira allí si hay una nueva. */
+        @JavascriptInterface
+        fun abrirVersiones() = runOnUiThread {
+            try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/De098/recordatorios/releases"))) }
+            catch (_: Exception) { aviso("No hay navegador para abrir la página") }
+        }
+
         /** Tamaño de letra de Android (1 = normal); menu.js agranda toda la página en proporción. */
         @JavascriptInterface
         fun escala(): Float = resources.configuration.fontScale

@@ -67,6 +67,11 @@ header button { min-width: 44px; font-size: 1.2rem; }
 .fila.imp .barra { width: 8px; }
 .puntos i { width: 7px; height: 7px; border-radius: 50%; display: block; }
 .puntos i.hecho { opacity: .35; }
+/* número de la semana (Ajustes): columna estrecha a la izquierda del mes */
+.nsem { display: none; }
+#scal.connum .semana, #scal.connum .mes { grid-template-columns: 20px repeat(7, 1fr); }
+#scal.connum .nsem { display: block; }
+.mes .nsem { padding-top: 11px; text-align: center; font-size: .68rem; font-weight: 700; color: var(--suave); opacity: .8; }
 h2 { font-size: 1rem; margin: 4px 4px 8px; }
 h2.aviso { color: var(--rojo); }
 /* 9-nov (D): «Sin hacer» con el estilo de los días de las agendas (el resumen del día, #lista h2, se queda como estaba) */
@@ -275,7 +280,7 @@ header h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-
   <p id="error">No se han podido leer los datos.</p>
   <section class="tarjeta" id="pend" hidden></section>
   <section class="tarjeta" id="scal">
-    <div class="semana"><span>L</span><span>M</span><span>X</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
+    <div class="semana"><span class="nsem"></span><span>L</span><span>M</span><span>X</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
     <div class="mes" id="mes"></div>
   </section>
   <section class="tarjeta" id="lista"></section>
@@ -379,6 +384,15 @@ let modo = "cal";
 try { modo = localStorage.getItem("vista") || "cal"; } catch (e) {}
 { const pv = new URLSearchParams(location.search).get("vista"); if (NOMBRES_V[pv]) modo = pv; }   // enlace directo: ?vista=semana
 if (!NOMBRES_V[modo]) modo = "cal";
+// AJUSTES (menu.js): ver lo hecho y número de la semana
+const verHechos = () => !window.ajustes || ajustes.leer("verhechos") !== false;
+const conNumSemana = () => !!window.ajustes && !!ajustes.leer("numsemana");
+function semanaISO(d) {
+  const x = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  x.setUTCDate(x.getUTCDate() + 4 - (x.getUTCDay() || 7));   // el jueves de esa semana decide el año
+  return Math.ceil(((x - Date.UTC(x.getUTCFullYear(), 0, 1)) / 864e5 + 1) / 7);
+}
+window.addEventListener("ajustes", () => pintar());
 function lunesDe(d) { const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate() - (x.getDay() + 6) % 7); return x; }
 let lunesRef = lunesDe(new Date());
 function rango() {
@@ -410,7 +424,7 @@ function pintarAgenda(porDia) {
   const [ini, fin] = rango();
   let alguno = false;
   for (const d = new Date(ini); d < fin; d.setDate(d.getDate() + 1)) {
-    const k = iso(d), cosas = porDia[k] || [];
+    const k = iso(d), cosas = (porDia[k] || []).filter(c => verHechos() || !c.hecho);
     if (modo === "mes" && !cosas.length) continue;   // en el mes, solo los días con algo
     alguno = alguno || cosas.length > 0;
     const h = el("h3", k === datos.hoy ? "hoy" : "", `${DIAS[d.getDay()]} ${d.getDate()}${modo === "mes" ? "" : " " + MESES[d.getMonth()].slice(0, 3)}${k === datos.hoy ? " · hoy" : ""}`);
@@ -435,8 +449,10 @@ function pintar() {
   } else $("titulo").textContent = `${MESES[vista.getMonth()]} ${vista.getFullYear()}`;
   if (agenda) { pintarPendientes(); pintarAgenda(porDia); return; }
   const [ini] = rango(), mes = $("mes"); mes.replaceChildren();
+  const num = conNumSemana(); $("scal").classList.toggle("connum", num);
   for (let i = 0; i < 42; i++) {
     const d = new Date(ini); d.setDate(d.getDate() + i);
+    if (num && i % 7 === 0) mes.append(el("span", "nsem", semanaISO(d)));
     const k = iso(d), b = el("button", "dia");
     if (d.getMonth() !== vista.getMonth()) b.classList.add("fuera");
     if (k === datos.hoy) b.classList.add("hoy");
@@ -474,8 +490,8 @@ function pintarDia(porDia) {
   const ds = deIso(sel);
   const fecha = `${DIAS[ds.getDay()]} ${ds.getDate()} de ${MESES[ds.getMonth()]}`;
   lista.append(el("h2", "", sel === datos.hoy ? `Hoy, ${fecha}` : fecha[0].toUpperCase() + fecha.slice(1)));
-  const del = porDia[sel] || [];
-  if (!del.length) lista.append(el("div", "vacio", "Nada este día"));
+  const todo = porDia[sel] || [], del = verHechos() ? todo : todo.filter(c => !c.hecho);
+  if (!del.length) lista.append(el("div", "vacio", todo.length ? "Todo hecho ✔" : "Nada este día"));
   for (const c of del) lista.append(fila(c, null));
 }
 
@@ -659,7 +675,7 @@ function abrirNuevo(dia) {
   else { const h = new Date(ahora.getTime() + 3600e3); $("ehora").value = `${String(h.getHours()).padStart(2,"0")}:00`; }
   $("etipo").value = conDia ? "cita" : "tarea"; tipoPrevio = $("etipo").value; $("enacido").value = "";
   $("erepetir").value = "no"; $("esi").value = 1; $("eno").value = 1;
-  ponerAvisos([1440]);
+  { const a = window.ajustes ? ajustes.leer("aviso") : 1440; ponerAvisos(a == null ? [] : [a]); }   // el aviso elegido en Ajustes
   $("ecada").value = String((datos.opciones || OP).cada_def);
   $("ecolor").value = "";
   $("enota").textContent = "";

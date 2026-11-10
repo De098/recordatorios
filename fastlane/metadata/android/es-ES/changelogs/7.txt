@@ -9,3 +9,4 @@ Colores elegidos con círculos de color, también en las notas, que ya tienen el
 Con la letra grande de Android, la app se agranda entera en proporción sin descuadrarse.
 Funciona desde Android 10 (antes hacía falta Android 13).
 Casilla «Importante» junto al título en el calendario y en las notas (antes había que escribirlo en mayúsculas).
+Nueva pantalla de Ajustes (en el menú del logo): tema, tamaño de la letra, aviso de las citas nuevas, número de la semana, ver u ocultar las tareas hechas y «Buscar actualizaciones» (abre la página de versiones; la app sigue sin internet).

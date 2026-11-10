@@ -1,6 +1,6 @@
 /* Menú común de Calendario y Notas.
    - Al pulsar el logo (img.logo) sale un menú en el centro con el fondo oscurecido:
-     Calendario (logo.svg) · Notas (logo-notas.svg: libreta de espiral con casillas) · Tema (sol / luna) · Exportar / Importar (copia de seguridad, solo en la app, en su propia fila)
+     Calendario (logo.svg) · Notas (logo-notas.svg: libreta de espiral con casillas) · Ajustes (rueda dentada: tema, letra, avisos… ver AJUSTES) · Exportar / Importar (copia de seguridad, solo en la app, en su propia fila)
      · al final, en pequeño, la versión de la app (Recordatorios.version()).   (Más adelante: donaciones, si la app sale en F-Droid.)
    - Tema: claro u oscuro elegido a mano (localStorage «tema»); sin elegir, el del sistema.
      Pone <html data-tema="claro|oscuro">; las páginas pintan el oscuro con :root[data-tema="oscuro"].
@@ -11,7 +11,20 @@
   const html = document.documentElement;
   // 10-nov (D): con la letra de Android más grande, agrandar TODO a la vez (como una lupa) en vez de solo la letra,
   // así no se descuadra. Tope 1,3 para que en móviles con letra enorme no quede la pantalla demasiado estrecha.
-  try { const z = Math.min(1.3, Number(window.Recordatorios.escala()) || 1); if (z > 1.01) html.style.zoom = z; } catch (e) {}
+  // Ajustes guardados en este móvil (ver AJUSTES más abajo). Uso en las páginas: ajustes.leer("aviso"); al cambiar llega el evento «ajustes».
+  const AJ_DEF = {letra: 1, aviso: 1440, numsemana: false, verhechos: true};
+  const ajLeer = () => { try { return Object.assign({}, AJ_DEF, JSON.parse(localStorage.getItem("ajustes") || "{}")); } catch (e) { return Object.assign({}, AJ_DEF); } };
+  const ajAvisar = k => { if (!k || k === "letra") ponerZoom(); window.dispatchEvent(new CustomEvent("ajustes", {detail: k})); };
+  window.ajustes = {
+    leer: k => ajLeer()[k],
+    poner(k, v) { const a = ajLeer(); a[k] = v; try { localStorage.setItem("ajustes", JSON.stringify(a)); } catch (e) {} ajAvisar(k); },
+  };
+  window.addEventListener("storage", ev => { if (ev.key === "ajustes") ajAvisar(null); });   // cambiado en la otra página
+  // y además el tamaño elegido en Ajustes (0,9 a 1,3) multiplica a la de Android; tope total 1,6.
+  let zoomAndroid = 1;
+  try { const z = Math.min(1.3, Number(window.Recordatorios.escala()) || 1); if (z > 1.01) zoomAndroid = z; } catch (e) {}
+  function ponerZoom() { const z = Math.min(1.6, zoomAndroid * (Number(ajLeer().letra) || 1)); html.style.zoom = Math.abs(z - 1) > .01 ? z : ""; }
+  ponerZoom();
   const sistema = window.matchMedia("(prefers-color-scheme: dark)");
   const leer = () => { try { return localStorage.getItem("tema"); } catch (e) { return null; } };
   const oscuro = () => { const t = leer(); return t ? t === "oscuro" : sistema.matches; };
@@ -78,8 +91,7 @@
     if (!m) { m = document.createElement("meta"); m.name = "theme-color"; document.head.append(m); }
     m.content = fondo;
     try { window.Recordatorios && window.Recordatorios.tema(o, fondo); } catch (e) {}
-    const b = document.getElementById("mtema");
-    if (b) { b.querySelector("span").textContent = o ? "Tema claro" : "Tema oscuro"; b.querySelector("i").innerHTML = o ? SOL : LUNA; }
+    aPintar();   // la ventana de Ajustes, si está abierta
   }
   aplicar();
   sistema.addEventListener("change", aplicar);
@@ -159,6 +171,138 @@ input#bq, input#buscar { background-image: ${LUPA_URL}; background-repeat: no-re
   const pagina = location.pathname.startsWith("/notas") ? "notas" : "cal";
 
   const R = pagina === "notas" ? "/notas" : "/cal";   // los iconos (logo.svg, logo-notas.svg) se sirven en las dos rutas
+  /* AJUSTES (10-nov-2026): ventana que sube desde abajo al pulsar «Ajustes» en el menú.
+     Tema · tamaño de la letra · aviso de las citas nuevas · número de la semana · ver las tareas hechas.
+     Todo se guarda en este móvil (tema en «tema», lo demás en «ajustes») y se aplica al momento. */
+  const AV = [[null, "Sin aviso"], [0, "A la hora"], [30, "30 min antes"], [60, "1 hora antes"], [120, "2 horas antes"],
+    [180, "3 horas antes"], [360, "6 horas antes"], ["dia", "Al empezar el día (desde las 7:00)"], [1440, "1 día antes"],
+    [2880, "2 días antes"], [10080, "1 semana antes"]];
+  const LETRAS = [[0.9, "Pequeña", ".95rem"], [1, "Normal", "1.15rem"], [1.15, "Grande", "1.35rem"], [1.3, "Muy grande", "1.6rem"]];
+  // rueda dentada con el estilo de los logos (contorno gris, centro azul claro)
+  const RUEDA = (() => {
+    let d = "";
+    for (let k = 0; k < 8; k++) for (const [g, r] of [[-14, 15], [-8, 19.5], [8, 19.5], [14, 15]]) {
+      const t = (k * 45 + g) * Math.PI / 180;
+      d += (d ? " L" : "M") + (24 + r * Math.cos(t)).toFixed(1) + "," + (24 + r * Math.sin(t)).toFixed(1);
+    }
+    return `<svg viewBox="0 0 48 48" width="40" height="40" aria-hidden="true"><path d="${d} Z" fill="#FFFFFF" stroke="${G}" stroke-width="3.2" stroke-linejoin="round"/>`
+      + `<circle cx="24" cy="24" r="6" fill="none" stroke="${C}" stroke-width="3.2"/></svg>`;
+  })();
+  const CSS_AJ = `
+#afondo { position: fixed; inset: 0; z-index: 55; display: flex; align-items: flex-end; justify-content: center;
+  background: rgba(0,0,0,.45); opacity: 0; transition: opacity .18s ease; }
+#afondo[hidden] { display: none; }
+#afondo.si { opacity: 1; }
+#acaja { background: var(--fondo); color: var(--texto); width: 100%; max-width: 560px; max-height: 92vh; overflow-y: auto;
+  border-radius: 16px 16px 0 0; padding: 16px 16px calc(20px + env(safe-area-inset-bottom));
+  transform: translateY(24px); transition: transform .18s ease; }
+#afondo.si #acaja { transform: none; }
+#acaja [hidden] { display: none !important; }
+#acaja h2 { margin: 0 4px 6px; padding: 0 0 4px 10%; font-size: 1.15rem; font-weight: 800; border-bottom: 1px solid var(--borde); }
+#acaja h3 { margin: 16px 8px 6px; font-size: .78rem; font-weight: 800; color: var(--suave); text-transform: uppercase; letter-spacing: .06em; }
+#acaja .agrupo { background: var(--tarjeta); border-radius: 14px; padding: 0 14px; }
+#acaja .acampo + .acampo { border-top: 1px solid var(--linea); }
+#acaja .acampo { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px;
+  color: var(--texto); font-size: 1rem; cursor: pointer; }
+#acaja .acampo > span { font-weight: 800; white-space: nowrap; }
+#acaja .acampo.col { flex-direction: column; align-items: stretch; gap: 8px; padding: 12px 0; cursor: default; }
+#acaja .anota { margin: -2px 2px 0; font-size: .8rem; color: var(--suave); }
+#acaja .aseg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; padding: 4px; border-radius: 12px; background: var(--fondo); }
+#acaja .aseg button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  min-height: 46px; padding: 6px 2px; border: 0; border-radius: 9px; background: none; color: var(--suave);
+  font: inherit; font-size: .88rem; font-weight: 600; line-height: 1.15; cursor: pointer; }
+#acaja .aseg button.este { background: var(--tarjeta); color: var(--acento); font-weight: 800; box-shadow: 0 1px 4px rgba(0,0,0,.2); }
+#acaja .aseg b { line-height: 1; font-weight: 800; }
+#acaja .aseg small { font-size: .72rem; }
+#acaja .aseg i { display: flex; gap: 2px; height: 26px; align-items: center; }
+#acaja .aseg i svg { width: 26px; height: 26px; }
+#acaja .aseg i.dos svg { width: 21px; height: 21px; }
+#acaja select { -webkit-appearance: none; appearance: none; flex: 0 1 auto; min-width: 0; max-width: 58%; min-height: 50px;
+  padding: 0 18px 0 0; border: 0; background: none; color: var(--suave); font: inherit; text-align: right; text-align-last: right;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 16'><path d='M2,2 l6,6 l-6,6' fill='none' stroke='%236f6a78' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat right center / 9px 15px; }
+#acaja select:focus { outline: none; color: var(--acento); font-weight: 700; }
+#acaja input.aint { -webkit-appearance: none; appearance: none; position: relative; flex: none; width: 50px; height: 30px; margin: 0;
+  border-radius: 15px; background: color-mix(in srgb, var(--suave) 45%, transparent); cursor: pointer; transition: background .15s; }
+#acaja input.aint::before { content: ""; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%;
+  background: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,.3); transition: transform .15s; }
+#acaja input.aint:checked { background: var(--acento); }
+#acaja input.aint:checked::before { transform: translateX(20px); }
+#acaja button.acampo { width: 100%; padding: 0; border: 0; background: none; font: inherit; text-align: left; }
+#acaja .acampo em { font-style: normal; color: var(--suave); font-size: .9rem; padding-right: 18px;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 16'><path d='M2,2 l6,6 l-6,6' fill='none' stroke='%236f6a78' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat right center / 9px 15px; }
+#acaja .apie { margin: 14px 8px 0; text-align: center; font-size: .78rem; color: var(--suave); }
+@media (prefers-reduced-motion: reduce) { #afondo, #acaja, #acaja input.aint, #acaja input.aint::before { transition: none; } }`;
+
+  function aCaja() {
+    let f = document.getElementById("afondo");
+    if (f) return f;
+    const st = document.createElement("style"); st.textContent = CSS_AJ; document.head.append(st);
+    f = document.createElement("div"); f.id = "afondo"; f.hidden = true;
+    f.innerHTML = `<div id="acaja" role="dialog" aria-modal="true" aria-labelledby="atit">
+      <h2 id="atit">Ajustes</h2>
+      <h3>Aspecto</h3>
+      <div class="agrupo">
+        <div class="acampo col"><span>Tema</span>
+          <div class="aseg" id="atema"><button type="button" data-v=""><i class="dos">${SOL}${LUNA}</i>Automático</button><button type="button" data-v="claro"><i>${SOL}</i>Claro</button><button type="button" data-v="oscuro"><i>${LUNA}</i>Oscuro</button></div>
+          <p class="anota">Automático: claro u oscuro según el móvil.</p></div>
+        <div class="acampo col"><span>Tamaño de la letra</span>
+          <div class="aseg" id="aletra">${LETRAS.map(([v, n, t]) => `<button type="button" data-v="${v}"><b style="font-size:${t}">A</b><small>${n}</small></button>`).join("")}</div>
+          <p class="anota">Agranda toda la app a la vez, también los botones.</p></div>
+      </div>
+      <h3 class="acal">Calendario</h3>
+      <div class="agrupo acal">
+        <label class="acampo"><span>Aviso de citas nuevas</span><select id="aaviso">${AV.map(([v, n]) => `<option value='${JSON.stringify(v)}'>${n}</option>`).join("")}</select></label>
+        <label class="acampo"><span>Número de la semana</span><input type="checkbox" class="aint" id="anumsemana"></label>
+        <label class="acampo"><span>Ver las tareas hechas</span><input type="checkbox" class="aint" id="averhechos"></label>
+      </div>
+      <h3 class="aapp">La app</h3>
+      <div class="agrupo aapp">
+        <button type="button" class="acampo" id="aversiones"><span>Buscar actualizaciones</span><em id="aver"></em></button>
+      </div>
+      <p class="anota aapp" style="margin: 6px 8px 0">Abre en el navegador la página de versiones (GitHub). La app no usa internet.</p>
+      <p class="apie">Se guardan en este móvil.</p></div>`;
+    document.body.append(f);
+    for (const e of f.querySelectorAll(".acal")) e.hidden = !hayCal;
+    // buscar actualizaciones: solo abre la página de versiones; se compara a ojo con la versión que se ve aquí
+    const app = window.Recordatorios, hayVer = !!(app && app.abrirVersiones);
+    for (const e of f.querySelectorAll(".aapp")) e.hidden = !hayVer;
+    if (hayVer) {
+      try { const v = app.version && app.version(); if (v) f.querySelector("#aver").textContent = "Tienes la " + v; } catch (e) {}
+      f.querySelector("#aversiones").onclick = () => app.abrirVersiones();
+    }
+    f.addEventListener("click", ev => { if (ev.target === f) aCerrar(); });
+    for (const b of f.querySelectorAll("#atema button")) b.onclick = () => {
+      try { if (b.dataset.v) localStorage.setItem("tema", b.dataset.v); else localStorage.removeItem("tema"); } catch (e) {}
+      aplicar();
+    };
+    for (const b of f.querySelectorAll("#aletra button")) b.onclick = () => { window.ajustes.poner("letra", Number(b.dataset.v)); aPintar(); };
+    f.querySelector("#aaviso").onchange = ev => window.ajustes.poner("aviso", JSON.parse(ev.target.value));
+    f.querySelector("#anumsemana").onchange = ev => window.ajustes.poner("numsemana", ev.target.checked);
+    f.querySelector("#averhechos").onchange = ev => window.ajustes.poner("verhechos", ev.target.checked);
+    return f;
+  }
+  function aPintar() {
+    const f = document.getElementById("afondo");
+    if (!f) return;
+    const t = leer() || "", a = ajLeer();
+    for (const b of f.querySelectorAll("#atema button")) { const si = b.dataset.v === t; b.classList.toggle("este", si); b.setAttribute("aria-pressed", si); }
+    for (const b of f.querySelectorAll("#aletra button")) { const si = Number(b.dataset.v) === Number(a.letra); b.classList.toggle("este", si); b.setAttribute("aria-pressed", si); }
+    f.querySelector("#aaviso").value = JSON.stringify(a.aviso);
+    f.querySelector("#anumsemana").checked = !!a.numsemana;
+    f.querySelector("#averhechos").checked = a.verhechos !== false;
+  }
+  const aAbierto = () => { const f = document.getElementById("afondo"); return !!f && !f.hidden; };
+  function aAbrir() {
+    const f = aCaja(); aPintar();
+    f.hidden = false; requestAnimationFrame(() => f.classList.add("si"));
+  }
+  function aQuitar() { const f = document.getElementById("afondo"); if (f) { f.classList.remove("si"); f.hidden = true; } }
+  function aCerrar() { if (history.state && history.state.ajustes) history.back(); else aQuitar(); }
+  // el gesto de atrás solo cierra Ajustes (se registra antes que los oyentes de las páginas y corta el aviso)
+  window.addEventListener("popstate", ev => { if (aAbierto()) { ev.stopImmediatePropagation(); aQuitar(); } });
+  document.addEventListener("keydown", ev => { if (ev.key === "Escape" && aAbierto()) { ev.stopImmediatePropagation(); ev.preventDefault(); aCerrar(); } }, true);
+  window.addEventListener("ajustes", aPintar);
+
   function montar() {
     const st = document.createElement("style"); st.textContent = CSS; document.head.append(st);
     const f = document.createElement("div"); f.id = "mfondo"; f.hidden = true;
@@ -167,7 +311,7 @@ input#bq, input#buscar { background-image: ${LUPA_URL}; background-repeat: no-re
       <div class="mbotones">
         <button id="mcal" data-ir="/cal"><img src="${R}/logo.svg" alt=""><span>Calendario</span></button>
         <button id="mnotas" data-ir="/notas"><img src="${R}/logo-notas.svg" alt=""><span>Notas</span></button>
-        <button id="mtema"><i></i><span></span></button>
+        <button id="majustes"><i>${RUEDA}</i><span>Ajustes</span></button>
         <!-- aquí irá «Donar» -->
       </div>
       <div class="mbotones mfila" id="mcopia" hidden>
@@ -196,7 +340,7 @@ input#bq, input#buscar { background-image: ${LUPA_URL}; background-repeat: no-re
       if (abierto()) { f.classList.remove("si"); f.hidden = true; }
       if (irA) { const u = irA; irA = null; location.href = u; }
     });
-    if (history.state && history.state.menu) history.replaceState(Object.assign({}, history.state, {menu: 0}), "");
+    if (history.state && (history.state.menu || history.state.ajustes)) history.replaceState(Object.assign({}, history.state, {menu: 0, ajustes: 0}), "");
 
     f.addEventListener("click", ev => { if (ev.target === f) cerrar(); });
     document.addEventListener("keydown", ev => { if (ev.key === "Escape" && abierto()) { ev.stopImmediatePropagation(); cerrar(); } }, true);
@@ -216,9 +360,12 @@ input#bq, input#buscar { background-image: ${LUPA_URL}; background-repeat: no-re
       const v = app && app.version && app.version();
       if (v) { const p = f.querySelector(".mver"); p.textContent = "Recordatorios " + v; p.hidden = false; }
     } catch (e) {}
-    f.querySelector("#mtema").onclick = () => {
-      try { localStorage.setItem("tema", oscuro() ? "claro" : "oscuro"); } catch (e) {}
-      aplicar();
+    // Ajustes: el menú deja su sitio (y su paso del historial) a la ventana de Ajustes
+    f.querySelector("#majustes").onclick = () => {
+      f.classList.remove("si"); f.hidden = true;
+      if (history.state && history.state.menu) history.replaceState(Object.assign({}, history.state, {menu: 0, ajustes: 1}), "");
+      else history.pushState(Object.assign({}, history.state, {ajustes: 1}), "");
+      aAbrir();
     };
     for (const l of document.querySelectorAll("img.logo")) {
       l.setAttribute("role", "button"); l.setAttribute("aria-label", "Menú"); l.tabIndex = 0;
