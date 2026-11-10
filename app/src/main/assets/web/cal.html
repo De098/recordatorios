@@ -74,11 +74,12 @@ header button { min-width: 44px; font-size: 1.2rem; }
 .fila.imp .barra { width: 8px; }
 .puntos i { width: 7px; height: 7px; border-radius: 50%; display: block; }
 .puntos i.hecho { opacity: .35; }
-/* número de la semana (Ajustes): columna estrecha a la izquierda del mes */
+/* número de la semana (Ajustes). 10-nov (D, opción B): sin columna; cifra pequeña y clarita en la esquina de cada lunes */
 .nsem { display: none; }
-#scal.connum .semana, #scal.connum .mes { grid-template-columns: 20px repeat(7, 1fr); }
-#scal.connum .nsem { display: block; }
-.mes .nsem { padding-top: 11px; text-align: center; font-size: .68rem; font-weight: 700; color: var(--suave); opacity: .8; }
+.dia .nsem { display: block; position: absolute; left: 2px; top: 1px; font-size: .6rem; line-height: 1;
+  color: var(--suave); opacity: .7; pointer-events: none; }
+.dia.fuera .nsem { opacity: 1; }   /* el día de fuera ya va entero más clarito */
+#scal.connum .dia { position: relative; }
 h2 { font-size: 1rem; margin: 4px 4px 8px; }
 h2.aviso { color: var(--rojo); }
 /* 9-nov (D): «Sin hacer» con el estilo de los días de las agendas (el resumen del día, #lista h2, se queda como estaba) */
@@ -480,12 +481,12 @@ function pintar() {
   const num = conNumSemana(); $("scal").classList.toggle("connum", num);
   for (let i = 0; i < 42; i++) {
     const d = new Date(ini); d.setDate(d.getDate() + i);
-    if (num && i % 7 === 0) mes.append(el("span", "nsem", semanaISO(d)));
     const k = iso(d), b = el("button", "dia");
     if (d.getMonth() !== vista.getMonth()) b.classList.add("fuera");
     if (k === datos.hoy) b.classList.add("hoy");
     if (k === sel) b.classList.add("sel");
     b.append(el("span", "n", d.getDate()));
+    if (num && i % 7 === 0) b.append(el("span", "nsem", semanaISO(d)));   // número de la semana en la esquina del lunes
     const p = el("span", "puntos");
     if ((porDia[k] || []).some(c => c.imp)) b.classList.add("imp");   // algo IMPORTANTE ese día → número subrayado en rojo
     if ((porDia[k] || []).some(c => c.cumple)) b.classList.add("cumple");   // cumpleaños → rayos de sol
