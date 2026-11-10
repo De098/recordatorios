@@ -54,6 +54,9 @@ header h1 .tit { width: 40px; height: 36px; }
 .nota { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 .nota .barra { position: absolute; left: 9px; top: 10px; bottom: 10px; width: 5px; border-radius: 3px; background: var(--linea); }
 .nota h3 { margin: 0 0 4px; font-size: 1rem; font-weight: 600; overflow-wrap: anywhere; }   /* 10-nov (D): título de la nota como antes */
+/* 10-nov noche (D): el candado, a la derecha del título (en las fijadas, separado de la chincheta) */
+.nota h3 .cand { float: right; margin-left: 8px; }
+.nota.fijada h3 .cand { margin-right: 18px; }
 /* fijadas: chincheta «clavada» en la esquina de arriba a la derecha (sustituye a los apartados «Fijadas» / «Otras») */
 .nota .chincheta { position: absolute; top: -10px; right: -6px; width: 30px; height: 30px; transform: rotate(25deg); pointer-events: none; }
 .nota .chincheta svg { width: 100%; height: 100%; }
@@ -355,12 +358,12 @@ function tarjeta(n, c) {
   const t = el("div", "nota" + (imp ? " imp" : ""));
   const barra = el("span", "barra"); barra.style.background = (n.color && COLORES[n.color]?.[1]) || (imp ? "#e01b24" : COLORES[""][1]); t.append(barra);
   if (!c) {
-    const h = el("h3", "", "Nota con candado"); h.insertAdjacentHTML("afterbegin", ICO.candado(false) + " ");
+    const h = el("h3", "", "Nota con candado"); h.insertAdjacentHTML("beforeend", '<span class="cand">' + ICO.candado(false) + "</span>");   // 10-nov (D): candado a la derecha
     t.append(h, el("div", "vista", "Pulsa para abrirla con tu contraseña"));
   } else {
     const h = el("h3", "", c.titulo || "Sin título");
     if (imp) h.insertAdjacentHTML("afterbegin", ICO.imp());   // dibujado en vez de ❗
-    if (n.candado) h.insertAdjacentHTML("afterbegin", ICO.candado(true) + " ");
+    if (n.candado) h.insertAdjacentHTML("beforeend", '<span class="cand">' + ICO.candado(true) + "</span>");
     t.append(h);
     const lineas = (c.texto || "").split("\n");
     const cas = lineas.filter(l => /^\s*- \[[ xX]\](?: |$)/.test(l)), hechas = cas.filter(l => /\[[xX]\]/.test(l));
