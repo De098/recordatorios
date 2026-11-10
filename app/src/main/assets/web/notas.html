@@ -106,8 +106,11 @@ body.seleccion .nota .chincheta { display: none; }
 #editor label.cimp:has(> #eimp) { padding-left: 10px; }   /* casilla «Importante» alineada con el título */
 #etitulo:focus { background: var(--sel); outline: none; }
 .ecab:has(#etitulo:focus) #eestado { background: transparent; }
-.ecab #etitulo { padding-right: 6.5em; }
-#eestado { position: absolute; top: 50%; right: 4px; transform: translateY(-50%); max-width: 75%; text-align: right;
+/* 10-nov (D): el título usa todo el ancho; «guardada» va abajo a la derecha, en la fila de «Importante» */
+/* 10-nov (D): el título largo se ve entero: crece hacia abajo en vez de cortarse; el estado («guardada») queda a la altura de la 1.ª línea */
+#etitulo { display: block; resize: none; overflow: hidden; line-height: 1.3; field-sizing: content; overflow-wrap: anywhere; }
+
+#eestado { position: absolute; top: calc(100% + 8px); right: 4px; max-width: 55%; text-align: right;   /* 10-nov: debajo del título, junto a «Importante» */
   background: var(--fondo); padding: 2px 4px; pointer-events: none; }
 #eestado:empty { display: none; }
 /* 9-nov (D): editor por líneas con casillas dibujadas (antes un cuadro de texto con «- [ ] »). #etexto queda oculto como copia del texto. */
@@ -200,7 +203,7 @@ body.seleccion #bnueva, body.seleccion #bcandados, body.seleccion #bpapelera { d
   <div class="circulos" id="colores" hidden></div>
   <div class="cuerpo">
     <div class="ecab">
-      <input id="etitulo" placeholder="Título" autocomplete="off">
+      <textarea id="etitulo" rows="1" placeholder="Título" autocomplete="off" enterkeyhint="next"></textarea>   <!-- 10-nov (D): títulos largos en varias líneas -->
       <span id="eestado" class="chip"></span>
     </div>
     <label class="cimp"><input type="checkbox" id="eimp">Importante</label>   <!-- 10-nov (D): menu.js casillaImportante -->
@@ -406,7 +409,7 @@ async function abrir(n) {
   if (!c) { msj("No se ha podido abrir"); return; }
   actual = n ? {...n, titulo: c.titulo, texto: c.texto, base: n.editada} : {id: "", titulo: "", texto: "", color: "", fijada: false, candado: null, base: ""};
   actual.conCandado = !!(n && n.candado);
-  $("etitulo").value = actual.titulo; $("etexto").value = actual.texto; $("ecolor").value = actual.color || ""; impN.poner();
+  $("etitulo").value = actual.titulo; setTimeout(tituloAlto); $("etexto").value = actual.texto; $("ecolor").value = actual.color || ""; impN.poner();
   ponerBotones();
   $("editor").classList.add("abierto");
   modo(!n || !actual.texto);   // nueva o vacía → directamente a escribir
@@ -619,7 +622,22 @@ $("bmodo").onclick = () => { if (editando) guardar(); modo(!editando); };
   v.oncontextmenu = ev => ev.preventDefault();
 }
 // (el texto lo copia volcar() desde las líneas del editor)
-$("etitulo").oninput = () => programar();
+// 10-nov (D): título en varias líneas si es largo (textarea que crece); sin saltos de línea: Intro salta al texto
+function tituloAlto() { const t = $("etitulo"); t.style.height = "auto"; t.style.height = t.scrollHeight + "px"; }
+$("etitulo").oninput = () => {
+  const t = $("etitulo");
+  if (/[\r\n]/.test(t.value)) { const p = t.selectionStart; t.value = t.value.replace(/\s*[\r\n]+\s*/g, " "); t.setSelectionRange(p, p); }
+  tituloAlto(); programar();
+};
+$("etitulo").addEventListener("keydown", e => {
+  if (e.key !== "Enter") return;
+  e.preventDefault();
+  const sig = $("eeditor").querySelector("textarea"); if (sig) enfocar(sig);
+});
+$("eimp").addEventListener("change", () => setTimeout(tituloAlto));
+window.addEventListener("resize", tituloAlto);
+new MutationObserver(() => { if ($("editor").classList.contains("abierto")) setTimeout(tituloAlto); })
+  .observe($("editor"), {attributes: true, attributeFilter: ["class"]});
 const impN = window.casillaImportante ? casillaImportante($("etitulo"), $("eimp"), () => programar())   // casilla «Importante» (menu.js)
   : {poner() {}, texto: () => $("etitulo").value};   // por si llega un menu.js viejo
 $("bcasilla").onclick = () => {

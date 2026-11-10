@@ -122,7 +122,7 @@ form button { background: var(--acento); color: var(--hoy-texto); font-weight: 6
 #eborrar { color: var(--rojo); }
 #editar .caja > * { min-width: 0; }
 #editar [hidden] { display: none !important; }
-#editar .caja { max-height: 92vh; overflow-y: auto; }
+#editar .caja { max-height: 92%; overflow-y: auto; box-sizing: border-box; }   /* 10-nov: % y no vh, con la letra grande vh se salía por arriba */
 /* 9-nov (D): formulario al estilo Xiaomi: tipo en pestañas con icono, título grande, campos en tarjetas
    (nombre a la izquierda en negrita, valor a la derecha en gris) y cada aviso en su fila con ✕ */
 #editar .caja { background: var(--fondo); }
@@ -233,7 +233,7 @@ html.estrecho #bvista > span:first-of-type { display: none; }
 @keyframes girar { to { transform: rotate(360deg); } }
 /* deslizar para cambiar de mes */
 #mes { touch-action: pan-y; transition: transform .15s ease, opacity .15s ease; }
-#selmes .caja { background: var(--tarjeta); width: 100%; max-width: 560px; border-radius: 16px 16px 0 0;
+#selmes .caja { background: var(--tarjeta); width: 100%; max-width: 560px; max-height: 92%; overflow-y: auto; box-sizing: border-box; border-radius: 16px 16px 0 0;
   padding: 16px 16px calc(16px + env(safe-area-inset-bottom)); display: grid; gap: 12px; }
 #selmes .anio { display: grid; grid-template-columns: auto auto 1fr auto auto; gap: 6px; align-items: center; }
 #selmes .anio input { font: inherit; font-size: 1.3rem; font-weight: 700; text-align: center; color: var(--texto); background: var(--fondo);
@@ -246,7 +246,7 @@ html.estrecho #bvista > span:first-of-type { display: none; }
 /* selector de SEMANA (agenda de la semana): el mes dibujado, cada fila es una semana */
 #selsem { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: flex; align-items: flex-end; justify-content: center; z-index: 11; }
 #selsem[hidden] { display: none; }
-#selsem .caja { background: var(--tarjeta); width: 100%; max-width: 560px; border-radius: 16px 16px 0 0;
+#selsem .caja { background: var(--tarjeta); width: 100%; max-width: 560px; max-height: 92%; overflow-y: auto; box-sizing: border-box; border-radius: 16px 16px 0 0;
   padding: 16px 16px calc(16px + env(safe-area-inset-bottom)); display: grid; gap: 10px; }
 #selsem .cab { display: grid; grid-template-columns: auto auto 1fr auto auto; gap: 6px; align-items: center; }
 #selsem .cab b { text-align: center; font-size: 1.15rem; text-transform: capitalize; }

@@ -34,6 +34,12 @@
   }
   ponerZoom();
   window.addEventListener("resize", ponerZoom);
+  // 10-nov (D): con una ventana abierta (Ajustes, menú, editar, elegir mes…) lo de debajo no se mueve.
+  { const st = document.createElement("style");
+    const CAPAS = "#mfondo:not([hidden]), #afondo:not([hidden]), #bfondo:not([hidden]), #gfondo, #editar:not([hidden]), #selmes:not([hidden]), #selsem:not([hidden]), #editor.abierto, #dlg.abierto";
+    st.textContent = `html:has(${CAPAS}), html:has(${CAPAS}) body { overflow: hidden; overscroll-behavior: none; }
+#acaja, #editar .caja, #selmes .caja, #selsem .caja, #editor .cuerpo { overscroll-behavior: contain; }`;
+    document.head.append(st); }
   const sistema = window.matchMedia("(prefers-color-scheme: dark)");
   const leer = () => { try { return localStorage.getItem("tema"); } catch (e) { return null; } };
   const oscuro = () => { const t = leer(); return t ? t === "oscuro" : sistema.matches; };
@@ -212,12 +218,12 @@ input#bq, input#buscar { background-image: ${LUPA_URL}; background-repeat: no-re
   background: rgba(0,0,0,.45); opacity: 0; transition: opacity .18s ease; }
 #afondo[hidden] { display: none; }
 #afondo.si { opacity: 1; }
-#acaja { background: var(--fondo); color: var(--texto); width: 100%; max-width: 560px; max-height: 92vh; overflow-y: auto;
+#acaja { background: var(--fondo); color: var(--texto); width: 100%; max-width: 560px; max-height: 92%; overflow-y: auto; box-sizing: border-box;
   border-radius: 16px 16px 0 0; padding: 16px 16px calc(20px + env(safe-area-inset-bottom));
   transform: translateY(24px); transition: transform .18s ease; }
 #afondo.si #acaja { transform: none; }
 #acaja [hidden] { display: none !important; }
-#acaja h2 { margin: 0 4px 6px; padding: 0 0 4px 10%; font-size: 1.15rem; font-weight: 800; border-bottom: 1px solid var(--borde); }
+#acaja h2 { position: sticky; top: -16px; z-index: 1; background: var(--fondo); box-shadow: -20px 0 var(--fondo), 20px 0 var(--fondo); margin: -16px 4px 6px; padding: 16px 0 4px 10%; font-size: 1.15rem; font-weight: 800; border-bottom: 1px solid var(--borde); }
 #acaja h3 { margin: 16px 8px 6px; font-size: .78rem; font-weight: 800; color: var(--suave); text-transform: uppercase; letter-spacing: .06em; }
 #acaja .agrupo { background: var(--tarjeta); border-radius: 14px; padding: 0 14px; }
 #acaja .acampo + .acampo { border-top: 1px solid var(--linea); }
