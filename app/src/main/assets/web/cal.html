@@ -187,9 +187,14 @@ header h1::after { content: " ▾"; color: var(--suave); font-size: .8em; }
 #bresultados { margin-top: 8px; }
 #bresultados .vacio { color: var(--suave); margin: 8px 4px 0; }
 header h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
-/* «cargando»: circulito que gira junto al mes mientras carga */
-#cargando { width: 18px; height: 18px; flex: none; border-radius: 50%; border: 2.5px solid var(--linea);
-  border-top-color: var(--acento); animation: girar .8s linear infinite; visibility: hidden; }
+/* «cargando»: tres puntos de colores (como los de las tareas) que saltan por turnos mientras se pide
+   al Oppo. 10-nov (D): antes un redondel que giraba, «muy Android». */
+#cargando { display: flex; gap: 3px; align-items: center; height: 18px; flex: none; visibility: hidden; }
+#cargando i { width: 6px; height: 6px; border-radius: 50%; display: block; animation: saltar 1s ease-in-out infinite; }
+#cargando i:nth-child(1) { background: var(--acento); }
+#cargando i:nth-child(2) { background: var(--verde); animation-delay: .15s; }
+#cargando i:nth-child(3) { background: #e5a50a; animation-delay: .3s; }
+@keyframes saltar { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-5px); } }
 #cargando.si { visibility: visible; }
 /* menú de vistas: Calendario / Agenda de la semana / Agenda del mes */
 .vistas { position: relative; display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin: 0 0 6px; }
@@ -285,7 +290,7 @@ html.estrecho #bvista > span:first-of-type { display: none; }
   <header>
     <button id="ant" aria-label="Mes anterior">‹</button>
     <h1 id="titulo">…</h1>
-    <span id="cargando" aria-label="Cargando"></span>
+    <span id="cargando" aria-label="Cargando"><i></i><i></i><i></i></span>
     <button id="sig" aria-label="Mes siguiente">›</button>
   </header>
   <p id="error">No se han podido leer los datos.</p>
