@@ -1,4 +1,4 @@
-Calendario: número de la semana más discreto (en la esquina del lunes), número del día centrado, cumpleaños más simétrico, subrayado de lo importante en un rojo más claro y, al cargar, tres puntos con los colores del mes.
-Ajustes cabe con la letra muy grande y trae «Casillas marcadas al final», «Volver a ver la guía» y «Acerca de».
+Calendario: número de semana más discreto, número del día centrado, cumpleaños más simétrico, subrayado de lo importante en un rojo más claro y, al cargar, tres puntos con los colores del mes.
+Ajustes cabe con la letra muy grande y trae casillas marcadas al final, volver a ver la guía, Acerca de y cambiar u olvidar la contraseña de los candados.
 Con una ventana abierta, la página de debajo ya no se mueve.
 Títulos largos de las notas enteros; «guardada» junto a «Importante».
