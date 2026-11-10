@@ -82,6 +82,10 @@ class MainActivity : Activity() {
         fun version(): String =
             try { packageManager.getPackageInfo(packageName, 0).versionName ?: "" } catch (_: Exception) { "" }
 
+        /** Tamaño de letra de Android (1 = normal); menu.js agranda toda la página en proporción. */
+        @JavascriptInterface
+        fun escala(): Float = resources.configuration.fontScale
+
         /** La web avisa del tema elegido (menu.js) para pintar a juego la barra de estado y la de gestos. */
         @JavascriptInterface
         fun tema(oscuro: Boolean, fondo: String) {
@@ -113,7 +117,7 @@ class MainActivity : Activity() {
                 settings.javaScriptEnabled = true
                 settings.domStorageEnabled = true
                 settings.setSupportZoom(false)
-                settings.textZoom = 100  // no agrandar solo la letra con la letra grande del móvil: descuadra todo
+                settings.textZoom = 100  // no agrandar solo la letra (descuadra); menu.js agranda todo en proporción con escala()
                 settings.allowFileAccess = false
                 settings.allowContentAccess = false
                 settings.blockNetworkLoads = true

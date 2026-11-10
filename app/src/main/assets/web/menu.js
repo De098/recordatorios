@@ -9,6 +9,9 @@
 (function () {
   "use strict";
   const html = document.documentElement;
+  // 10-nov (D): con la letra de Android más grande, agrandar TODO a la vez (como una lupa) en vez de solo la letra,
+  // así no se descuadra. Tope 1,3 para que en móviles con letra enorme no quede la pantalla demasiado estrecha.
+  try { const z = Math.min(1.3, Number(window.Recordatorios.escala()) || 1); if (z > 1.01) html.style.zoom = z; } catch (e) {}
   const sistema = window.matchMedia("(prefers-color-scheme: dark)");
   const leer = () => { try { return localStorage.getItem("tema"); } catch (e) { return null; } };
   const oscuro = () => { const t = leer(); return t ? t === "oscuro" : sistema.matches; };
