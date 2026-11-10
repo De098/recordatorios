@@ -1,4 +1,4 @@
-Calendar: day number centred in its circle, tidier birthday icon, lighter red underline for important items and, while loading, three dots in the month's colours.
+Calendar: subtler week numbers (in the corner of each Monday), day number centred, tidier birthday icon, lighter red underline for important items and, while loading, three dots in the month's colours.
 Settings fit with very large text and add "Checked items at the bottom", "Show the guide again" and "About".
 With a window open, the page behind no longer scrolls.
 Long note titles shown in full; "saved" next to "Important".
