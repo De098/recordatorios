@@ -13,13 +13,13 @@
 @font-face { font-family: "Nunito"; src: url("/cal/nunito.woff2") format("woff2"); font-weight: 200 1000; font-display: swap; }
 :root {
   --fondo: #f6f5f4; --tarjeta: #ffffff; --texto: #241f31; --suave: #6f6a78; --linea: #e3e1e6;
-  --acento: #3584e4; --hoy-texto: #ffffff; --rojo: #c01c28; --verde: #26a269; --sel: #e6effb;
+  --acento: #3584e4; --hoy-texto: #ffffff; --rojo: #c01c28; --rojo-imp: #ed333b; --verde: #26a269; --sel: #e6effb;
   --borde: #78858f;   /* color del contorno del icono de la app */
 }
 :root[data-tema="oscuro"] {   /* lo elige menu.js (sistema o a mano) */
   color-scheme: dark;
   --fondo: #1e1e22; --tarjeta: #2a2a30; --texto: #f0eff3; --suave: #a6a2ad; --linea: #3a3a42;
-  --acento: #62a0ea; --hoy-texto: #10131a; --rojo: #f66151; --verde: #57e389; --sel: #2f3a4a;
+  --acento: #62a0ea; --hoy-texto: #10131a; --rojo: #f66151; --rojo-imp: #f66151; --verde: #57e389; --sel: #2f3a4a;
   --borde: #90a4ae;
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -66,7 +66,8 @@ header button { min-width: 44px; font-size: 1.2rem; }
   background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'><g stroke='%23e5a50a' stroke-width='2.4' stroke-linecap='round'><line x1='22.0' y1='6.5' x2='22.0' y2='1.5'/><line x1='33.0' y1='11.0' x2='36.5' y2='7.5'/><line x1='37.5' y1='22.0' x2='42.5' y2='22.0'/><line x1='33.0' y1='33.0' x2='36.5' y2='36.5'/><line x1='11.0' y1='33.0' x2='7.5' y2='36.5'/><line x1='6.5' y1='22.0' x2='1.5' y2='22.0'/><line x1='11.0' y1='11.0' x2='7.5' y2='7.5'/></g></svg>") center / contain no-repeat; }
 /* cumple solo (sin puntos ni subrayado): también el rayo de abajo */
 .dia.cumple.solo .n::before { background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'><g stroke='%23e5a50a' stroke-width='2.4' stroke-linecap='round'><line x1='22.0' y1='6.5' x2='22.0' y2='1.5'/><line x1='33.0' y1='11.0' x2='36.5' y2='7.5'/><line x1='37.5' y1='22.0' x2='42.5' y2='22.0'/><line x1='33.0' y1='33.0' x2='36.5' y2='36.5'/><line x1='22.0' y1='37.5' x2='22.0' y2='42.5'/><line x1='11.0' y1='33.0' x2='7.5' y2='36.5'/><line x1='6.5' y1='22.0' x2='1.5' y2='22.0'/><line x1='11.0' y1='11.0' x2='7.5' y2='7.5'/></g></svg>"); }
-.dia.imp .n { text-decoration: underline 3px var(--rojo); text-underline-offset: 4px; text-decoration-skip-ink: none; }
+/* 10-nov (D): subrayado de lo importante en un rojo más claro (antes --rojo) */
+.dia.imp .n { text-decoration: underline 3px var(--rojo-imp); text-underline-offset: 4px; text-decoration-skip-ink: none; }
 .fila.imp { background: color-mix(in srgb, var(--rojo) 10%, transparent); border-radius: 8px; }
 .fila.imp .t { font-weight: 800; }
 .fila.imp .barra { width: 8px; }
