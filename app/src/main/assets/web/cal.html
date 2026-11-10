@@ -48,8 +48,12 @@ header button { min-width: 44px; font-size: 1.2rem; }
 .dia { background: none; border-radius: 10px; min-height: 52px; padding: 4px 0 2px;
   display: flex; flex-direction: column; align-items: center; gap: 1px; }   /* 10-nov (D): puntos más cerca del número (antes 3px); la casilla sigue midiendo lo mismo */
 .dia.fuera { opacity: .35; }
-/* 10-nov (D): line-height 31px baja el número medio píxel; con Nunito quedaba alto dentro del círculo */
-.dia .n { width: 30px; height: 30px; line-height: 31px; border-radius: 50%; font-size: .95rem; }
+/* 10-nov (D): número centrado en el círculo según la altura real de las cifras (cada móvil dibuja
+   Nunito distinto y quedaba alto). Si el WebView no sabe text-box, se queda con line-height 31px. */
+.dia .n { width: 30px; height: 30px; line-height: 31px; border-radius: 50%; font-size: .95rem; box-sizing: border-box; }
+@supports (text-box: trim-both cap alphabetic) {
+  .dia .n { line-height: 1; text-box: trim-both cap alphabetic; padding-top: calc((30px - 1cap) / 2); }
+}
 .dia.hoy .n { background: var(--acento); color: var(--hoy-texto); font-weight: 700; }
 /* seleccionado: círculo detrás del número (el recuadro de toda la casilla quedaba descentrado con los rayos) */
 .dia.sel .n { background: var(--sel); }
