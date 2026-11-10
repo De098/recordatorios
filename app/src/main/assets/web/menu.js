@@ -302,6 +302,9 @@ html.estrecho #acaja .acampo > span { white-space: normal; }   /* pantalla estre
       <div class="agrupo">
         <div class="acampo col"><label class="acampo afila"><span>Casillas marcadas al final</span><input type="checkbox" class="aint" id="aalfinal"></label>
           <p class="anota">Al marcar una casilla baja al final de su lista; al desmarcarla vuelve con las que faltan.</p></div>
+        <button type="button" class="acampo aboton" id="acandcambiar"><span>Cambiar la contraseña de los candados</span><em></em></button>
+        <button type="button" class="acampo aboton" id="acandolvido"><span>He olvidado la contraseña</span><em></em></button>
+        <p class="anota">Si la has olvidado, se borran las notas con candado (sin ella no hay forma de abrirlas); las demás se quedan.</p>
       </div>
       <p class="apie">Se guardan en este móvil.</p>
       <h3>Ayuda</h3>
@@ -337,6 +340,13 @@ html.estrecho #acaja .acampo > span { white-space: normal; }   /* pantalla estre
     f.querySelector("#anumsemana").onchange = ev => window.ajustes.poner("numsemana", ev.target.checked);
     f.querySelector("#averhechos").onchange = ev => window.ajustes.poner("verhechos", ev.target.checked);
     f.querySelector("#aalfinal").onchange = ev => window.ajustes.poner("alfinal", ev.target.checked);
+    // 11-nov (D): contraseña de los candados (la hace la página de Notas). Desde el calendario se pasa a Notas con un
+    // aviso en localStorage (en la app son dos vistas ya cargadas: Notas lo recoge con el evento «storage», como la guía)
+    for (const [id, q] of [["#acandcambiar", "cambiar"], ["#acandolvido", "olvidar"]]) f.querySelector(id).onclick = () => {
+      if (window.candadoNotas) { aCerrar(); setTimeout(() => window.candadoNotas[q](), 350); return; }
+      try { localStorage.setItem("candadoPedir", q + "@" + Date.now()); } catch (e) {}
+      aCerrar(); location.href = "/notas";
+    };
     // 10-nov (D): «Volver a ver la guía»: borra el «No volver a mostrar» y la enseña ya (en Notas, pasando al calendario).
     // El aviso va en localStorage porque en la app Calendario y Notas son dos vistas ya cargadas: la del calendario
     // lo recoge con el evento «storage» (ver GUÍA); en el navegador, al cargar /cal.

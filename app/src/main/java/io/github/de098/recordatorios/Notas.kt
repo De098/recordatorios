@@ -118,6 +118,60 @@ object Notas {
         return "Contraseña creada"
     }
 
+    /**
+     * Contraseña nueva (11-nov, D). La página ya ha vuelto a cifrar TODAS las notas con candado con la clave nueva
+     * (aquí nunca se descifra): se comprueba que no falta ninguna y que ninguna ha cambiado mientras tanto.
+     * Cuerpo: {"prueba_vieja", "candado": {sal, vueltas, prueba}, "notas": [{id, base, candado}]}. Devuelve JSON {ok, aviso}.
+     */
+    fun cambiarCandado(cuerpo: String): String {
+        fun mal(t: String) = JSONObject().put("ok", false).put("aviso", t).toString()
+        val actual = leerCandado() ?: return mal("Aún no hay contraseña")
+        val nuevo: JSONObject
+        val cambios = HashMap<String, Pair<String, JSONObject>>()
+        val vieja: JSONObject?
+        try {
+            val e = JSONObject(cuerpo)
+            val c = e.getJSONObject("candado"); val p = c.getJSONObject("prueba")
+            nuevo = JSONObject().put("v", 1).put("sal", c.get("sal").toString()).put("vueltas", c.getInt("vueltas"))
+                .put("prueba", JSONObject().put("nonce", p.get("nonce").toString()).put("datos", p.get("datos").toString()))
+            vieja = e.optJSONObject("prueba_vieja")
+            val ns = e.optJSONArray("notas") ?: org.json.JSONArray()
+            for (i in 0 until ns.length()) {
+                val n = ns.getJSONObject(i); val cc = n.getJSONObject("candado")
+                cambios[n.get("id").toString()] = N.txt(n, "base") to
+                    JSONObject().put("nonce", cc.get("nonce").toString()).put("datos", cc.get("datos").toString())
+            }
+        } catch (_: JSONException) {
+            return mal("Datos raros")
+        }
+        val pa = actual.optJSONObject("prueba")
+        if (vieja == null || pa == null || N.txt(vieja, "nonce") != N.txt(pa, "nonce") || N.txt(vieja, "datos") != N.txt(pa, "datos"))
+            return mal("La contraseña se ha cambiado en otro sitio. Vuelve a abrir Notas y prueba otra vez.")
+        val cerradas = leerNotas().filter { it.optJSONObject("candado") != null }.associateBy { N.txt(it, "id") }
+        if (cerradas.keys != cambios.keys || cerradas.any { (i, n) -> N.txt(n, "editada") != cambios[i]!!.first })
+            return mal("Alguna nota con candado ha cambiado mientras tanto. No he tocado nada: prueba otra vez.")
+        for ((i, n) in cerradas) {
+            n.put("candado", cambios[i]!!.second); n.put("editada", ahora())
+            N.escribir(File(carpeta, "$i.json"), n.toString(1))
+        }
+        N.escribir(candado, nuevo.toString(1))
+        return JSONObject().put("ok", true).put("notas", cerradas.size).toString()
+    }
+
+    /**
+     * Contraseña olvidada (11-nov, D): sin ella no hay forma de abrir las notas con candado, así que se BORRAN
+     * (también las de la papelera) y se quita la contraseña. Las notas sin candado no se tocan.
+     */
+    fun olvidarCandado(): String {
+        var n = 0
+        for (nota in leerNotas()) if (nota.optJSONObject("candado") != null && File(carpeta, N.txt(nota, "id") + ".json").delete()) n++
+        papelera.listFiles()?.forEach { f ->
+            try { if (f.name.endsWith(".json") && JSONObject(f.readText()).optJSONObject("candado") != null) f.delete() } catch (_: Exception) {}
+        }
+        candado.delete()
+        return if (n == 1) "Borrada 1 nota con candado y la contraseña" else "Borradas $n notas con candado y la contraseña"
+    }
+
     /** Lo que piden /notas/datos, /notas/guardar, /notas/borrar y /notas/candado: (estado, tipo, cuerpo) o null si no es de notas. */
     fun responder(metodo: String, ruta: String, cuerpo: String): Triple<Int, String, String>? {
         val json = "application/json; charset=utf-8"
@@ -127,6 +181,8 @@ object Notas {
             metodo == "POST" && ruta == "/notas/guardar" -> Triple(200, json, guardar(cuerpo))
             metodo == "POST" && ruta == "/notas/borrar" -> Triple(200, texto, borrar(cuerpo))
             metodo == "POST" && ruta == "/notas/candado" -> Triple(200, texto, ponerCandado(cuerpo))
+            metodo == "POST" && ruta == "/notas/candado-cambiar" -> Triple(200, json, cambiarCandado(cuerpo))
+            metodo == "POST" && ruta == "/notas/candado-olvidar" -> Triple(200, texto, olvidarCandado())
             else -> null
         }
     }

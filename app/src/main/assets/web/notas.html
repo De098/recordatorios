@@ -309,6 +309,48 @@ async function abrirCandados() {   // pide la contraseña (o la crea) y deja la 
 }
 const VUELTAS = 20000;
 
+// ---------- 11-nov (D): cambiar la contraseña de los candados, o borrarlos si se ha olvidado (desde Ajustes) ----------
+const pausa = () => new Promise(r => setTimeout(r, 30));   // que se vea el mensaje antes del cálculo (tarda)
+function cifrarCon(obj, k) { const n = nacl.randomBytes(24); return {nonce: b64(n), datos: b64(nacl.secretbox(utf8(JSON.stringify(obj)), n, k))}; }
+async function cambiarPass() {
+  await cargar();   // lo último guardado
+  if (!candado) { msj("Aún no hay contraseña: se crea al poner el primer candado a una nota"); return; }
+  const vieja = await pedirPass("Cambiar contraseña", "Primero escribe la contraseña de ahora.", false);
+  if (!vieja) return;
+  msj("Comprobando…"); await pausa();
+  const kv = pbkdf2(vieja, deb64(candado.sal), candado.vueltas);
+  if (!descifrar(candado.prueba, kv)) { msj("Contraseña incorrecta"); return; }
+  const nueva = await pedirPass("Contraseña nueva", "Escríbela dos veces. Será la de todas las notas con candado.", true);
+  if (!nueva) return;
+  msj("Cambiando…"); await pausa();
+  const sal = nacl.randomBytes(16), kn = pbkdf2(nueva, sal, VUELTAS), lista = [];
+  for (const n of notas.filter(n => n.candado)) {
+    const c = descifrar(n.candado, kv);
+    if (!c) { msj("Una nota con candado no se abre con esa contraseña. No he cambiado nada."); return; }
+    lista.push({id: n.id, base: n.editada, candado: cifrarCon(c, kn)});
+  }
+  const t = await enviar("/notas/candado-cambiar", JSON.stringify(
+    {prueba_vieja: candado.prueba, candado: {sal: b64(sal), vueltas: VUELTAS, prueba: cifrarCon({ok: 1}, kn)}, notas: lista}));
+  let r; try { r = JSON.parse(t); } catch (e) { r = {ok: false, aviso: t}; }
+  if (!r.ok) { msj(r.aviso || "No se ha podido cambiar"); return; }
+  clave = kn; claras.clear();
+  await cargar();
+  msj("Contraseña cambiada" + (lista.length ? ` (${lista.length} ${lista.length === 1 ? "nota" : "notas"} con candado)` : ""));
+}
+async function olvidarPass() {
+  await cargar();
+  const n = notas.filter(n => n.candado).length;
+  if (!candado && !n) { msj("No hay contraseña ni notas con candado"); return; }
+  const si = await window.confirmarBorrado("", n
+    ? `Sin la contraseña no se pueden abrir: se borrarán para siempre ${n === 1 ? "la nota" : "las " + n + " notas"} con candado y la contraseña. Las demás notas no se tocan. Luego podrás crear una contraseña nueva.`
+    : "Se quitará la contraseña (no hay notas con candado). Luego podrás crear una nueva.");
+  if (!si) return;
+  msj(await enviar("/notas/candado-olvidar", ""));
+  clave = null; claras.clear();
+  await cargar();
+}
+window.candadoNotas = {cambiar: cambiarPass, olvidar: olvidarPass};
+
 // ---------- servidor ----------
 async function enviar(ruta, cuerpo) {
   try {
@@ -787,7 +829,14 @@ window.addEventListener("popstate", () => {
   if (actual && $("editor").classList.contains("abierto")) cerrar();
 });
 $("bcandados").innerHTML = ICO.candado(false);   // antes de que llegue la lista
-cargar();
+// 11-nov: Ajustes del calendario pide cambiar u olvidar la contraseña (aviso en localStorage, de hace menos de 1 min)
+function candadoPedido() {
+  let v = null; try { v = localStorage.getItem("candadoPedir"); localStorage.removeItem("candadoPedir"); } catch (e) {}
+  const [q, t] = (v || "").split("@");
+  if ((q === "cambiar" || q === "olvidar") && Date.now() - Number(t) < 60000) window.candadoNotas[q]();
+}
+window.addEventListener("storage", ev => { if (ev.key === "candadoPedir" && ev.newValue) candadoPedido(); });
+cargar().then(candadoPedido);
 </script>
 </body>
 </html>
