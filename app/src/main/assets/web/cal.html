@@ -30,7 +30,8 @@ header { display: flex; align-items: center; justify-content: center; gap: 10px;
 /* mes y año en medio, con ancho fijo para que las flechas no bailen al cambiar de mes */
 header h1 { flex: none; min-width: 205px; text-align: center; font-size: 1.3rem; margin: 0; text-transform: capitalize; }
 /* 10-nov (D): los puntos de carga van pegados a la derecha del recuadro de la flecha › */
-header #cargando { position: absolute; left: calc(100% + 5px); top: 50%; transform: translateY(-50%); pointer-events: none; }
+/* 10-nov noche (D): abajo, a ras del borde inferior del recuadro (antes centrados en vertical) */
+header #cargando { position: absolute; left: calc(100% + 5px); bottom: -8px; pointer-events: none; }
 button { font: inherit; color: inherit; border: 0; background: var(--tarjeta); border-radius: 10px;
   min-height: 40px; padding: 0 12px; cursor: pointer; }
 header button { min-width: 44px; font-size: 1.2rem; }
@@ -80,6 +81,10 @@ header button { min-width: 44px; font-size: 1.2rem; }
   color: var(--suave); opacity: .7; pointer-events: none; }
 .dia.fuera .nsem { opacity: 1; }   /* el día de fuera ya va entero más clarito */
 #scal.connum .dia { position: relative; }
+/* en pantallas anchas (PC) la esquina queda lejos del número: pegada arriba a su izquierda y algo más grande */
+@media (min-width: 480px) {
+  .dia .nsem { left: auto; right: calc(50% + 17px); top: 3px; font-size: .68rem; opacity: .75; }
+}
 h2 { font-size: 1rem; margin: 4px 4px 8px; }
 h2.aviso { color: var(--rojo); }
 /* 9-nov (D): «Sin hacer» con el estilo de los días de las agendas (el resumen del día, #lista h2, se queda como estaba) */
