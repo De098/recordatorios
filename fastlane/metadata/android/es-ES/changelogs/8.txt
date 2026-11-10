@@ -1,0 +1,3 @@
+Ajustes cabe en la pantalla con la letra muy grande y su título se queda arriba al desplazar.
+Con una ventana abierta (menú, Ajustes, editar…) la página de debajo ya no se mueve.
+Los títulos largos de las notas se ven enteros, en varias líneas; «guardada» aparece junto a «Importante».

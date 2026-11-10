@@ -1,0 +1,3 @@
+Settings fit the screen with very large text, and its title stays at the top while scrolling.
+With a window open (menu, Settings, edit…) the page behind no longer scrolls.
+Long note titles are shown in full over several lines; "saved" now appears next to "Important".
