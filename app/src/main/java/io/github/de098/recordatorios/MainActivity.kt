@@ -117,7 +117,9 @@ class MainActivity : Activity() {
                 settings.javaScriptEnabled = true
                 settings.domStorageEnabled = true
                 settings.setSupportZoom(false)
-                settings.textZoom = 100  // no agrandar solo la letra (descuadra); menu.js agranda todo en proporción con escala()
+                // letra de Android más pequeña: la letra la sigue (como antes, no descuadra);
+                // más grande: solo letra descuadraría, así que la deja en 100 y menu.js agranda todo en proporción con escala()
+                settings.textZoom = minOf(100, Math.round(resources.configuration.fontScale * 100))
                 settings.allowFileAccess = false
                 settings.allowContentAccess = false
                 settings.blockNetworkLoads = true
