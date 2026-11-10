@@ -8,3 +8,4 @@ New default colour: the app's blue (previously grey for tasks and orange for app
 Colours are picked with real colour dots, also in notes, which now default to the app's blue.
 With a larger Android font size, the whole app scales up proportionally without breaking the layout.
 Now works on Android 10 and later (it used to need Android 13).
+“Important” checkbox next to the title in the calendar and in notes (it used to require typing in capitals).

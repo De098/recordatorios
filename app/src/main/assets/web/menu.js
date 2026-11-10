@@ -309,5 +309,41 @@ input#bq, input#buscar { background-image: ${LUPA_URL}; background-repeat: no-re
     const b = f.querySelector("#bsi2"); b.hidden = false; b.textContent = "Esta y las siguientes"; b.onclick = () => bCerrar("siguientes");
     return bAbrir(f);
   };
+  // 10-nov (D): casilla «Importante» junto al título (calendario y notas). Por dentro lo importante sigue siendo
+  // el título TODO EN MAYÚSCULAS (así lo entienden el PC y lo ya guardado): con la casilla marcada el título se ve
+  // y se guarda en mayúsculas; si se escribe en mayúsculas a mano, la casilla se marca sola.
+  // Uso: const imp = casillaImportante(input, casilla, alCambiar?); imp.poner() al abrir; imp.texto() al guardar.
+  const letrasImp = t => [...(t || "")].filter(c => /\p{L}/u.test(c));
+  const esImportante = t => { const l = letrasImp(t); return l.length >= 3 && l.every(c => c === c.toUpperCase() && c !== c.toLowerCase()); };
+  const MARCA = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")";
+  const CSS_IMP = `
+.enmayus { text-transform: uppercase; }
+.enmayus::placeholder { text-transform: none; }
+label.cimp { display: inline-flex; align-items: center; gap: 9px; align-self: flex-start; justify-self: start; width: auto;
+  padding: 6px 4px; font-size: .95rem; font-weight: 700; color: var(--suave); cursor: pointer;
+  -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+label.cimp input { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; min-height: 0; padding: 0; margin: 0;
+  flex: none; border: 2.5px solid var(--rojo); border-radius: 7px; background: var(--tarjeta); cursor: pointer; }
+label.cimp input:checked { background: var(--rojo) ${MARCA} center / 85% no-repeat; }
+label.cimp:has(input:checked) { color: var(--rojo); }`;
+  let cssImpPuesto = false;
+  window.casillaImportante = function (inp, cb, alCambiar) {
+    if (!cssImpPuesto) { cssImpPuesto = true; const st = document.createElement("style"); st.textContent = CSS_IMP; document.head.append(st); }
+    let antes = null, puesto = null;   // para volver al texto de antes si se desmarca sin haber escrito nada
+    const pintar = () => { inp.classList.toggle("enmayus", cb.checked); inp.setAttribute("autocapitalize", cb.checked ? "characters" : "sentences"); };
+    inp.addEventListener("input", () => { if (!cb.checked && esImportante(inp.value)) { cb.checked = true; antes = null; pintar(); } });
+    cb.addEventListener("change", () => {
+      if (cb.checked) { antes = inp.value; inp.value = puesto = inp.value.toLocaleUpperCase("es"); }
+      else if (antes !== null && inp.value === puesto) inp.value = antes;
+      else { const t = inp.value.toLocaleLowerCase("es"); inp.value = t.charAt(0).toLocaleUpperCase("es") + t.slice(1); }
+      if (!cb.checked) antes = puesto = null;
+      pintar();
+      if (alCambiar) alCambiar();
+    });
+    return {
+      poner() { cb.checked = esImportante(inp.value); antes = puesto = null; pintar(); },
+      texto() { return cb.checked ? inp.value.toLocaleUpperCase("es") : inp.value; },
+    };
+  };
 })();
 

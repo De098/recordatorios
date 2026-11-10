@@ -195,9 +195,10 @@ body.seleccion #bnueva, body.seleccion #bcandados, body.seleccion #bpapelera { d
   <div class="circulos" id="colores" hidden></div>
   <div class="cuerpo">
     <div class="ecab">
-      <input id="etitulo" placeholder="Título (en MAYÚSCULAS = importante)" autocomplete="off">
+      <input id="etitulo" placeholder="Título" autocomplete="off">
       <span id="eestado" class="chip"></span>
     </div>
+    <label class="cimp"><input type="checkbox" id="eimp">Importante</label>   <!-- 10-nov (D): menu.js casillaImportante -->
     <div id="evista"></div>
     <div id="eeditor"></div>
     <textarea id="etexto" hidden></textarea>
@@ -400,7 +401,7 @@ async function abrir(n) {
   if (!c) { msj("No se ha podido abrir"); return; }
   actual = n ? {...n, titulo: c.titulo, texto: c.texto, base: n.editada} : {id: "", titulo: "", texto: "", color: "", fijada: false, candado: null, base: ""};
   actual.conCandado = !!(n && n.candado);
-  $("etitulo").value = actual.titulo; $("etexto").value = actual.texto; $("ecolor").value = actual.color || "";
+  $("etitulo").value = actual.titulo; $("etexto").value = actual.texto; $("ecolor").value = actual.color || ""; impN.poner();
   ponerBotones();
   $("editor").classList.add("abierto");
   modo(!n || !actual.texto);   // nueva o vacía → directamente a escribir
@@ -542,7 +543,7 @@ function guardar() {
   clearTimeout(tGuardar);
   guardando = guardando.then(async () => {
     if (!actual) return;
-    const titulo = $("etitulo").value, texto = $("etexto").value;
+    const titulo = impN.texto(), texto = $("etexto").value;
     if (!actual.id && !titulo.trim() && !texto.trim()) return;   // nueva y vacía: no se guarda
     if (titulo === actual.titulo && texto === actual.texto && !actual.cambiado) { $("eestado").textContent = "guardada"; return; }
     if (actual.conCandado && !clave) { $("eestado").textContent = "⚠ abre los candados (🔒) para guardar"; return; }
@@ -582,7 +583,7 @@ const SVG_NO_COPIADO = '<svg class="ico" viewBox="0 0 48 48" aria-hidden="true">
 $("bcopiar").innerHTML = SVG_COPIAR;
 let tCopiado = null;
 $("bcopiar").onclick = async () => {
-  const titulo = $("etitulo").value.trim();
+  const titulo = impN.texto().trim();
   const cuerpo = $("etexto").value.replace(/^(\s*)- \[ \] /gm, "$1☐ ").replace(/^(\s*)- \[[xX]\] /gm, "$1☑ ");
   const todo = (titulo ? titulo + "\n\n" : "") + cuerpo;
   let ok = false;
@@ -614,6 +615,7 @@ $("bmodo").onclick = () => { if (editando) guardar(); modo(!editando); };
 }
 // (el texto lo copia volcar() desde las líneas del editor)
 $("etitulo").oninput = () => programar();
+const impN = casillaImportante($("etitulo"), $("eimp"), () => programar());   // casilla «Importante» (menu.js)
 $("bcasilla").onclick = () => {
   if (!editando) modo(true);
   const ed = $("eeditor");

@@ -320,6 +320,7 @@ header h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-
     </div>
     <select id="etipo" hidden><option value="tarea">Tarea</option><option value="cita">Cita</option><option value="cumple">Cumpleaños</option></select>
     <input id="etexto" autocomplete="off" placeholder="¿Qué quieres apuntar?">
+    <label class="cimp"><input type="checkbox" id="eimp">Importante</label>   <!-- 10-nov (D): menu.js casillaImportante -->
     <input id="enotas" autocomplete="off" placeholder="Notas (opcional)">
     <div class="grupo">
       <label class="campo"><span>Día</span><input id="efecha" type="date"></label>
@@ -644,12 +645,13 @@ function cadaCercano(m) {
   const ops = [...$("ecada").options].map(o => +o.value);
   return ops.reduce((a, b) => Math.abs(b - m) < Math.abs(a - m) ? b : a, ops[0]);
 }
+const impE = casillaImportante($("etexto"), $("eimp"));   // casilla «Importante» (menu.js)
 function abrirNuevo(dia) {
   ponerOpciones();
   editando = null; nuevo = true;
   const ahora = new Date(), conDia = !!dia;
   $("etitulo").textContent = "Añadir";
-  $("etexto").value = ""; $("enotas").value = "";
+  $("etexto").value = ""; $("enotas").value = ""; impE.poner();
   $("efecha").value = dia || iso(ahora);
   if (conDia) $("ehora").value = "10:00";
   else { const h = new Date(ahora.getTime() + 3600e3); $("ehora").value = `${String(h.getHours()).padStart(2,"0")}:00`; }
@@ -669,7 +671,7 @@ function abrirEditar(c) {
   ponerOpciones();
   editando = c; nuevo = false;
   $("etitulo").textContent = "Cambiar";
-  $("etexto").value = c.t; $("enotas").value = c.notas || "";
+  $("etexto").value = c.t; $("enotas").value = c.notas || ""; impE.poner();
   $("efecha").value = c.ini.slice(0, 10);
   $("ehora").value = c.ini.slice(11, 16);
   $("etipo").value = c.cumple ? "cumple" : c.tipo; tipoPrevio = $("etipo").value;
@@ -701,7 +703,7 @@ $("eguardar").onclick = () => {
   if (!$("etexto").value.trim()) { $("etexto").focus(); return; }
   if (!$("efecha").value || (!$("ehora").value && $("etipo").value !== "cumple")) return;
   const avisos = [...$("eavisos").querySelectorAll("input:checked")].map(c => JSON.parse(c.value));
-  const d = {texto: $("etexto").value.trim(), fecha: $("efecha").value, hora: $("ehora").value,
+  const d = {texto: impE.texto().trim(), fecha: $("efecha").value, hora: $("ehora").value,
     tipo: $("etipo").value, color: $("ecolor").value, repetir: $("erepetir").value,
     ciclo: [+$("esi").value || 1, +$("eno").value || 1], cada: +$("ecada").value, notas: $("enotas").value.trim()};
   if (d.tipo === "cita" || d.tipo === "cumple") d.avisos = avisos;
