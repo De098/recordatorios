@@ -101,6 +101,11 @@ body.seleccion .nota .chincheta { display: none; }
 #etitulo { width: 100%; font-size: 1.25rem; font-weight: 700; border: 0; background: transparent; padding: 8px 4px; }
 /* 9-nov (D): «guardada» en la esquina de la nota, encima y sin ocupar sitio: antes iba en la barra y movía los botones al cambiar */
 .ecab { position: relative; }
+/* 10-nov (D): título sin recuadro → al escribir en él, fondo azul suave como los campos de «Añadir» del calendario */
+#etitulo { border-radius: 10px; transition: background .15s; padding-left: 10px; padding-right: 10px; }
+#editor label.cimp:has(> #eimp) { padding-left: 10px; }   /* casilla «Importante» alineada con el título */
+#etitulo:focus { background: var(--sel); outline: none; }
+.ecab:has(#etitulo:focus) #eestado { background: transparent; }
 .ecab #etitulo { padding-right: 6.5em; }
 #eestado { position: absolute; top: 50%; right: 4px; transform: translateY(-50%); max-width: 75%; text-align: right;
   background: var(--fondo); padding: 2px 4px; pointer-events: none; }
@@ -615,7 +620,8 @@ $("bmodo").onclick = () => { if (editando) guardar(); modo(!editando); };
 }
 // (el texto lo copia volcar() desde las líneas del editor)
 $("etitulo").oninput = () => programar();
-const impN = casillaImportante($("etitulo"), $("eimp"), () => programar());   // casilla «Importante» (menu.js)
+const impN = window.casillaImportante ? casillaImportante($("etitulo"), $("eimp"), () => programar())   // casilla «Importante» (menu.js)
+  : {poner() {}, texto: () => $("etitulo").value};   // por si llega un menu.js viejo
 $("bcasilla").onclick = () => {
   if (!editando) modo(true);
   const ed = $("eeditor");

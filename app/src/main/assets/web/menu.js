@@ -319,13 +319,14 @@ input#bq, input#buscar { background-image: ${LUPA_URL}; background-repeat: no-re
   const CSS_IMP = `
 .enmayus { text-transform: uppercase; }
 .enmayus::placeholder { text-transform: none; }
-label.cimp { display: inline-flex; align-items: center; gap: 9px; align-self: flex-start; justify-self: start; width: auto;
+/* con #eimp para ganar a los estilos de los formularios (#editar label, #editar input) */
+label.cimp:has(> #eimp) { display: inline-flex; align-items: center; gap: 9px; align-self: flex-start; justify-self: start; width: auto;
   padding: 6px 4px; font-size: .95rem; font-weight: 700; color: var(--suave); cursor: pointer;
   -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
-label.cimp input { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; min-height: 0; padding: 0; margin: 0;
+label.cimp > #eimp { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; min-height: 0; padding: 0; margin: 0;
   flex: none; border: 2.5px solid var(--rojo); border-radius: 7px; background: var(--tarjeta); cursor: pointer; }
-label.cimp input:checked { background: var(--rojo) ${MARCA} center / 85% no-repeat; }
-label.cimp:has(input:checked) { color: var(--rojo); }`;
+label.cimp > #eimp:checked { background: var(--rojo) ${MARCA} center / 85% no-repeat; }
+label.cimp:has(> #eimp:checked) { color: var(--rojo); }`;
   let cssImpPuesto = false;
   window.casillaImportante = function (inp, cb, alCambiar) {
     if (!cssImpPuesto) { cssImpPuesto = true; const st = document.createElement("style"); st.textContent = CSS_IMP; document.head.append(st); }

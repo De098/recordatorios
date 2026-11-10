@@ -126,6 +126,7 @@ form button { background: var(--acento); color: var(--hoy-texto); font-weight: 6
 #editar #etexto, #editar #enotas { background: var(--tarjeta); border: 0; border-radius: 14px; padding: 0 14px; }
 #editar #etexto { font-size: 1.2rem; font-weight: 700; min-height: 54px; }
 #editar #enotas { min-height: 50px; }
+#editar label.cimp:has(> #eimp) { padding-left: 12px; margin: -2px 0; }   /* casilla «Importante»: alineada con el título */
 #editar .grupo { background: var(--tarjeta); border-radius: 14px; padding: 0 14px; }
 #editar .grupo:not(:has(> :not([hidden]))) { display: none; }
 #editar .grupo > :not([hidden]) ~ :not([hidden]), #eavlista > * + * { border-top: 1px solid var(--linea); }
@@ -645,7 +646,8 @@ function cadaCercano(m) {
   const ops = [...$("ecada").options].map(o => +o.value);
   return ops.reduce((a, b) => Math.abs(b - m) < Math.abs(a - m) ? b : a, ops[0]);
 }
-const impE = casillaImportante($("etexto"), $("eimp"));   // casilla «Importante» (menu.js)
+const impE = window.casillaImportante ? casillaImportante($("etexto"), $("eimp"))   // casilla «Importante» (menu.js)
+  : {poner() {}, texto: () => $("etexto").value};   // por si llega un menu.js viejo: que no se rompa el calendario
 function abrirNuevo(dia) {
   ponerOpciones();
   editando = null; nuevo = true;
