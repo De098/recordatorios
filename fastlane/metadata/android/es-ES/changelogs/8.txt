@@ -1,4 +1,4 @@
-Ajustes cabe en la pantalla con la letra muy grande y su título se queda arriba al desplazar.
-Con una ventana abierta (menú, Ajustes, editar…) la página de debajo ya no se mueve.
-Los títulos largos de las notas se ven enteros, en varias líneas; «guardada» aparece junto a «Importante».
-Ajustes: «Casillas marcadas al final» en las notas, «Volver a ver la guía» y «Acerca de».
+Calendario: número centrado en su círculo, cumpleaños más simétrico, subrayado de lo importante en un rojo más claro y, al cargar, tres puntos con los colores del mes.
+Ajustes cabe con la letra muy grande y trae «Casillas marcadas al final», «Volver a ver la guía» y «Acerca de».
+Con una ventana abierta, la página de debajo ya no se mueve.
+Títulos largos de las notas enteros; «guardada» junto a «Importante».
