@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -94,8 +95,10 @@ class MainActivity : Activity() {
             runOnUiThread { Widgets.actualizarTodos(this@MainActivity) }
             runOnUiThread {
                 raiz.setBackgroundColor(c)
-                val claras = WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS or WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
-                window.insetsController?.setSystemBarsAppearance(if (oscuro) 0 else claras, claras)
+                if (Build.VERSION.SDK_INT >= 30) {
+                    val claras = WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS or WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+                    window.insetsController?.setSystemBarsAppearance(if (oscuro) 0 else claras, claras)
+                } else barrasAntiguas(oscuro)
             }
         }
     }
@@ -131,22 +134,21 @@ class MainActivity : Activity() {
             zona.addView(p.web, FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
         }
 
-        // pantalla completa (de borde a borde): se deja hueco para la barra de estado y la de gestos
+        // pantalla completa (de borde a borde) en todas las versiones (Android 15+ ya lo hace solo):
+        // las barras transparentes con el color de la app y se deja hueco para la barra de estado, la de gestos y el teclado
+        bordeABorde()
         raiz.setOnApplyWindowInsetsListener { v, ins ->
-            val s = ins.getInsets(WindowInsets.Type.systemBars() or WindowInsets.Type.ime())
-            v.setPadding(s.left, s.top, s.right, s.bottom)
-            WindowInsets.CONSUMED
+            if (Build.VERSION.SDK_INT >= 30) {
+                val s = ins.getInsets(WindowInsets.Type.systemBars() or WindowInsets.Type.ime())
+                v.setPadding(s.left, s.top, s.right, s.bottom)
+                WindowInsets.CONSUMED
+            } else huecoAntiguo(v, ins)
         }
         setContentView(raiz)
 
-        // gesto atrás: primero lo de la web (paneles, vistas), luego volver al calendario, luego salir
-        onBackInvokedDispatcher.registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT) {
-            when {
-                actual.web.canGoBack() -> actual.web.goBack()
-                actual !== pestanas[0] -> elegir(pestanas[0])
-                else -> moveTaskToBack(true)
-            }
-        }
+        // gesto atrás (Android 13+; en los anteriores entra por onBackPressed)
+        if (Build.VERSION.SDK_INT >= 33)
+            onBackInvokedDispatcher.registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT) { atras() }
 
         val inicial = estado?.getString("pestana")
         elegir(pestanas.firstOrNull { it.id == inicial } ?: pestanas[0])
@@ -154,6 +156,51 @@ class MainActivity : Activity() {
         pedirPermisoAvisos()
         Programador.programarTrabajo(this)
     }
+
+    /** Dibujar detrás de las barras de estado y de gestos, transparentes (Android 15+ ya lo hace solo). */
+    @Suppress("DEPRECATION")
+    private fun bordeABorde() {
+        if (Build.VERSION.SDK_INT >= 30) window.setDecorFitsSystemWindows(false)
+        else {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+            // iconos de las barras según el modo del móvil hasta que la web diga el tema elegido (tema())
+            val noche = (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) ==
+                android.content.res.Configuration.UI_MODE_NIGHT_YES
+            barrasAntiguas(noche)
+        }
+        window.statusBarColor = Color.TRANSPARENT
+        window.navigationBarColor = Color.TRANSPARENT
+        window.isNavigationBarContrastEnforced = false
+    }
+
+    /** Android 10: hueco para las barras y el teclado (este ya va incluido en estas medidas). */
+    @Suppress("DEPRECATION")
+    private fun huecoAntiguo(v: View, ins: WindowInsets): WindowInsets {
+        v.setPadding(ins.systemWindowInsetLeft, ins.systemWindowInsetTop, ins.systemWindowInsetRight, ins.systemWindowInsetBottom)
+        return ins.consumeSystemWindowInsets()
+    }
+
+    /** Android 10: iconos de las barras oscuros (tema claro) o claros (tema oscuro), con la forma antigua. */
+    @Suppress("DEPRECATION")
+    private fun barrasAntiguas(oscuro: Boolean) {
+        val claras = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+        val f = window.decorView.systemUiVisibility and claras.inv()
+        window.decorView.systemUiVisibility = if (oscuro) f else f or claras
+    }
+
+    /** Atrás: primero lo de la web (paneles, vistas), luego volver al calendario, luego salir. */
+    private fun atras() {
+        when {
+            actual.web.canGoBack() -> actual.web.goBack()
+            actual !== pestanas[0] -> elegir(pestanas[0])
+            else -> moveTaskToBack(true)
+        }
+    }
+
+    @Deprecated("Android 10-12: el gesto atrás llega por aquí")
+    @Suppress("DEPRECATION")
+    override fun onBackPressed() = atras()
 
     override fun onSaveInstanceState(s: Bundle) {
         super.onSaveInstanceState(s)
@@ -271,9 +318,16 @@ class MainActivity : Activity() {
                     }
                     PEDIR_IMPORTAR -> {
                         val texto = contentResolver.openInputStream(uri)!!.use { s ->
-                            val b = s.readNBytes(MAX_COPIA + 1)
-                            if (b.size > MAX_COPIA) throw IllegalStateException("grande")
-                            String(b)
+                            // leer a trozos (readNBytes solo existe desde Android 13), como mucho MAX_COPIA
+                            val b = java.io.ByteArrayOutputStream()
+                            val trozo = ByteArray(64 * 1024)
+                            while (true) {
+                                val n = s.read(trozo)
+                                if (n < 0) break
+                                b.write(trozo, 0, n)
+                                if (b.size() > MAX_COPIA) throw IllegalStateException("grande")
+                            }
+                            String(b.toByteArray())
                         }
                         Copia.importar(texto).also {
                             Programador.ahora(this)
@@ -290,7 +344,8 @@ class MainActivity : Activity() {
     }
 
     private fun pedirPermisoAvisos() {
-        if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED)
+        // el permiso de avisos solo hay que pedirlo desde Android 13; antes viene dado
+        if (Build.VERSION.SDK_INT >= 33 && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED)
             requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1)
         Avisos.crearCanales(this)
     }

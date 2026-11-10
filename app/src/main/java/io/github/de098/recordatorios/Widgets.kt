@@ -9,12 +9,15 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.RemoteViews
+import android.widget.RemoteViewsService
 import android.widget.Toast
 import org.json.JSONArray
 import org.json.JSONObject
@@ -139,8 +142,34 @@ object Widgets {
                 Intent(c, WProximos::class.java).setAction(ACC_PROX).putExtra("wid", wid).putExtra("delta", delta),
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT))
 
-        val items = RemoteViews.RemoteCollectionItems.Builder().setViewTypeCount(2).setHasStableIds(true)
-        var n = 0L
+        val filas = filasProximos(c, wid, d)
+        val vacio = filas.isEmpty()
+        if (vacio) v.setTextViewText(R.id.vacio, if (dias.any { it > dia }) "Nada este día  ·  › para lo siguiente" else "Nada este día")
+        v.setViewVisibility(R.id.vacio, if (vacio) View.VISIBLE else View.GONE)
+        v.setViewVisibility(R.id.lista, if (vacio) View.GONE else View.VISIBLE)
+        if (Build.VERSION.SDK_INT >= 31) {
+            val items = RemoteViews.RemoteCollectionItems.Builder().setViewTypeCount(2).setHasStableIds(true)
+            filas.forEachIndexed { i, r -> items.addItem(i.toLong(), r) }
+            v.setRemoteAdapter(R.id.lista, items.build())
+        } else {
+            // Android 10-11: la lista la rellena ServicioProximos (con las mismas filas); la uri distinta por widget
+            // hace que Android no confunda las listas de dos widgets Próximos
+            v.setRemoteAdapter(R.id.lista, Intent(c, ServicioProximos::class.java)
+                .putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, wid).setData(Uri.parse("recordatorios://proximos/$wid")))
+        }
+        v.setPendingIntentTemplate(R.id.lista, PendingIntent.getActivity(c, 9200 + wid,
+            Intent(c, AccionWidget::class.java), PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT))
+        am.updateAppWidget(wid, v)
+        if (Build.VERSION.SDK_INT < 31) am.notifyAppWidgetViewDataChanged(wid, R.id.lista)
+    }
+
+    /** Las filas de la lista de Próximos (cabeceras «Atrasadas»/«Hoy» y cosas del día que enseña el widget). */
+    fun filasProximos(c: Context, wid: Int, leidos: JSONObject? = datos(c)): List<RemoteViews> {
+        val p = paleta(c)
+        val d = leidos
+        val hoy = hoyIso()
+        val dia = diaProximos(c, wid)
+        val items = mutableListOf<RemoteViews>()
         if (d != null) {
             fun fila(o: JSONObject, sub: String, atrasada: Boolean) {
                 val r = RemoteViews(c.packageName, R.layout.w_proximos_fila)
@@ -155,12 +184,12 @@ object Widgets {
                     r.setViewVisibility(R.id.hecho, View.VISIBLE)
                     r.setOnClickFillInIntent(R.id.hecho, Intent().putExtra("accion", "hecho").putExtra("k", k).putExtra("t", o.optString("t")))
                 } else r.setViewVisibility(R.id.hecho, View.GONE)   // las filas se reaprovechan: esconderlo si no toca
-                items.addItem(n++, r)
+                items += r
             }
             fun cab(t: String) {
                 val h = RemoteViews(c.packageName, R.layout.w_proximos_cab)
                 h.setTextViewText(R.id.cab, t); h.setTextColor(R.id.cab, p.suave)
-                items.addItem(n++, h)
+                items += h
             }
             // hoy: primero lo atrasado de otros días
             val pend = d.optJSONArray("pendientes") ?: JSONArray()
@@ -182,14 +211,7 @@ object Widgets {
                 fila(o, sub, false)
             }
         }
-        val vacio = n == 0L
-        if (vacio) v.setTextViewText(R.id.vacio, if (dias.any { it > dia }) "Nada este día  ·  › para lo siguiente" else "Nada este día")
-        v.setViewVisibility(R.id.vacio, if (vacio) View.VISIBLE else View.GONE)
-        v.setViewVisibility(R.id.lista, if (vacio) View.GONE else View.VISIBLE)
-        v.setRemoteAdapter(R.id.lista, items.build())
-        v.setPendingIntentTemplate(R.id.lista, PendingIntent.getActivity(c, 9200 + wid,
-            Intent(c, AccionWidget::class.java), PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT))
-        am.updateAppWidget(wid, v)
+        return items
     }
 
     // ---------------------------------------------------------------- MES
@@ -268,6 +290,25 @@ class WProximos : AppWidgetProvider() {
             Widgets.actualizarTodos(c)
         } else super.onReceive(c, i)
     }
+}
+
+/** Android 10-11: da las filas de la lista de Próximos (en 12+ van dentro del propio widget). */
+class ServicioProximos : RemoteViewsService() {
+    override fun onGetViewFactory(i: Intent): RemoteViewsFactory =
+        FabricaProximos(applicationContext, i.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 0))
+}
+
+private class FabricaProximos(val c: Context, val wid: Int) : RemoteViewsService.RemoteViewsFactory {
+    private var filas: List<RemoteViews> = emptyList()
+    override fun onCreate() {}
+    override fun onDataSetChanged() { filas = try { Widgets.filasProximos(c, wid) } catch (_: Exception) { emptyList() } }
+    override fun onDestroy() {}
+    override fun getCount() = filas.size
+    override fun getViewAt(pos: Int): RemoteViews = filas.getOrNull(pos) ?: RemoteViews(c.packageName, R.layout.w_proximos_cab)
+    override fun getLoadingView(): RemoteViews? = null
+    override fun getViewTypeCount() = 2
+    override fun getItemId(pos: Int) = pos.toLong()
+    override fun hasStableIds() = true
 }
 
 class WBotones : AppWidgetProvider() {

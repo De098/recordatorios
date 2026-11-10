@@ -7,3 +7,4 @@ Avisos con el estilo de la app: botón «✔ Hecho» siempre visible y «Deshace
 Nuevo color predeterminado: el azul de la app (antes tareas en gris y citas en naranja).
 Colores elegidos con círculos de color, también en las notas, que ya tienen el azul de la app como predeterminado.
 Con la letra grande de Android, la app se agranda entera en proporción sin descuadrarse.
+Funciona desde Android 10 (antes hacía falta Android 13).

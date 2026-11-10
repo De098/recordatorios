@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- pantalla de arranque del sistema (Android 12+): solo el logo sobre el fondo de la app (claro u oscuro) -->
+    <style name="Tema" parent="Tema.Base">
+        <item name="android:windowSplashScreenBackground">@color/fondo</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_frente</item>
+    </style>
+</resources>

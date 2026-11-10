@@ -51,7 +51,8 @@ object Programador {
                 .putExtra("titulo", a.titulo).putExtra("texto", a.texto).putExtra("tipo", a.tipo)
                 .putExtra("dia", a.dia.toString()).putExtra("id", a.id)
             val pi = PendingIntent.getBroadcast(c, rc, i, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
-            if (am.canScheduleExactAlarms()) am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, t, pi)
+            // Android 10-11: las alarmas exactas no necesitan permiso
+            if (android.os.Build.VERSION.SDK_INT < 31 || am.canScheduleExactAlarms()) am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, t, pi)
             else am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, t, pi)
             nuevas += rc
         }

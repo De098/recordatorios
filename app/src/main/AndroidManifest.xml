@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- avisos programados en el móvil: alarmas exactas y volver a ponerlas al encender -->
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <!-- Android 12: el permiso de alarmas exactas era este (en 10 y 11 no hace falta ninguno) -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
@@ -70,6 +72,12 @@
             android:noHistory="true"
             android:taskAffinity=""
             android:theme="@android:style/Theme.NoDisplay" />
+
+        <!-- Android 10 y 11: rellena la lista del widget Próximos -->
+        <service
+            android:name=".ServicioProximos"
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:exported="false" />
 
         <service
             android:name=".ProgramadorJob"

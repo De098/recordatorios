@@ -1,7 +1,7 @@
 # Recordatorios
 
 Calendario con tareas, citas, avisos y notas con candado que funciona **entero en el móvil**: sin cuenta, sin servidor y
-sin permiso de internet. Android 13 o superior. Licencia GPL-3.0.
+sin permiso de internet. Android 10 o superior. Licencia GPL-3.0.
 
 [![Descargar APK](https://img.shields.io/github/v/release/De098/recordatorios?label=Descargar%20APK&logo=android&style=for-the-badge)](https://github.com/De098/recordatorios/releases/latest)
 [![Obtainium](https://img.shields.io/badge/Obtainium-actualizaciones%20autom%C3%A1ticas-5a4fcf?style=for-the-badge)](https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/De098/recordatorios)
