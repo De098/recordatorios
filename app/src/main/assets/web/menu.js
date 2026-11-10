@@ -23,8 +23,17 @@
   // y además el tamaño elegido en Ajustes (0,9 a 1,3) multiplica a la de Android; tope total 1,6.
   let zoomAndroid = 1;
   try { const z = Math.min(1.3, Number(window.Recordatorios.escala()) || 1); if (z > 1.01) zoomAndroid = z; } catch (e) {}
-  function ponerZoom() { const z = Math.min(1.6, zoomAndroid * (Number(ajLeer().letra) || 1)); html.style.zoom = Math.abs(z - 1) > .01 ? z : ""; }
+  // Para que el calendario no se descuadre: nunca menos de 300 px de ancho útil, y por debajo de 360 se pone
+  // <html class="estrecho"> para que las páginas aprieten la barra de arriba (ver cal.html).
+  function ponerZoom() {
+    let z = Math.min(1.6, zoomAndroid * (Number(ajLeer().letra) || 1));
+    const ancho = window.innerWidth || 0;
+    if (z > 1 && ancho) z = Math.max(1, Math.min(z, ancho / 300));
+    html.style.zoom = Math.abs(z - 1) > .01 ? z : "";
+    html.classList.toggle("estrecho", !!ancho && ancho / z < 360);
+  }
   ponerZoom();
+  window.addEventListener("resize", ponerZoom);
   const sistema = window.matchMedia("(prefers-color-scheme: dark)");
   const leer = () => { try { return localStorage.getItem("tema"); } catch (e) { return null; } };
   const oscuro = () => { const t = leer(); return t ? t === "oscuro" : sistema.matches; };
@@ -227,7 +236,7 @@ input#bq, input#buscar { background-image: ${LUPA_URL}; background-repeat: no-re
 #acaja .aseg i { display: flex; gap: 2px; height: 26px; align-items: center; }
 #acaja .aseg i svg { width: 26px; height: 26px; }
 #acaja .aseg i.dos svg { width: 21px; height: 21px; }
-#acaja select { -webkit-appearance: none; appearance: none; flex: 0 1 auto; min-width: 0; max-width: 58%; min-height: 50px;
+#acaja select { -webkit-appearance: none; appearance: none; flex: none; min-width: 0; max-width: 62%; min-height: 50px; field-sizing: content;
   padding: 0 18px 0 0; border: 0; background: none; color: var(--suave); font: inherit; text-align: right; text-align-last: right;
   background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 16'><path d='M2,2 l6,6 l-6,6' fill='none' stroke='%236f6a78' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat right center / 9px 15px; }
 #acaja select:focus { outline: none; color: var(--acento); font-weight: 700; }
@@ -241,6 +250,8 @@ input#bq, input#buscar { background-image: ${LUPA_URL}; background-repeat: no-re
 #acaja button.acampo { width: 100%; padding: 0; border: 0; background: none; font: inherit; text-align: left; }
 #acaja .acampo em { font-style: normal; color: var(--suave); font-size: .9rem; padding-right: 18px;
   background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 16'><path d='M2,2 l6,6 l-6,6' fill='none' stroke='%236f6a78' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat right center / 9px 15px; }
+html.estrecho #acaja .acampo > span { white-space: normal; }   /* pantalla estrecha: el nombre en dos líneas, el valor entero */
+#acaja .acampo em { white-space: nowrap; flex: none; }
 #acaja .apie { margin: 14px 8px 0; text-align: center; font-size: .78rem; color: var(--suave); }
 @media (prefers-reduced-motion: reduce) { #afondo, #acaja, #acaja input.aint, #acaja input.aint::before { transition: none; } }`;
 

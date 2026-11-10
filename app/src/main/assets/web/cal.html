@@ -196,6 +196,11 @@ header h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-
 .vistas > #blupa.abierta { border-color: var(--acento); background: var(--sel); }
 .vistas > #bvista { border: 2px solid var(--borde); }
 .vistas > button { min-height: 34px; font-size: .9rem; padding: 0 12px; }
+/* pantalla estrecha (letra muy grande; menu.js pone html.estrecho): el botón de vistas solo con su icono y menos márgenes */
+html.estrecho main { padding-left: 10px; padding-right: 10px; }
+html.estrecho .vistas { gap: 6px; }
+html.estrecho .vistas > button { padding: 0 9px; }
+html.estrecho #bvista > span:first-of-type { display: none; }
 #menuv { position: absolute; top: 38px; right: 0; z-index: 9; background: var(--tarjeta); border-radius: 12px;
   box-shadow: 0 6px 24px rgba(0,0,0,.25); padding: 6px; display: grid; gap: 2px; min-width: 210px; }
 #menuv[hidden] { display: none; }

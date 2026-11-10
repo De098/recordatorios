@@ -11,3 +11,4 @@ Funciona desde Android 10 (antes hacía falta Android 13).
 Casilla «Importante» junto al título en el calendario y en las notas (antes había que escribirlo en mayúsculas).
 Nueva pantalla de Ajustes (en el menú del logo): tema, tamaño de la letra, aviso de las citas nuevas, número de la semana, ver u ocultar las tareas hechas y «Buscar actualizaciones» (abre la página de versiones; la app sigue sin internet).
 Guía de bienvenida al abrir la app: explica que tocando el calendario de arriba se pasa a Notas o a Ajustes (con «No volver a mostrar»). Tema oscuro: las ventanas que se abren encima se ven en un gris más claro.
+Con la letra muy grande (en la app o en Android) el calendario ya no se descuadra: la barra de arriba se aprieta y el tamaño tiene un tope según el ancho del móvil.
