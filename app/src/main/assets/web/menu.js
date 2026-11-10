@@ -129,6 +129,16 @@
   font-size: .78rem; color: var(--suave); user-select: none; -webkit-user-select: none; }
 #mcaja .mver[hidden] { display: none; }
 img.logo { cursor: pointer; }
+/* 10-nov (D): TEMA OSCURO: lo que va encima de otra cosa (Ajustes, formulario, selectores, avisos, guía) en grises más claros
+   para que se distinga del fondo, y detrás el mismo oscurecido con desenfoque que el menú del logo */
+:root[data-tema="oscuro"] :is(#acaja, #gcaja, #bcaja, #editar .caja, #selmes .caja, #selsem .caja, #dlg form, #menuv) {
+  --fondo: #303038; --tarjeta: #3e3e48; --linea: #50505b; --sel: #3b4b62; }
+:root[data-tema="oscuro"] :is(#acaja, #editar .caja, #selmes .caja, #selsem .caja) { border: 2px solid var(--borde); border-bottom: 0;
+  box-shadow: 0 -10px 40px rgba(0,0,0,.5); }
+:root[data-tema="oscuro"] #menuv { border: 2px solid var(--borde); box-shadow: 0 10px 30px rgba(0,0,0,.55); }
+:root[data-tema="oscuro"] :is(#afondo, #editar, #selmes, #selsem, #dlg) {
+  background: radial-gradient(circle at 50% 50%, rgba(0,0,0,.35) 0%, rgba(0,0,0,.62) 55%, rgba(0,0,0,.82) 100%);
+  -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
 .ico { width: 1.3em; height: 1.3em; flex: none; vertical-align: -.3em; }
 .ico.ico-imp { width: 1.05em; height: 1.05em; vertical-align: -.15em; margin-right: 3px; }
 button:has(> .ico) { display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
@@ -222,6 +232,7 @@ input#bq, input#buscar { background-image: ${LUPA_URL}; background-repeat: no-re
   background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 16'><path d='M2,2 l6,6 l-6,6' fill='none' stroke='%236f6a78' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat right center / 9px 15px; }
 #acaja select:focus { outline: none; color: var(--acento); font-weight: 700; }
 #acaja input.aint { -webkit-appearance: none; appearance: none; position: relative; flex: none; width: 50px; height: 30px; margin: 0;
+  min-width: 0; min-height: 0; padding: 0; border: 0; box-sizing: border-box;   /* sin los estilos generales de input de las páginas */
   border-radius: 15px; background: color-mix(in srgb, var(--suave) 45%, transparent); cursor: pointer; transition: background .15s; }
 #acaja input.aint::before { content: ""; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%;
   background: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,.3); transition: transform .15s; }
@@ -303,6 +314,74 @@ input#bq, input#buscar { background-image: ${LUPA_URL}; background-repeat: no-re
   document.addEventListener("keydown", ev => { if (ev.key === "Escape" && aAbierto()) { ev.stopImmediatePropagation(); ev.preventDefault(); aCerrar(); } }, true);
   window.addEventListener("ajustes", aPintar);
 
+  const MARCA_G = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")";
+  /* GUÍA DE BIENVENIDA (10-nov-2026): al abrir la app (en el calendario) se oscurece la pantalla menos el logo
+     y una tarjeta explica que tocándolo se pasa a Notas o se entra en Ajustes.
+     Sale cada vez que se abre la app hasta marcar «No volver a mostrar» (localStorage «guiaVista»);
+     dentro de la misma sesión solo una vez (sessionStorage). Solo dentro de la app, no en el navegador de los PCs. */
+  const CSS_GUIA = `
+#gfondo { position: fixed; inset: 0; z-index: 70; opacity: 0; transition: opacity .2s ease; }
+#gfondo.si { opacity: 1; }
+#gfoco { position: absolute; border-radius: 18px; box-shadow: 0 0 0 3px var(--acento), 0 0 0 9999px rgba(0,0,0,.66); cursor: pointer;
+  animation: glatido 1.6s ease-in-out infinite; }
+@keyframes glatido { 50% { box-shadow: 0 0 0 7px color-mix(in srgb, var(--acento) 55%, transparent), 0 0 0 9999px rgba(0,0,0,.66); } }
+#gcaja { position: absolute; left: 16px; right: 16px; max-width: 380px; background: var(--tarjeta); color: var(--texto);
+  border: 2px solid var(--borde); border-radius: 20px; padding: 16px 16px 14px; box-shadow: 0 18px 50px rgba(0,0,0,.45); }
+#gcaja::before { content: ""; position: absolute; top: -11px; left: var(--gflecha, 30px); width: 18px; height: 18px;
+  background: var(--tarjeta); border-left: 2px solid var(--borde); border-top: 2px solid var(--borde); transform: rotate(45deg); border-radius: 4px 0 0 0; }
+#gcaja h2 { margin: 0 0 8px; padding: 0 0 4px 10%; font-size: 1.15rem; font-weight: 800; border-bottom: 1px solid var(--borde); }
+#gcaja p { margin: 0 0 12px; font-size: 1rem; line-height: 1.4; }
+#gcaja .gdos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+#gcaja .gdos div { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 14px; background: var(--fondo); font-weight: 700; font-size: .95rem; }
+#gcaja .gdos img, #gcaja .gdos svg { width: 30px; height: 32px; flex: none; }
+#gcaja .gpie { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+#gcaja label { display: inline-flex; align-items: center; gap: 8px; font-size: .92rem; color: var(--suave); cursor: pointer;
+  -webkit-user-select: none; user-select: none; }
+#gcaja input[type=checkbox] { -webkit-appearance: none; appearance: none; flex: none; width: 22px; height: 22px; min-width: 0; min-height: 0;
+  margin: 0; padding: 0; border: 2.5px solid var(--borde); border-radius: 7px; background: var(--tarjeta); cursor: pointer; }
+#gcaja input[type=checkbox]:checked { border-color: var(--acento); background: var(--acento) ${MARCA_G} center / 85% no-repeat; }
+#gcaja label:has(input:checked) { color: var(--texto); }
+#gcaja #gvale { flex: none; min-height: 46px; padding: 0 20px; border: 0; border-radius: 14px; background: var(--acento); color: var(--hoy-texto);
+  font: inherit; font-weight: 800; cursor: pointer; }
+@media (prefers-reduced-motion: reduce) { #gfondo { transition: none; } #gfoco { animation: none; } }`;
+  function guiaInicio(abrirMenu) {
+    let ver = false;
+    try { ver = pagina === "cal" && !!window.Recordatorios && !localStorage.getItem("guiaVista") && !sessionStorage.getItem("guia"); } catch (e) {}
+    const logo = document.querySelector("img.logo");
+    if (!ver || !logo) return;
+    try { sessionStorage.setItem("guia", "1"); } catch (e) {}
+    const st = document.createElement("style"); st.textContent = CSS_GUIA; document.head.append(st);
+    const f = document.createElement("div"); f.id = "gfondo";
+    f.innerHTML = `<div id="gfoco" role="button" aria-label="Abrir el menú"></div>
+      <div id="gcaja" role="dialog" aria-modal="true" aria-labelledby="gtit">
+        <h2 id="gtit">El menú de la app</h2>
+        <p>Toca el <b>calendario de arriba</b> para pasar a las notas o entrar en los ajustes.</p>
+        <div class="gdos"><div><img src="${R}/logo-notas.svg" alt="">Notas</div><div>${RUEDA}Ajustes</div></div>
+        <div class="gpie"><label><input type="checkbox" id="gnomas">No volver a mostrar</label><button type="button" id="gvale">Entendido</button></div>
+      </div>`;
+    document.body.append(f);
+    // con la letra grande (zoom en <html>) las medidas del logo llegan ya agrandadas: se deshace para colocar
+    const colocar = () => {
+      const z = Number(html.style.zoom) || 1, r = logo.getBoundingClientRect(), m = 6;
+      const foco = f.querySelector("#gfoco"), caja = f.querySelector("#gcaja");
+      Object.assign(foco.style, {left: (r.left / z - m) + "px", top: (r.top / z - m) + "px", width: (r.width / z + 2 * m) + "px", height: (r.height / z + 2 * m) + "px"});
+      caja.style.top = (r.bottom / z + m + 16) + "px";
+      caja.style.setProperty("--gflecha", Math.max(14, r.left / z + r.width / z / 2 - 16 - 9) + "px");
+    };
+    colocar();
+    window.addEventListener("resize", colocar);
+    requestAnimationFrame(() => f.classList.add("si"));
+    const cerrar = luego => {
+      try { if (f.querySelector("#gnomas").checked) localStorage.setItem("guiaVista", "1"); } catch (e) {}
+      window.removeEventListener("resize", colocar);
+      f.remove();
+      if (luego) luego();
+    };
+    f.querySelector("#gvale").onclick = () => cerrar();
+    f.querySelector("#gfoco").onclick = () => cerrar(abrirMenu);   // tocar el logo: como se explica, se abre el menú
+    f.querySelector("#gvale").focus();
+  }
+
   function montar() {
     const st = document.createElement("style"); st.textContent = CSS; document.head.append(st);
     const f = document.createElement("div"); f.id = "mfondo"; f.hidden = true;
@@ -372,6 +451,7 @@ input#bq, input#buscar { background-image: ${LUPA_URL}; background-repeat: no-re
       l.addEventListener("click", ev => { ev.stopPropagation(); abrir(); });
       l.addEventListener("keydown", ev => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); abrir(); } });
     }
+    setTimeout(() => guiaInicio(abrir), 400);   // guía de bienvenida (ver GUÍA)
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", montar); else montar();
 
