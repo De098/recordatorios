@@ -3,3 +3,4 @@ Calendario: número de semana más discreto, número del día centrado, cumplea�
 Ajustes: cambiar u olvidar la contraseña de los candados, casillas marcadas al final, volver a ver la guía y Acerca de; cabe con letra muy grande.
 Notas: candado a la derecha y títulos largos enteros.
 Con una ventana abierta, lo de debajo ya no se mueve.
+El botón «Deshacer» de la lista del calendario vuelve a funcionar.

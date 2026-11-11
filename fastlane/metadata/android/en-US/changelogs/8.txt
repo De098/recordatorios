@@ -3,3 +3,4 @@ Calendar: subtler week numbers, centred day numbers, tidier birthdays, lighter r
 Settings: change or reset the lock password, checked items at the bottom, show the guide again and About; fits with very large text.
 Notes: lock on the right and long titles shown in full.
 With a window open, the page behind no longer scrolls.
+The "Undo" button in the calendar list works again.
