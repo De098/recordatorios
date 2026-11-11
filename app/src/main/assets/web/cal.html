@@ -576,19 +576,27 @@ function confeti(x, y) {
   }
   setTimeout(() => capa.remove(), 2300);
 }
+// 11-nov (D): «Hecho» y «Deshacer» cambian en pantalla al momento; se guarda por detrás.
+// Si falla, sale el mensaje y la recarga de después lo deja como estaba.
+function marcarLocal(k, h) {
+  for (const c of datos.cosas) if (c.k === k) c.hecho = h;
+  if (h) datos.pendientes = datos.pendientes.filter(c => c.k !== k);
+  pintar();
+}
+
 async function hecho(k, b) {
   const rb = b.getBoundingClientRect();
-  b.disabled = true; b.textContent = "…";
+  confeti(rb.left + rb.width / 2, rb.top + rb.height / 2);
+  marcarLocal(k, true);
   try {
     const r = await fetch(conK("/cal/hecho"), {method: "POST", body: k});
-    if (r.ok) confeti(rb.left + rb.width / 2, rb.top + rb.height / 2);
-    $("msj").textContent = await r.text();
+    $("msj").textContent = r.ok ? await r.text() : "No se ha podido marcar";
   } catch (e) { $("msj").textContent = "No se ha podido marcar"; }
   cargar();
 }
 
 async function deshacer(k, b) {
-  b.disabled = true; b.textContent = "…";
+  marcarLocal(k, false);
   try {
     const r = await fetch(conK("/cal/deshecho"), {method: "POST", body: k});
     $("msj").textContent = r.ok ? await r.text() : "No se ha podido deshacer";
