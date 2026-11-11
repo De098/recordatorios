@@ -22,6 +22,13 @@ object Avisos {
     const val ACCION_DESHACER = "io.github.de098.recordatorios.DESHACER"
     private val CLAVE_TAREA = Regex("""[0-9a-f]{6,32}__\d{8}T\d{4}""")
 
+    /** 11-nov (D): «✔ Hecho» solo cuando ya ha llegado la hora de la tarea (como en el widget); en los avisos de antes
+     *  (tareas importantes: a primera hora de ese día) no sale. La hora va en la clave «id__AAAAMMDDTHHMM». */
+    private fun yaEsLaHora(clave: String): Boolean = try {
+        val t = java.time.LocalDateTime.parse(clave.substringAfter("__"), java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmm"))
+        !t.isAfter(java.time.LocalDateTime.now().plusMinutes(1))
+    } catch (_: Exception) { true }
+
     // canal → nombre visible en Ajustes (se puede elegir sonido/vibración de cada uno)
     private val CANALES = linkedMapOf(
         "tarea" to "Tareas",
@@ -68,7 +75,7 @@ object Avisos {
 
         // tareas: botón «✔ Hecho» (el id de la tarea es su clave; los avisos previos llevan «clave@aviso»)
         val clave = idTxt.substringBefore("@")
-        val esTarea = tipo == "tarea" && CLAVE_TAREA.matches(clave)
+        val esTarea = tipo == "tarea" && CLAVE_TAREA.matches(clave) && (hecha || yaEsLaHora(clave))
         val boton: PendingIntent? = if (!esTarea) null else {
             val accion = if (hecha) ACCION_DESHACER else ACCION_HECHO
             val q = datos(i, Intent(c, HechoReceiver::class.java).setAction(accion)).putExtra("id", idTxt).putExtra("k", clave)
