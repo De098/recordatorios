@@ -325,10 +325,11 @@ object Nucleo {
         return if (estaHecho(it, u)) null else u
     }
 
-    /** Avisos previos: los de la cita y, si es importante (cita o tarea), además 1 día antes y «el día». */
+    /** Avisos previos: los de la cita y, si es importante, además «el día» y (solo las citas) 1 día antes. */
     fun avisosDe(it: Item): List<Int> {
         val avs = if (it.tipo == "cita") it.avisos.toMutableList() else mutableListOf()
-        if (it.imp) for (extra in listOf(1440, DIA)) if (extra !in avs) avs += extra
+        // 11-nov (D): las tareas no avisan el día antes, ni siquiera las importantes (solo «el día»)
+        if (it.imp) for (extra in if (it.tipo == "cita") listOf(1440, DIA) else listOf(DIA)) if (extra !in avs) avs += extra
         return avs
     }
 
