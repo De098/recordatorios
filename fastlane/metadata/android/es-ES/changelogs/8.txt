@@ -4,3 +4,4 @@ Calendario: número de semana más discreto, día centrado, importante en rojo m
 Ajustes: cambiar u olvidar la contraseña de los candados, volver a ver la guía y Acerca de.
 Notas: candado a la derecha y títulos largos enteros.
 Arreglados «Deshacer» y cambiar la contraseña.
+Las tareas importantes ya no avisan el día antes.

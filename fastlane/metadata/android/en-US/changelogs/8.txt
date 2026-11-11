@@ -4,3 +4,4 @@ Calendar: subtler week numbers, centred day numbers, lighter red for important i
 Settings: change or reset the lock password, show the guide again and About.
 Notes: lock on the right and long titles shown in full.
 Fixed "Undo" and changing the password.
+Important tasks no longer remind you the day before.
