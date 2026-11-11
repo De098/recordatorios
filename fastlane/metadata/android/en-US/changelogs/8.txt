@@ -1,6 +1,6 @@
-New "Month with entries" widget: each day shows what you've written down.
+New "Month with entries" widget.
 Calendar: subtler week numbers, centred day numbers, tidier birthdays, lighter red for important items and three coloured dots while loading.
-Settings: change or reset the lock password, checked items at the bottom, show the guide again and About; fits with very large text.
+Settings: change or reset the lock password, checked items at the bottom, show the guide again and About.
 Notes: lock on the right and long titles shown in full.
 With a window open, the page behind no longer scrolls.
-The "Undo" button in the calendar list works again.
+Fixed the "Undo" button in the list.
