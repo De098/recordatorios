@@ -23,6 +23,15 @@ object Programador {
     private const val JOB = 1823
 
     private fun prefs(c: Context) = c.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+    private val hilo = java.util.concurrent.Executors.newSingleThreadExecutor()
+    private val pedido = java.util.concurrent.atomic.AtomicBoolean(false)
+
+    /** Como [ahora] pero sin esperar (11-nov): la página o el botón contestan al momento y esto va por detrás.
+     *  Si llegan varios seguidos, se hace una sola vez. */
+    fun pronto(c: Context) {
+        val ctx = c.applicationContext
+        if (pedido.compareAndSet(false, true)) hilo.execute { pedido.set(false); ahora(ctx) }
+    }
 
     /** Recalcula los avisos, reprograma las alarmas y repinta los widgets. */
     @Synchronized
@@ -72,8 +81,9 @@ object Programador {
 
 class ProgramadorJob : JobService() {
     override fun onStartJob(p: JobParameters): Boolean {
-        Programador.ahora(this)
-        return false
+        val app = applicationContext
+        Thread { Programador.ahora(app); jobFinished(p, false) }.start()   // fuera del hilo de la pantalla
+        return true
     }
     override fun onStopJob(p: JobParameters) = false
 }
@@ -82,6 +92,8 @@ class ProgramadorJob : JobService() {
 class ArranqueReceiver : BroadcastReceiver() {
     override fun onReceive(c: Context, i: Intent) {
         Programador.programarTrabajo(c)
-        Programador.ahora(c)
+        val app = c.applicationContext
+        val pend = goAsync()
+        Thread { try { Programador.ahora(app) } finally { pend.finish() } }.start()
     }
 }

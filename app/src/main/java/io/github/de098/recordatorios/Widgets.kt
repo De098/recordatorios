@@ -424,10 +424,10 @@ class AccionWidget : Activity() {
                 val t = intent.getStringExtra("t") ?: ""
                 Calendario.marcar(k)
                 Avisos.cancelar(app, k)
-                Programador.ahora(app)
+                Programador.pronto(app)
                 Toast.makeText(app, "Hecho: $t", Toast.LENGTH_SHORT).show()
             }
-            "actualizar" -> { Programador.ahora(app); Toast.makeText(app, "Actualizado", Toast.LENGTH_SHORT).show() }
+            "actualizar" -> { Programador.pronto(app); Toast.makeText(app, "Actualizado", Toast.LENGTH_SHORT).show() }
             "abrir" -> startActivity(Intent(this, MainActivity::class.java)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 .putExtra(MainActivity.EXTRA_DIA, intent.getStringExtra("dia")).putExtra(MainActivity.EXTRA_PESTANA, "cal"))

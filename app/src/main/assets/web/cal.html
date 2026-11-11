@@ -439,6 +439,23 @@ async function cargar() {
   if (--pidiendo <= 0) { pidiendo = 0; $("cargando").classList.remove("si"); }
   if (!sel) sel = datos.hoy || iso(new Date());
   pintar();
+  vigilarHora();
+}
+
+// 11-nov (D): al llegar la hora de una tarea, la página se recarga sola (sale «✔ Hecho» y pasa a «Sin hacer»)
+// sin tener que cerrar y abrir la app. Como mucho espera 30 min. Con la app en segundo plano salta al volver.
+let tHora = null;
+function vigilarHora() {
+  clearTimeout(tHora);
+  const ahora = new Date();
+  let prox = null;
+  for (const c of datos.cosas || []) {
+    if (c.tipo !== "tarea" || c.pasada || c.hecho || !c.h) continue;
+    const t = deIso(c.d), [hh, mm] = c.h.split(":").map(Number);
+    t.setHours(hh, mm, 0, 0);
+    if (t > ahora && (!prox || t < prox)) prox = t;
+  }
+  tHora = setTimeout(cargar, prox ? Math.min(prox - ahora + 2000, 30 * 60e3) : 30 * 60e3);
 }
 
 function pintarAgenda(porDia) {

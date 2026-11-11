@@ -127,6 +127,6 @@ class HechoReceiver : BroadcastReceiver() {
         Nucleo.iniciar(c)
         if (hecho) Calendario.marcar(k) else Calendario.desmarcar(k)
         Avisos.mostrar(c, i, hecha = hecho)
-        Programador.ahora(c)   // con «Hecho» los avisos repetidos de esa tarea ya no se programan; con «Deshacer» vuelven
+        Programador.pronto(c)   // con «Hecho» los avisos repetidos de esa tarea ya no se programan; con «Deshacer» vuelven
     }
 }

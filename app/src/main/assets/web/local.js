@@ -2,7 +2,7 @@
    (puente «Recordatorios» de MainActivity). Todo se queda en el móvil: no hay internet. */
 (() => {
   const f0 = window.fetch.bind(window);
-  const API = /^\/(cal\/(datos|buscar|hecho|deshecho|anadir|editar|borrar)|notas\/(datos|guardar|borrar|candado))$/;
+  const API = /^\/(cal\/(datos|buscar|hecho|deshecho|anadir|editar|borrar)|notas\/(datos|guardar|borrar|candado|candado-cambiar|candado-olvidar))$/;
   window.fetch = async (u, o = {}) => {
     const url = new URL(typeof u === "string" ? u : u.url, location.href);
     if (!API.test(url.pathname) || !window.Recordatorios) return f0(u, o);

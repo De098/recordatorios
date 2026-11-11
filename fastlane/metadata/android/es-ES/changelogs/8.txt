@@ -1,6 +1,6 @@
 Widget nuevo «Mes con lo apuntado».
-Calendario: número de semana más discreto, día centrado, cumpleaños más simétrico, importante en rojo más claro y tres puntos de colores al cargar.
-Ajustes: cambiar u olvidar la contraseña de los candados, casillas marcadas al final, volver a ver la guía y Acerca de.
+Más rápida al marcar, guardar o borrar; la lista se pone al día sola al llegar la hora.
+Calendario: número de semana más discreto, día centrado, importante en rojo más claro y tres puntos de colores al cargar.
+Ajustes: cambiar u olvidar la contraseña de los candados, volver a ver la guía y Acerca de.
 Notas: candado a la derecha y títulos largos enteros.
-Con una ventana abierta, lo de debajo ya no se mueve.
-Arreglado el botón «Deshacer» de la lista.
+Arreglados «Deshacer» y cambiar la contraseña.

@@ -27,7 +27,8 @@ object Calendario {
         put("notas", it.notas)
     }
 
-    private fun copia(o: JSONObject) = JSONObject(o.toString())
+    /** Copia rápida (sin pasar por texto): cada vez de algo repetido parte de los mismos datos. */
+    private fun copia(o: JSONObject) = JSONObject().also { n -> for (k in o.keys()) n.put(k, o.get(k)) }
 
     /** Todo lo que toca entre desde y hasta (fechas), para pintar el calendario. */
     fun datos(desde: LocalDate, hasta: LocalDate, ahora: LocalDateTime = ahoraMin()): JSONObject {

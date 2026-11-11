@@ -46,7 +46,7 @@ object Rutas {
         } catch (e: Exception) {
             estado = 500; tipo = TEXTO; texto = "Error (${e.javaClass.simpleName})"
         }
-        if (cambia) Programador.ahora(c)   // avisos y widgets al día en cuanto cambia algo
+        if (cambia) Programador.pronto(c)   // avisos y widgets al día por detrás: la página no espera (11-nov)
         return JSONObject().put("estado", estado).put("tipo", tipo).put("cuerpo", texto).toString()
     }
 }
