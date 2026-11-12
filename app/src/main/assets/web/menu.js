@@ -233,6 +233,7 @@ input#bq, input#buscar { background-image: ${LUPA_URL}; background-repeat: no-re
 #acaja .acampo > span { font-weight: 800; white-space: nowrap; }
 #acaja .acampo.col { flex-direction: column; align-items: stretch; gap: 8px; padding: 12px 0; cursor: default; }
 #acaja .anota { margin: -2px 2px 0; font-size: .8rem; color: var(--suave); }
+#acaja .agrupo > .anota { margin: 0 2px; padding: 8px 0 12px; }   /* nota suelta al final de un grupo: relleno (el margen se escapaba fuera de la tarjeta) */
 #acaja .aseg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; padding: 4px; border-radius: 12px; background: var(--fondo); }
 #acaja .aseg button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
   min-height: 46px; padding: 6px 2px; border: 0; border-radius: 9px; background: none; color: var(--suave);
