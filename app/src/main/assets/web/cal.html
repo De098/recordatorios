@@ -241,10 +241,14 @@ html.estrecho #bvista > span:first-of-type { display: none; }
 #mes { touch-action: pan-y; transition: transform .15s ease, opacity .15s ease; }
 #selmes .caja { background: var(--tarjeta); width: 100%; max-width: 560px; max-height: 92%; overflow-y: auto; box-sizing: border-box; border-radius: 16px 16px 0 0;
   padding: 16px 16px calc(16px + env(safe-area-inset-bottom)); display: grid; gap: 12px; }
-#selmes .anio { display: grid; grid-template-columns: auto auto 1fr auto auto; gap: 6px; align-items: center; }
+/* 11-nov (D): con la letra grande el año se cortaba (en el Redmi 7 no se veía): flechas más estrechas,
+   el año se queda con todo lo que sobre y sin las flechitas de subir/bajar que reservan sitio */
+#selmes .anio { display: grid; grid-template-columns: auto auto minmax(0, 1fr) auto auto; gap: 4px; align-items: center; }
 #selmes .anio input { font: inherit; font-size: 1.3rem; font-weight: 700; text-align: center; color: var(--texto); background: var(--fondo);
-  border: 1px solid var(--linea); border-radius: 10px; min-height: 44px; width: 100%; }
-#selmes .anio button { min-width: 44px; font-size: 1.1rem; }
+  border: 1px solid var(--linea); border-radius: 10px; min-height: 44px; width: 100%; min-width: 0; box-sizing: border-box; padding: 0 2px;
+  -moz-appearance: textfield; appearance: textfield; }
+#selmes .anio input::-webkit-inner-spin-button, #selmes .anio input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+#selmes .anio button { min-width: 38px; padding: 0 6px; font-size: 1.1rem; }
 #selmes .meses { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 #selmes .meses button { min-height: 48px; text-transform: capitalize; background: var(--fondo); }
 #selmes .meses button.este { background: var(--acento); color: var(--hoy-texto); font-weight: 700; }
