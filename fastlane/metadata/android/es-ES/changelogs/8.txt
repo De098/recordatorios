@@ -1,7 +1,7 @@
 Widget nuevo «Mes con lo apuntado».
-Más rápida al marcar, guardar o borrar; la lista se pone al día sola al llegar la hora.
-Calendario: número de semana más discreto, día centrado, importante en rojo más claro y tres puntos de colores al cargar.
-Ajustes: cambiar u olvidar la contraseña de los candados, volver a ver la guía y Acerca de.
+Más rápida al marcar y guardar; la lista se pone al día sola.
+Calendario: nº de semana más discreto, día centrado, importante en rojo más claro y puntos de colores al cargar.
+Ajustes: cambiar u olvidar la contraseña de los candados, ver la guía y Acerca de.
 Notas: candado a la derecha y títulos largos enteros.
-Arreglados «Deshacer» y cambiar la contraseña.
-Las tareas importantes ya no avisan el día antes.
+Las importantes ya no avisan el día antes; «✔ Hecho» solo cuando ya es la hora.
+Arreglados «Deshacer», la contraseña y el año con letra grande.

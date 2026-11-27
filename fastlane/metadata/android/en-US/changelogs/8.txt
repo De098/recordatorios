@@ -1,7 +1,7 @@
 New "Month with entries" widget.
 Faster when ticking, saving or deleting; the list updates itself when a task is due.
-Calendar: subtler week numbers, centred day numbers, lighter red for important items and three coloured dots while loading.
+Calendar: subtler week numbers, centred days, lighter red for important items and coloured dots while loading.
 Settings: change or reset the lock password, show the guide again and About.
-Notes: lock on the right and long titles shown in full.
-Fixed "Undo" and changing the password.
-Important tasks no longer remind you the day before.
+Notes: lock on the right and long titles in full.
+Important items no longer remind you the day before; "✔ Done" only once due.
+Fixed "Undo", the password and the year with large text.
