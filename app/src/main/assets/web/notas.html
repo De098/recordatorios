@@ -341,7 +341,7 @@ async function olvidarPass() {
   await cargar();
   const n = notas.filter(n => n.candado).length;
   if (!candado && !n) { msj("No hay contraseña ni notas con candado"); return; }
-  const si = await window.confirmarBorrado("", n
+  const si = await window.confirmarBorrar("", n
     ? `Sin la contraseña no se pueden abrir: se borrarán para siempre ${n === 1 ? "la nota" : "las " + n + " notas"} con candado y la contraseña. Las demás notas no se tocan. Luego podrás crear una contraseña nueva.`
     : "Se quitará la contraseña (no hay notas con candado). Luego podrás crear una nueva.");
   if (!si) return;
